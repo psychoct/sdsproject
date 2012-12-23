@@ -4,14 +4,14 @@ package symphonydhtsim;
 
 simple Internet {
     parameters:        
-        @display("i=block/app2");
+        @display("i=device/accesspoint");
     gates:
         inout gate; // gate to DHT
 }
 
 simple DHTMember {
     parameters:        
-        @display("i=block/app2");
+        @display("i=device/pc3");
     gates:
         inout prevShortLink; // gate to previous DHTMember
         inout nextShortLink; // gate to next DHTMember
@@ -20,7 +20,7 @@ simple DHTMember {
 
 network SimphonyDHTNetwork {   
     parameters:
-        @display("i=block/app2");
+        @display("i=misc/cloud");
     gates:
         inout gate; // gate to Internet
     types:

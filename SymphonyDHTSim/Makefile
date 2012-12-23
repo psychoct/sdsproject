@@ -28,7 +28,7 @@ PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
-OBJS = $O/internet.o $O/node.o $O/dhtmember.o
+OBJS = $O/internet.o $O/dhtmember.o
 
 # Message files
 MSGFILES =
@@ -111,5 +111,4 @@ depend:
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/dhtmember.o: dhtmember.cc
 $O/internet.o: internet.cc
-$O/node.o: node.cc
 
