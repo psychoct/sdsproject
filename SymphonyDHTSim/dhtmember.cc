@@ -96,7 +96,7 @@ void DHTMember::handleMessage(cMessage* msg) {
          * segment length for current node is updated accordingly.
          */
         double prevX = request->getX();
-        segmentLength = calculateSegmentLength(x, prevX);
+        segmentLength = calculateSegmentLength(prevX, x);
 
         /* debug action */
         EV << "DHTMember (" << getIndex() << "): " << request->getNeighbour() << " sent its x, that is: " << prevX << ". My x is " << x << ". Segment length is now " << segmentLength << endl;
