@@ -31,11 +31,12 @@ class DHTMember : public cSimpleModule {
 
         virtual double getEstimateRatio();
         virtual bool needToRelink();
-        virtual void getSegmentLength();
-        virtual void estimate();
-        virtual void relink();
-        virtual void join();
-        virtual void leave();
+        virtual double calculateSegmentLength(int prevX, int x);
+        virtual void getSegmentLengthProcedure();
+        virtual void estimateProcedure();
+        virtual void relinkProcedure();
+        virtual void joinProcedure();
+        virtual void leaveProcedure();
 };
 
 Define_Module(DHTMember);
@@ -59,7 +60,7 @@ void DHTMember::initialize() {
     // DEBUG
     if (getIndex() == 5) {
         EV << "DHTMember (" << getIndex() << "): starts procedure to calculate its segment length" << endl;
-        getSegmentLength();
+        getSegmentLengthProcedure();
     }
 }
 
@@ -95,11 +96,7 @@ void DHTMember::handleMessage(cMessage* msg) {
          * segment length for current node is updated accordingly.
          */
         double prevX = request->getX();
-        if (prevX < x) {
-            segmentLength = x - prevX;
-        } else {
-            segmentLength = x + (1 - prevX);
-        }
+        segmentLength = calculateSegmentLength(x, prevX);
 
         /* debug action */
         EV << "DHTMember (" << getIndex() << "): " << request->getNeighbour() << " sent its x, that is: " << prevX << ". My x is " << x << ". Segment length is now " << segmentLength << endl;
@@ -135,7 +132,15 @@ bool DHTMember::needToRelink() {
     return estimateRatio < 0.5 || estimateRatio > 2;
 }
 
-void DHTMember::getSegmentLength() {
+double DHTMember::calculateSegmentLength(int prevX, int x) {
+    if (prevX < x) {
+        return x - prevX;
+    } else {
+        return x + (1 - prevX);
+    }
+}
+
+void DHTMember::getSegmentLengthProcedure() {
     Packet* request = new Packet("askForX");
     request->setNeighbour("next");
 
@@ -145,7 +150,7 @@ void DHTMember::getSegmentLength() {
     EV << "DHTMember (" << getIndex() << "): asking for x to next neighbour" << endl;
 }
 
-void DHTMember::estimate() {
+void DHTMember::estimateProcedure() {
     /*
     Packet* request1 = new Packet("askForSegmentLength");
     Packet* request2 = new Packet("askForSegmentLength");
@@ -158,11 +163,11 @@ void DHTMember::estimate() {
     */
 }
 
-void DHTMember::relink() {
+void DHTMember::relinkProcedure() {
 }
 
-void DHTMember::join() {
+void DHTMember::joinProcedure() {
 }
 
-void DHTMember::leave() {
+void DHTMember::leaveProcedure() {
 }
