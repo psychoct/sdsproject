@@ -24,6 +24,10 @@ network SimphonyDHTNetwork {
     gates:
         inout gate; // gate to Internet
     types:
+        channel InternetChannel extends ned.DelayChannel {
+            delay = 100ms;
+        }
+        
         channel MembersChannel extends ned.DelayChannel {
             delay = 100ms;
         }
@@ -31,7 +35,7 @@ network SimphonyDHTNetwork {
         internet: Internet;
     	members[32]: DHTMember;
     connections:
-        gate <--> MembersChannel <--> internet.gate;
+        gate <--> InternetChannel <--> internet.gate;
     	for i=0..sizeof(members)-1 {
         	members[i].prevShortLink <--> MembersChannel <--> members[(i == 0) ? (sizeof(members) - 1) : (i-1)].nextShortLink;
         }
