@@ -37,6 +37,6 @@ network SimphonyDHTNetwork {
     connections:
         gate <--> InternetChannel <--> internet.gate;
     	for i=0..sizeof(members)-1 {
-        	members[i].prevShortLink <--> MembersChannel <--> members[(i == 0) ? (sizeof(members) - 1) : (i-1)].nextShortLink;
+        	members[i].nextShortLink <--> MembersChannel <--> members[(i+1) % sizeof(members)].prevShortLink;
         }
 }
