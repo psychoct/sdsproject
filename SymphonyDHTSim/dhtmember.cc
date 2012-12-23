@@ -22,8 +22,10 @@ class DHTMember : public cSimpleModule {
         int n_estimate;
         int n_link_estimate;
 
+        /*
         double neighboursSegmentsLengths;
         int segmentsReceived;
+        */
 
     protected:
         virtual void initialize();
@@ -31,7 +33,7 @@ class DHTMember : public cSimpleModule {
 
         virtual double getEstimateRatio();
         virtual bool needToRelink();
-        virtual double calculateSegmentLength(int prevX, int x);
+        virtual double calculateSegmentLength(double prevX, double x);
         virtual void getSegmentLengthProcedure();
         virtual void estimateProcedure();
         virtual void relinkProcedure();
@@ -132,12 +134,11 @@ bool DHTMember::needToRelink() {
     return estimateRatio < 0.5 || estimateRatio > 2;
 }
 
-double DHTMember::calculateSegmentLength(int prevX, int x) {
-    if (prevX < x) {
-        return x - prevX;
-    } else {
-        return x + (1 - prevX);
-    }
+double DHTMember::calculateSegmentLength(double prevX, double x) {
+    if (prevX < x)
+        return (x - prevX);
+
+    return (x + (1.0 - prevX));
 }
 
 void DHTMember::getSegmentLengthProcedure() {
