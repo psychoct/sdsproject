@@ -10,7 +10,8 @@ simple Internet {
 }
 
 simple DHTMember {
-    parameters:        
+    parameters: 
+        int K = default(4);      
         @display("i=device/pc3");
     gates:
         inout prevShortLink; // gate to previous DHTMember

@@ -28,10 +28,11 @@ PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
-OBJS = $O/internet.o $O/dhtmember.o
+OBJS = $O/internet.o $O/dhtmember.o $O/packet_m.o
 
 # Message files
-MSGFILES =
+MSGFILES = \
+    packet.msg
 
 #------------------------------------------------------------------------------
 
@@ -110,5 +111,8 @@ depend:
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/dhtmember.o: dhtmember.cc
-$O/internet.o: internet.cc
+$O/internet.o: internet.cc \
+	packet_m.h
+$O/packet_m.o: packet_m.cc \
+	packet_m.h
 

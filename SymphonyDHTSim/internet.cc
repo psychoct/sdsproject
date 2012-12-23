@@ -11,20 +11,33 @@
 #include <stdio.h>
 #include <string.h>
 #include <omnetpp.h>
+#include "packet_m.h"
 
 class Internet : public cSimpleModule {
-  protected:
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
+    protected:
+        virtual void initialize();
+        virtual void handleMessage(cMessage* msg);
+
+        virtual void addMember();
 };
 
 Define_Module(Internet);
 
 void Internet::initialize() {
-    if (getIndex() == 0) {
-        scheduleAt(0.0, (new cMessage("test")));
+    cMessage* p = new cMessage("addMember");
+    scheduleAt(0.0, p);
+}
+
+void Internet::handleMessage(cMessage* msg) {
+    simtime_t waitNewMember;
+
+    if (strcmp(msg->getFullName(), "addMember") == 0) {
+        waitNewMember = exponential(10);
+        scheduleAt(simTime() + waitNewMember, msg);
+
+        EV << "Internet: adding member to DHT, next member in " << waitNewMember << " seconds" << endl;
     }
 }
 
-void Internet::handleMessage(cMessage *msg) {
+void Internet::addMember() {
 }
