@@ -20,6 +20,7 @@ simple DHTMember {
 
 network SimphonyDHTNetwork {   
     parameters:
+        int dhtSize = default(32);
         @display("i=misc/cloud");
     gates:
         inout gate; // gate to Internet
@@ -33,7 +34,7 @@ network SimphonyDHTNetwork {
         }
     submodules:
         internet: Internet;
-    	members[32]: DHTMember;
+    	members[dhtSize]: DHTMember;
     connections:
         gate <--> InternetChannel <--> internet.gate;
     	for i=0..sizeof(members)-1 {
