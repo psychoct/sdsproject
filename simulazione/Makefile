@@ -1,12 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for tutorial
+# OMNeT++/OMNEST Makefile for simulazione
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep
+#  opp_makemake -f --deep -O out
 #
 
 # Name of target to be created (-o option)
-TARGET = tutorial$(EXE_SUFFIX)
+TARGET = simulazione$(EXE_SUFFIX)
 
 # User interface (uncomment one) (-u option)
 USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(CMDENV_LIBS)
@@ -23,15 +23,16 @@ EXTRA_OBJS =
 LIBS =
 
 # Output directory
-PROJECT_OUTPUT_DIR = ../out
-PROJECTRELATIVE_PATH = src
+PROJECT_OUTPUT_DIR = out
+PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
-# Object files for local .cpp and .msg files
-OBJS = $O/Txc1.o $O/Txc10.o
+# Object files for local .cc and .msg files
+OBJS = $O/txc.o $O/packet_m.o
 
 # Message files
-MSGFILES =
+MSGFILES = \
+    packet.msg
 
 #------------------------------------------------------------------------------
 
@@ -86,29 +87,31 @@ $O/$(TARGET): $(OBJS)  $(wildcard $(EXTRA_OBJS)) Makefile
 
 .PHONY: all clean cleanall depend msgheaders
 
-.SUFFIXES: .cpp
+.SUFFIXES: .cc
 
-$O/%.o: %.cpp $(COPTS_FILE)
+$O/%.o: %.cc $(COPTS_FILE)
 	@$(MKPATH) $(dir $@)
 	$(CXX) -c $(COPTS) -o $@ $<
 
-%_m.cpp %_m.h: %.msg
-	$(MSGC) -s _m.cpp $(MSGCOPTS) $?
+%_m.cc %_m.h: %.msg
+	$(MSGC) -s _m.cc $(MSGCOPTS) $?
 
 msgheaders: $(MSGFILES:.msg=_m.h)
 
 clean:
 	-rm -rf $O
-	-rm -f tutorial tutorial.exe libtutorial.so libtutorial.a libtutorial.dll libtutorial.dylib
-	-rm -f ./*_m.cpp ./*_m.h
+	-rm -f simulazione simulazione.exe libsimulazione.so libsimulazione.a libsimulazione.dll libsimulazione.dylib
+	-rm -f ./*_m.cc ./*_m.h
 
 cleanall: clean
 	-rm -rf $(PROJECT_OUTPUT_DIR)
 
 depend:
-	$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp
+	$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
-$O/Txc1.o: Txc1.cpp
-$O/Txc10.o: Txc10.cpp
+$O/packet_m.o: packet_m.cc \
+	packet_m.h
+$O/txc.o: txc.cc \
+	packet_m.h
 
