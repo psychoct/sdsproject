@@ -110,7 +110,8 @@ depend:
 	$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
-$O/dhtmember.o: dhtmember.cc
+$O/dhtmember.o: dhtmember.cc \
+	packet_m.h
 $O/internet.o: internet.cc \
 	packet_m.h
 $O/packet_m.o: packet_m.cc \
