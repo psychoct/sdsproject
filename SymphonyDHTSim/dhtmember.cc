@@ -50,8 +50,10 @@ void DHTMember::initialize() {
     n_estimate = (int)getAncestorPar("dhtSize");
     n_link_estimate = (int)getAncestorPar("dhtSize");
 
+    /*
     neighboursSegmentsLengths = 0;
     segmentsReceived = 0;
+    */
 
     WATCH(id);
     WATCH(x);
