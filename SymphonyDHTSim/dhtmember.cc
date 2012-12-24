@@ -16,12 +16,16 @@
 class DHTMember : public cSimpleModule {
     private:
         int id;
-        double x; // x in [0..1[
-        // length of the segment between this node and its previous neighbour.
+        /* represents the position in the unit interval of this node */
+        double x;
+        /* length of the segment between this node and its previous neighbour */
         double segmentLength;
+        /* estimated number of nodes in the DHT */
         int n_estimate;
+        /* estimated number of nodes in the DHT during last relinking */
         int n_link_estimate;
 
+        /* private variables used to  */
         double neighboursSegmentsLengths;
         int segmentsReceived;
 
@@ -60,8 +64,8 @@ void DHTMember::initialize() {
     WATCH(n_estimate);
     WATCH(n_link_estimate);
 
-    // DEBUG
-    if (getIndex() == 26) {
+    /*! TEST */
+    if (getIndex() == 0) {
         /*
         EV << "DHTMember (" << getIndex() << "): starts procedure to calculate its segment length" << endl;
         getSegmentLengthProcedure();
@@ -172,6 +176,8 @@ void DHTMember::handleMessage(cMessage* msg) {
     }
 }
 
+/* Utility functions */
+
 double DHTMember::getEstimateRatio() {
     return n_estimate / n_link_estimate;
 }
@@ -201,6 +207,8 @@ const char* DHTMember::getGateByRef(const char* ref) {
 
     return "nextShortLink$o";
 }
+
+/* Symphony DHT Protocol Procedures */
 
 void DHTMember::getSegmentLengthProcedure() {
     Packet* request = new Packet("askForX");
