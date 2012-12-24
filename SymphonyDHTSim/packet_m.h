@@ -21,7 +21,8 @@
  * packet Packet {
  *     string neighbour;
  *     double x;
- *     double segmentLength;    
+ *     double segmentLength;
+ *     int estimate; 
  * }
  * </pre>
  */
@@ -31,6 +32,7 @@ class Packet : public ::cPacket
     opp_string neighbour_var;
     double x_var;
     double segmentLength_var;
+    int estimate_var;
 
   private:
     void copy(const Packet& other);
@@ -55,6 +57,8 @@ class Packet : public ::cPacket
     virtual void setX(double x);
     virtual double getSegmentLength() const;
     virtual void setSegmentLength(double segmentLength);
+    virtual int getEstimate() const;
+    virtual void setEstimate(int estimate);
 };
 
 inline void doPacking(cCommBuffer *b, Packet& obj) {obj.parsimPack(b);}

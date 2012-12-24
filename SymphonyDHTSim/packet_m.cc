@@ -37,6 +37,7 @@ Packet::Packet(const char *name, int kind) : cPacket(name,kind)
     this->neighbour_var = 0;
     this->x_var = 0;
     this->segmentLength_var = 0;
+    this->estimate_var = 0;
 }
 
 Packet::Packet(const Packet& other) : cPacket(other)
@@ -61,6 +62,7 @@ void Packet::copy(const Packet& other)
     this->neighbour_var = other.neighbour_var;
     this->x_var = other.x_var;
     this->segmentLength_var = other.segmentLength_var;
+    this->estimate_var = other.estimate_var;
 }
 
 void Packet::parsimPack(cCommBuffer *b)
@@ -69,6 +71,7 @@ void Packet::parsimPack(cCommBuffer *b)
     doPacking(b,this->neighbour_var);
     doPacking(b,this->x_var);
     doPacking(b,this->segmentLength_var);
+    doPacking(b,this->estimate_var);
 }
 
 void Packet::parsimUnpack(cCommBuffer *b)
@@ -77,6 +80,7 @@ void Packet::parsimUnpack(cCommBuffer *b)
     doUnpacking(b,this->neighbour_var);
     doUnpacking(b,this->x_var);
     doUnpacking(b,this->segmentLength_var);
+    doUnpacking(b,this->estimate_var);
 }
 
 const char * Packet::getNeighbour() const
@@ -107,6 +111,16 @@ double Packet::getSegmentLength() const
 void Packet::setSegmentLength(double segmentLength)
 {
     this->segmentLength_var = segmentLength;
+}
+
+int Packet::getEstimate() const
+{
+    return estimate_var;
+}
+
+void Packet::setEstimate(int estimate)
+{
+    this->estimate_var = estimate;
 }
 
 class PacketDescriptor : public cClassDescriptor
@@ -156,7 +170,7 @@ const char *PacketDescriptor::getProperty(const char *propertyname) const
 int PacketDescriptor::getFieldCount(void *object) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 3+basedesc->getFieldCount(object) : 3;
+    return basedesc ? 4+basedesc->getFieldCount(object) : 4;
 }
 
 unsigned int PacketDescriptor::getFieldTypeFlags(void *object, int field) const
@@ -171,8 +185,9 @@ unsigned int PacketDescriptor::getFieldTypeFlags(void *object, int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<3) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<4) ? fieldTypeFlags[field] : 0;
 }
 
 const char *PacketDescriptor::getFieldName(void *object, int field) const
@@ -187,8 +202,9 @@ const char *PacketDescriptor::getFieldName(void *object, int field) const
         "neighbour",
         "x",
         "segmentLength",
+        "estimate",
     };
-    return (field>=0 && field<3) ? fieldNames[field] : NULL;
+    return (field>=0 && field<4) ? fieldNames[field] : NULL;
 }
 
 int PacketDescriptor::findField(void *object, const char *fieldName) const
@@ -198,6 +214,7 @@ int PacketDescriptor::findField(void *object, const char *fieldName) const
     if (fieldName[0]=='n' && strcmp(fieldName, "neighbour")==0) return base+0;
     if (fieldName[0]=='x' && strcmp(fieldName, "x")==0) return base+1;
     if (fieldName[0]=='s' && strcmp(fieldName, "segmentLength")==0) return base+2;
+    if (fieldName[0]=='e' && strcmp(fieldName, "estimate")==0) return base+3;
     return basedesc ? basedesc->findField(object, fieldName) : -1;
 }
 
@@ -213,8 +230,9 @@ const char *PacketDescriptor::getFieldTypeString(void *object, int field) const
         "string",
         "double",
         "double",
+        "int",
     };
-    return (field>=0 && field<3) ? fieldTypeStrings[field] : NULL;
+    return (field>=0 && field<4) ? fieldTypeStrings[field] : NULL;
 }
 
 const char *PacketDescriptor::getFieldProperty(void *object, int field, const char *propertyname) const
@@ -257,6 +275,7 @@ std::string PacketDescriptor::getFieldAsString(void *object, int field, int i) c
         case 0: return oppstring2string(pp->getNeighbour());
         case 1: return double2string(pp->getX());
         case 2: return double2string(pp->getSegmentLength());
+        case 3: return long2string(pp->getEstimate());
         default: return "";
     }
 }
@@ -274,6 +293,7 @@ bool PacketDescriptor::setFieldAsString(void *object, int field, int i, const ch
         case 0: pp->setNeighbour((value)); return true;
         case 1: pp->setX(string2double(value)); return true;
         case 2: pp->setSegmentLength(string2double(value)); return true;
+        case 3: pp->setEstimate(string2long(value)); return true;
         default: return false;
     }
 }
@@ -290,8 +310,9 @@ const char *PacketDescriptor::getFieldStructName(void *object, int field) const
         NULL,
         NULL,
         NULL,
+        NULL,
     };
-    return (field>=0 && field<3) ? fieldStructNames[field] : NULL;
+    return (field>=0 && field<4) ? fieldStructNames[field] : NULL;
 }
 
 void *PacketDescriptor::getFieldStructPointer(void *object, int field, int i) const

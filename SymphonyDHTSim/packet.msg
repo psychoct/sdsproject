@@ -16,5 +16,6 @@
 packet Packet {
     string neighbour;
     double x;
-    double segmentLength;    
+    double segmentLength;
+    int estimate; 
 }

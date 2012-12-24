@@ -144,7 +144,31 @@ void DHTMember::handleMessage(cMessage* msg) {
             segmentsReceived = 0;
 
             EV << "DHTMember (" << getIndex() << "): I received both segments I was looking for, the estimate calculated is " << n_estimate << endl;
+
+            /* send back calculated estimate to neighbours */
+            Packet* request1 = new Packet("updateEstimate");
+            Packet* request2 = new Packet("updateEstimate");
+
+            request1->setNeighbour("prev");
+            request2->setNeighbour("next");
+            request1->setEstimate(n_estimate);
+            request2->setEstimate(n_estimate);
+
+            /* I ask for my neighbours segments lengths */
+            send(request1, "nextShortLink$o");
+            send(request2, "prevShortLink$o");
+
+            EV << "DHTMember (" << getIndex() << "): Sending calculated estimate (" << n_estimate << ") to neighbours" << endl;
         }
+    } else if (strcmp(request->getFullName(), "updateEstimate") == 0) {
+        /* when an estimate for the number of the nodes in the net is
+         * received by a neighbour update current estimate
+         */
+        const char* neighbour = request->getNeighbour();
+
+        n_estimate = request->getEstimate();
+
+        EV << "DHTMember (" << getIndex() << "): " << neighbour << " sent me estimate " << n_estimate << ". I update my estimate" << endl;
     }
 }
 
