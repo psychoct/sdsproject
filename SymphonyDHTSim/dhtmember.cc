@@ -22,10 +22,8 @@ class DHTMember : public cSimpleModule {
         int n_estimate;
         int n_link_estimate;
 
-        /*
         double neighboursSegmentsLengths;
         int segmentsReceived;
-        */
 
     protected:
         virtual void initialize();
@@ -34,6 +32,9 @@ class DHTMember : public cSimpleModule {
         virtual double getEstimateRatio();
         virtual bool needToRelink();
         virtual double calculateSegmentLength(double prevX, double x);
+        virtual const char* oppositeOf(const char* ref);
+        virtual const char* getGateByRef(const char* ref);
+
         virtual void getSegmentLengthProcedure();
         virtual void estimateProcedure();
         virtual void relinkProcedure();
@@ -50,10 +51,8 @@ void DHTMember::initialize() {
     n_estimate = (int)getAncestorPar("dhtSize");
     n_link_estimate = (int)getAncestorPar("dhtSize");
 
-    /*
     neighboursSegmentsLengths = 0;
     segmentsReceived = 0;
-    */
 
     WATCH(id);
     WATCH(x);
@@ -62,9 +61,13 @@ void DHTMember::initialize() {
     WATCH(n_link_estimate);
 
     // DEBUG
-    if (getIndex() == 5) {
+    if (getIndex() == 26) {
+        /*
         EV << "DHTMember (" << getIndex() << "): starts procedure to calculate its segment length" << endl;
         getSegmentLengthProcedure();
+        */
+        EV << "DHTMember (" << getIndex() << "): starts procedure to calculate how many nodes are in the net" << endl;
+        estimateProcedure();
     }
 }
 
@@ -82,13 +85,8 @@ void DHTMember::handleMessage(cMessage* msg) {
         /* create a packet containing x value and relative position according to request sender */
         response = new Packet("myX");
         response->setX(x);
-        if (strcmp(neighbour , "next") == 0) {
-            response->setNeighbour("prev");
-            gate = "nextShortLink$o";
-        } else {
-            response->setNeighbour("next");
-            gate = "prevShortLink$o";
-        }
+        response->setNeighbour(oppositeOf(neighbour));
+        gate = getGateByRef(neighbour);
 
         /* send it back */
         send(response, gate);
@@ -104,27 +102,50 @@ void DHTMember::handleMessage(cMessage* msg) {
 
         /* debug action */
         EV << "DHTMember (" << getIndex() << "): " << request->getNeighbour() << " sent its x, that is: " << prevX << ". My x is " << x << ". Segment length is now " << segmentLength << endl;
-    }/* else if (strcmp(request->getFullName(), "askForSegmentLength") == 0) {
+    } else if (strcmp(request->getFullName(), "askForSegmentLength") == 0) {
+        getSegmentLengthProcedure();
+
+        /* segment length will be available in 0.3
+         * simtime steps, wait for that
+         */
         response = new Packet("segmentLengthCalculated");
         response->setNeighbour(request->getNeighbour());
+        scheduleAt(simTime() + 0.3, response);
 
-        getSegmentLength();
-        scheduleAt(simTime() + 3.0, response);
+        /* debug action */
+        EV << "DHTMember (" << getIndex() << "): " << request->getNeighbour() << " asked for my segment length. I started to calculate it, it will take 0.3 simtime steps" << endl;
     } else if (strcmp(request->getFullName(), "segmentLengthCalculated") == 0) {
+        /* now segment length for this node is known, send it
+         * back to the node who made the request
+         */
+        const char* neighbour = request->getNeighbour();
+
         response = new Packet("mySegmentLength");
         response->setSegmentLength(segmentLength);
+        response->setNeighbour(oppositeOf(neighbour));
 
-        send(response, (strcmp(response->getNeighbour(), "prev") == 0) ? "prevShortLink$o" : "nextShortLink$o");
+        send(response, getGateByRef(neighbour));
+
+        /* debug action */
+        EV << "DHTMember (" << getIndex() << "): " << neighbour << " asked for my segment length. I calculated it, it is: "<< segmentLength << ", sending it back" << endl;
     } else if (strcmp(request->getFullName(), "mySegmentLength") == 0) {
+        /* If neighbours segments lengths are received sum them up
+         * and (when both are available) use them to calculate an
+         * estimate of the number of nodes in the net
+         */
         neighboursSegmentsLengths += request->getSegmentLength();
         segmentsReceived++;
+
+        EV << "DHTMember (" << getIndex() << "): " << request->getNeighbour() << " sent me its segment length that is " << request->getSegmentLength() << ". At the moment I recived " << segmentsReceived << "/2 segments" << endl;
 
         if (segmentsReceived == 2) {
             n_estimate = 3 / (neighboursSegmentsLengths + segmentLength);
             neighboursSegmentsLengths = 0;
             segmentsReceived = 0;
+
+            EV << "DHTMember (" << getIndex() << "): I received both segments I was looking for, the estimate calculated is " << n_estimate << endl;
         }
-    }*/
+    }
 }
 
 double DHTMember::getEstimateRatio() {
@@ -143,27 +164,40 @@ double DHTMember::calculateSegmentLength(double prevX, double x) {
     return (x + (1.0 - prevX));
 }
 
+const char* DHTMember::oppositeOf(const char* ref) {
+    if (strcmp(ref, "prev") == 0)
+        return "next";
+
+    return "prev";
+}
+
+const char* DHTMember::getGateByRef(const char* ref) {
+    if (strcmp(ref, "prev") == 0)
+        return "prevShortLink$o";
+
+    return "nextShortLink$o";
+}
+
 void DHTMember::getSegmentLengthProcedure() {
     Packet* request = new Packet("askForX");
     request->setNeighbour("next");
 
     send(request, "prevShortLink$o");
-
-    /* debug action */
-    EV << "DHTMember (" << getIndex() << "): asking for x to next neighbour" << endl;
 }
 
 void DHTMember::estimateProcedure() {
-    /*
     Packet* request1 = new Packet("askForSegmentLength");
     Packet* request2 = new Packet("askForSegmentLength");
 
     request1->setNeighbour("prev");
     request2->setNeighbour("next");
 
+    /* I ask for my neighbours segments lengths */
     send(request1, "nextShortLink$o");
     send(request2, "prevShortLink$o");
-    */
+
+    /* In the meantime I calculate my segment length */
+    getSegmentLengthProcedure();
 }
 
 void DHTMember::relinkProcedure() {
