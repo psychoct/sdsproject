@@ -211,22 +211,23 @@ void DHTMember::handleMessage(cMessage* msg) {
            EV << "DHTMember (" << getIndex() << "): Yes I am! I have to notify it to requesting node" << endl;
 
            int rlSize = request->getRoutingListArraySize();
-           if (rlSize - 1 > 0) {
+           if (rlSize> 0) {
                EV << "DHTMember (" << getIndex() << "): I am not the requesting node, so I pass the message to requesting node cancelling myself from routing list" << endl;
 
                int sender = request->getRoutingList(rlSize - 1);
-               request->setRoutingListArraySize(rlSize - 1);
+               //request->setRoutingListArraySize(rlSize - 1);
 
                response = new Packet("managerIndexIs");
                response->setManager(getIndex());
+               response->setRoutingListArraySize(rlSize - 1);
                for (int k=0; k<rlSize-1; k++)
                    response->setRoutingList(k, request->getRoutingList(k));
 
                switch (sender) {
-                   case -2: // left neighbour
+                   case -1: // left neighbour
                        send(response, "prevShortLink$o");
                    break;
-                   case -1: // right neighbour
+                   case -2: // right neighbour
                        send(response, "nextShortLink$o");
                    break;
                    default: // long link
@@ -234,6 +235,8 @@ void DHTMember::handleMessage(cMessage* msg) {
                    break;
                }
            } else {
+
+               //BY MIKE: SECONDO ME QUI NON CI ENTRA MAI PERCHE DA ORA IN POI SAREMO NEL RAMO MANAGERINDEXIS VISTO CHE PASSIAMO I MESSAGGI DI VOLTA IN VOLTA
                EV << "DHTMember (" << getIndex() << "): I am the requesting node, so I create a long link with the manager of x (@TODO)" << endl;
                /* create connection with manager node */
                /* ... */
@@ -275,8 +278,8 @@ void DHTMember::handleMessage(cMessage* msg) {
 
         }
 
-        EV << "DHTMember (" << getIndex() << "): To do so, i ask to my neighbours their position in the unit interval" << endl;
     } else if (strcmp(request->getFullName(), "askXToFindShortestPath") == 0) {
+        EV << "DHTMember (" << getIndex() << "): To do so, i ask to my neighbours their position in the unit interval" << endl;
         /* someone asked me my x value to find the shortest path
          * to the manager of a certain value of x'.
          */
@@ -332,6 +335,8 @@ void DHTMember::handleMessage(cMessage* msg) {
             int rlSize = request->getRoutingListArraySize();
             response = new Packet("areUXManager");
             response->setRoutingListArraySize(rlSize+1);
+            for (int k=0; k<rlSize; k++)
+                response->setRoutingList(k, request->getRoutingList(k));
             response->setX(y);
 
             if (strcmp(bestPathNeighbour, "onLongLink") == 0) {
@@ -345,7 +350,6 @@ void DHTMember::handleMessage(cMessage* msg) {
                 EV << "DHTMember (" << getIndex() << "): Best route is over short link " << bestPathNeighbour << endl;
 
                 response->setNeighbour(oppositeOf(bestPathNeighbour));
-
                 int neighbourRef;
                 if (strcmp(bestPathNeighbour, "prev") == 0) {
                     neighbourRef = -2;
@@ -369,7 +373,43 @@ void DHTMember::handleMessage(cMessage* msg) {
 
         getSegmentLengthProcedure();
         scheduleAt(simTime() + 0.3, response);
+
+    } else if(strcmp(request->getFullName(),"managerIndexIs")==0) {
+
+        int rlSize = request->getRoutingListArraySize();
+        EV << "DHTMember (" << getIndex() << "): Routing manager of x index("<< request->getManager()<<") to the node that asked it. "<< endl;
+        if (rlSize > 0) {
+           EV << "DHTMember (" << getIndex() << "): I am not the requesting node, so I pass the message to requesting node cancelling myself from routing list" << endl;
+
+           int sender = request->getRoutingList(rlSize - 1);
+           //request->setRoutingListArraySize(rlSize - 1);
+
+           response = new Packet("managerIndexIs");
+           response->setManager(request->getManager());
+           response->setRoutingListArraySize(rlSize - 1);
+           for (int k=0; k<rlSize-1; k++)
+               response->setRoutingList(k, request->getRoutingList(k));
+
+           switch (sender) {
+               case -1: // left neighbour
+                   send(response, "prevShortLink$o");
+               break;
+               case -2: // right neighbour
+                   send(response, "nextShortLink$o");
+               break;
+               default: // long link
+                   send(response, "longLinks$o", sender);
+               break;
+           }
+       } else {
+           EV << "DHTMember (" << getIndex() << "): I am the requesting node, so I create a long link with the manager of x (@TODO)" << endl;
+           /* create connection with manager node */
+           /* ... */
+       }
+
+
     }
+
 }
 
 /* Utility functions */
@@ -432,7 +472,7 @@ void DHTMember::relinkProcedure() {
     Packet* response;
     double randX;
 
-    randX = 0.1874;//0.5625;//0.75//exp(log(n_estimate)*(drand48() - 1.0));
+    randX = 0.5625;//0.75;//0.5625;//0.1874;//exp(log(n_estimate)*(drand48() - 1.0));
     response = new Packet("amIXManager");
     response->setX(randX);
 
