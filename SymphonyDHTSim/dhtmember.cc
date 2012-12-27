@@ -190,7 +190,7 @@ void DHTMember::handleMessage(cMessage* msg) {
     } else if (strcmp(request->getFullName(), "amIXManager") == 0) {
         EV << "DHTMember (" << getIndex() << "): am i the manager for x (" << request->getX() << ") value?" << endl;
 
-        double delta = segmentLength - x;
+        double delta = x - segmentLength;
         bool iamxmanager = false;
 
         /* case 1:
@@ -202,7 +202,8 @@ void DHTMember::handleMessage(cMessage* msg) {
          */
         if (delta >= 0 && request->getX() > delta && request->getX() <= x) {
             iamxmanager = true;
-        } else if (delta < 0 && (request->getX() > 1-delta || request->getX() <= x)) {
+        } else if (delta < 0 && (request->getX() > 1+delta || request->getX() <= x)) {
+            EV << "y: " << request->getX() << " | x: " << x << " | segmentLength: " << segmentLength << " | delta: " << delta << endl;
             iamxmanager = true;
         }
 
@@ -242,21 +243,31 @@ void DHTMember::handleMessage(cMessage* msg) {
             EV << "DHTMember (" << getIndex() << "): I am not the manager of x, so I pass the message along a path to the node closest to x among my neighbours" << endl;
 
             int K = (int)getAncestorPar("K");
+            int rlSize = request->getRoutingListArraySize();
             Packet* newrequest;
             y = request->getX();
 
             /* search for shortest path for x along short links */
             newrequest = new Packet("askXToFindShortestPath");
+            newrequest ->setRoutingListArraySize(rlSize);
+            for (int k=0; k<rlSize; k++)
+               newrequest->setRoutingList(k, request->getRoutingList(k));
             newrequest->setNeighbour("prev");
             send(newrequest, "nextShortLink$o");
 
             newrequest = new Packet("askXToFindShortestPath");
+            newrequest ->setRoutingListArraySize(rlSize);
+            for (int k=0; k<rlSize; k++)
+               newrequest->setRoutingList(k, request->getRoutingList(k));
             newrequest->setNeighbour("next");
             send(newrequest, "prevShortLink$o");
 
             /* search for shortest path for x along long links */
             for (int i=0; i<K; i++) {
                 newrequest = new Packet("askXToFindShortestPath");
+                newrequest ->setRoutingListArraySize(rlSize);
+                for (int k=0; k<rlSize; k++)
+                   newrequest->setRoutingList(k, request->getRoutingList(k));
                 newrequest->setNeighbour("onLongLink");
                 newrequest->setLongLinkNumber(i);
                 send(newrequest, "longLinks$o", i);
@@ -269,12 +280,16 @@ void DHTMember::handleMessage(cMessage* msg) {
         /* someone asked me my x value to find the shortest path
          * to the manager of a certain value of x'.
          */
+        int rlSize = request->getRoutingListArraySize();
         const char* gate;
         const char* neighbour = request->getNeighbour();
         int n = request->getLongLinkNumber();
 
         response = new Packet("myXToFindShortestPath");
         response->setX(x);
+        response ->setRoutingListArraySize(rlSize);
+        for (int k=0; k<rlSize; k++)
+           response->setRoutingList(k, request->getRoutingList(k));
 
         if (strcmp(neighbour, "onLongLink") == 0) {
             response->setNeighbour("onLongLink");
@@ -343,9 +358,14 @@ void DHTMember::handleMessage(cMessage* msg) {
         }
     } else if (strcmp(request->getFullName(), "areUXManager") == 0) {
         Packet* response;
+        int rlSize = request->getRoutingListArraySize();
 
         response = new Packet("amIXManager");
         response->setX(request->getX());
+
+        response->setRoutingListArraySize(rlSize);
+        for (int k=0; k<rlSize; k++)
+           response->setRoutingList(k, request->getRoutingList(k));
 
         getSegmentLengthProcedure();
         scheduleAt(simTime() + 0.3, response);
@@ -412,7 +432,7 @@ void DHTMember::relinkProcedure() {
     Packet* response;
     double randX;
 
-    randX = 0.5624;//0.5325//exp(log(n_estimate)*(drand48() - 1.0));
+    randX = 0.1874;//0.5625;//0.75//exp(log(n_estimate)*(drand48() - 1.0));
     response = new Packet("amIXManager");
     response->setX(randX);
 
