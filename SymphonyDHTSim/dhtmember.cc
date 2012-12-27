@@ -25,9 +25,16 @@ class DHTMember : public cSimpleModule {
         /* estimated number of nodes in the DHT during last relinking */
         int n_link_estimate;
 
-        /* private variables used to  */
+        /* private variables used to realize estimate protocol */
         double neighboursSegmentsLengths;
         int segmentsReceived;
+
+        /* private variables used to realize relinking protocol */
+        double y;
+        double bestPathDistance;
+        int replies;
+        const char* bestPathNeighbour;
+        int bestPathLongLinkNumber;
 
     protected:
         virtual void initialize();
@@ -58,6 +65,9 @@ void DHTMember::initialize() {
     neighboursSegmentsLengths = 0;
     segmentsReceived = 0;
 
+    bestPathDistance = 2; // 2 is like +oo considering unit interval
+    replies = 0;
+
     WATCH(id);
     WATCH(x);
     WATCH(segmentLength);
@@ -69,9 +79,12 @@ void DHTMember::initialize() {
         /*
         EV << "DHTMember (" << getIndex() << "): starts procedure to calculate its segment length" << endl;
         getSegmentLengthProcedure();
-        */
+
         EV << "DHTMember (" << getIndex() << "): starts procedure to calculate how many nodes are in the net" << endl;
         estimateProcedure();
+        */
+
+        relinkProcedure();
     }
 }
 
@@ -173,6 +186,154 @@ void DHTMember::handleMessage(cMessage* msg) {
         n_estimate = request->getEstimate();
 
         EV << "DHTMember (" << getIndex() << "): " << neighbour << " sent me estimate " << n_estimate << ". I update my estimate" << endl;
+    } else if (strcmp(request->getFullName(), "amIXManager") == 0) {
+        EV << "DHTMember (" << getIndex() << "): am i the manager for x (" << request->getX() << ") value?" << endl;
+
+        double delta = segmentLength - x;
+        bool iamxmanager = false;
+
+        /* case 1:
+         *  [0       B---x--------(A)      1[
+         *
+         * case 2:
+         *  [0-----x--(A)      B-----------1[ or
+         *  [0--------(A)      B-------x---1[
+         */
+        if (delta >= 0 && request->getX() > delta && request->getX() <= x) {
+            iamxmanager = true;
+        } else if (delta < 0 && (request->getX() > 1-delta || request->getX() <= x)) {
+            iamxmanager = true;
+        }
+
+        if (iamxmanager) {
+           EV << "DHTMember (" << getIndex() << "): Yes I am! I have to notify it to requesting node" << endl;
+
+           int rlSize = request->getRoutingListArraySize();
+           if (rlSize - 1 > 0) {
+               EV << "DHTMember (" << getIndex() << "): I am not the requesting node, so I pass the message to requesting node cancelling myself from routing list" << endl;
+
+               int sender = request->getRoutingList(rlSize - 1);
+               request->setRoutingListArraySize(rlSize - 1);
+
+               response = new Packet("managerIndexIs");
+               response->setManager(getIndex());
+               for (int k=0; k<rlSize-1; k++)
+                   response->setRoutingList(k, request->getRoutingList(k));
+
+               switch (sender) {
+                   case -2: // left neighbour
+                       send(response, "prevShortLink$o");
+                   break;
+                   case -1: // right neighbour
+                       send(response, "nextShortLink$o");
+                   break;
+                   default: // long link
+                       send(response, "longLinks$o", sender);
+                   break;
+               }
+           } else {
+               EV << "DHTMember (" << getIndex() << "): I am the requesting node, so I create a long link with the manager of x (@TODO)" << endl;
+               /* create connection with manager node */
+               /* ... */
+           }
+        } else {
+            /* I am not x manager, then i have to route this message to the real manager */
+            EV << "DHTMember (" << getIndex() << "): I am not the manager of x, so I pass the message along a path to the node closest to x among my neighbours" << endl;
+
+            int K = (int)getAncestorPar("K");
+            Packet* newrequest;
+            y = request->getX();
+
+            /* search for shortest path for x along short links */
+            newrequest = new Packet("askXToFindShortestPath");
+            newrequest->setNeighbour("prev");
+            send(newrequest, "nextShortLink$o");
+
+            newrequest = new Packet("askXToFindShortestPath");
+            newrequest->setNeighbour("next");
+            send(newrequest, "prevShortLink$o");
+
+            /* search for shortest path for x along long links */
+            for (int i=0; i<K; i++) {
+                newrequest = new Packet("askXToFindShortestPath");
+                newrequest->setNeighbour("onLongLink");
+                newrequest->setLongLinkNumber(i);
+                send(newrequest, "longLinks$o", i);
+            }
+
+        }
+
+        EV << "DHTMember (" << getIndex() << "): To do so, i ask to my neighbours their position in the unit interval" << endl;
+    } else if (strcmp(request->getFullName(), "askXToFindShortestPath") == 0) {
+        /* someone asked me my x value to find the shortest path
+         * to the manager of a certain value of x'.
+         */
+        const char* gate;
+        const char* neighbour = request->getNeighbour();
+        int n = request->getLongLinkNumber();
+
+        response = new Packet("myXToFindShortestPath");
+        response->setX(x);
+
+        if (strcmp(neighbour, "onLongLink") == 0) {
+            response->setNeighbour("onLongLink");
+            response->setLongLinkNumber(n);
+            send(response, "longLinks$o", n);
+
+            EV << "DHTMember (" << getIndex() << "): neighbour on long link number " << n << " asked for my x that is " << x << " to find shortest path to a manager. Sending it back" << endl;
+        } else {
+            response->setNeighbour(oppositeOf(neighbour));
+            gate = getGateByRef(neighbour);
+            send(response, gate);
+
+            EV << "DHTMember (" << getIndex() << "): " << neighbour << " asked for my x that is " << x << " to find shortest path to a manager. Sending it back" << endl;
+        }
+    } else if (strcmp(request->getFullName(), "myXToFindShortestPath") == 0) {
+        EV << "DHTMember (" << getIndex() << "): I received a message with the position of a neighbour on the unit interval in order to calculate best path to manager of x i was looking for that is " << y << endl;
+
+        double distanceDeltaToY = abs(y - request->getX());
+        int K = (int)getAncestorPar("K");
+
+        if (distanceDeltaToY < bestPathDistance) {
+            bestPathDistance = distanceDeltaToY;
+            bestPathNeighbour = request->getNeighbour();
+            bestPathLongLinkNumber = request->getLongLinkNumber();
+        }
+
+        replies++;
+
+        EV << "DHTMember (" << getIndex() << "): I received " << replies << "/" << (2 + K) << " replies" << endl;
+
+        if (replies >= 2 + K) {
+            EV << "DHTMember (" << getIndex() << "): I received all the replies and I calculated best route" << endl;
+
+            int rlSize = request->getRoutingListArraySize();
+            response = new Packet("areUXManager");
+            response->setRoutingListArraySize(rlSize+1);
+            response->setX(y);
+
+            if (strcmp(bestPathNeighbour, "onLongLink") == 0) {
+                EV << "DHTMember (" << getIndex() << "): Best route is over long link " << bestPathLongLinkNumber << endl;
+
+                response->setNeighbour("onLongLink");
+                response->setLongLinkNumber(bestPathLongLinkNumber);
+                response->setRoutingList(rlSize, bestPathLongLinkNumber);
+                send(response, "longLinks$o", bestPathLongLinkNumber);
+            } else {
+                EV << "DHTMember (" << getIndex() << "): Best route is over short link " << bestPathNeighbour << endl;
+
+                response->setNeighbour(oppositeOf(bestPathNeighbour));
+
+                int neighbourRef;
+                if (strcmp(bestPathNeighbour, "prev") == 0) {
+                    neighbourRef = -2;
+                } else {
+                    neighbourRef = -1;
+                }
+                response->setRoutingList(rlSize, neighbourRef);
+                send(response, getGateByRef(bestPathNeighbour));
+            }
+        }
     }
 }
 
@@ -233,6 +394,15 @@ void DHTMember::estimateProcedure() {
 }
 
 void DHTMember::relinkProcedure() {
+    Packet* response;
+    double randX;
+
+    randX = exp(log(n_estimate)*(drand48() - 1.0));
+    response = new Packet("amIXManager");
+    response->setX(randX);
+
+    getSegmentLengthProcedure();
+    scheduleAt(simTime() + 0.3, response);
 }
 
 void DHTMember::joinProcedure() {

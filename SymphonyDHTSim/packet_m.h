@@ -20,9 +20,14 @@
  * <pre>
  * packet Packet {
  *     string neighbour;
+ *     int longLinkNumber;
+ *     
  *     double x;
  *     double segmentLength;
  *     int estimate; 
+ *     
+ *     int manager;
+ *     int routingList[];
  * }
  * </pre>
  */
@@ -30,9 +35,13 @@ class Packet : public ::cPacket
 {
   protected:
     opp_string neighbour_var;
+    int longLinkNumber_var;
     double x_var;
     double segmentLength_var;
     int estimate_var;
+    int manager_var;
+    int *routingList_var; // array ptr
+    unsigned int routingList_arraysize;
 
   private:
     void copy(const Packet& other);
@@ -53,12 +62,20 @@ class Packet : public ::cPacket
     // field getter/setter methods
     virtual const char * getNeighbour() const;
     virtual void setNeighbour(const char * neighbour);
+    virtual int getLongLinkNumber() const;
+    virtual void setLongLinkNumber(int longLinkNumber);
     virtual double getX() const;
     virtual void setX(double x);
     virtual double getSegmentLength() const;
     virtual void setSegmentLength(double segmentLength);
     virtual int getEstimate() const;
     virtual void setEstimate(int estimate);
+    virtual int getManager() const;
+    virtual void setManager(int manager);
+    virtual void setRoutingListArraySize(unsigned int size);
+    virtual unsigned int getRoutingListArraySize() const;
+    virtual int getRoutingList(unsigned int k) const;
+    virtual void setRoutingList(unsigned int k, int routingList);
 };
 
 inline void doPacking(cCommBuffer *b, Packet& obj) {obj.parsimPack(b);}

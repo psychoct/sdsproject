@@ -10,9 +10,8 @@ simple Internet {
 }
 
 simple DHTMember {
-    parameters: 
-        int K = default(4);      
-        @display("i=device/pc3");
+    parameters:               
+        @display("i=block/app2_vs");
     gates:
         inout prevShortLink; // gate to previous DHTMember
         inout nextShortLink; // gate to next DHTMember
@@ -21,7 +20,8 @@ simple DHTMember {
 
 network SimphonyDHTNetwork {   
     parameters:
-        int dhtSize = default(32);
+        int K = default(1);
+        int dhtSize = default(16);
         @display("i=misc/cloud");
     gates:
         inout gate; // gate to Internet
@@ -37,8 +37,16 @@ network SimphonyDHTNetwork {
         internet: Internet;
     	members[dhtSize]: DHTMember;
     connections:
+        // Submodules connections
         gate <--> InternetChannel <--> internet.gate;
+        
+        // Short links
     	for i=0..sizeof(members)-1 {
         	members[i].nextShortLink <--> MembersChannel <--> members[(i+1) % sizeof(members)].prevShortLink;
         }
+        
+        // Long links
+        for i=0..sizeof(members)-1, for j=0..K-1 {
+    		members[i].longLinks++ <--> MembersChannel <--> members[(i+8+j) % sizeof(members)].longLinks++;
+    	}
 }

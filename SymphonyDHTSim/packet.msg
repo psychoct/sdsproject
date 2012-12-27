@@ -15,7 +15,12 @@
 
 packet Packet {
     string neighbour;
+    int longLinkNumber;
+    
     double x;
     double segmentLength;
     int estimate; 
+    
+    int manager;
+    int routingList[];
 }
