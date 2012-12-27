@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include <omnetpp.h>
 #include "packet_m.h"
 
@@ -289,15 +290,21 @@ void DHTMember::handleMessage(cMessage* msg) {
             EV << "DHTMember (" << getIndex() << "): " << neighbour << " asked for my x that is " << x << " to find shortest path to a manager. Sending it back" << endl;
         }
     } else if (strcmp(request->getFullName(), "myXToFindShortestPath") == 0) {
-        EV << "DHTMember (" << getIndex() << "): I received a message with the position of a neighbour on the unit interval in order to calculate best path to manager of x i was looking for that is " << y << endl;
+        EV << "DHTMember (" << getIndex() << "): I received a message with the position of a neighbour on the unit interval (" << request->getX() << ") in order to calculate best path to manager of x i was looking for that is " << y << endl;
 
-        double distanceDeltaToY = abs(y - request->getX());
+        double distanceDeltaToY = fabs(y - request->getX());
         int K = (int)getAncestorPar("K");
 
+        EV << "DHTMember (" << getIndex() << "): distance of x from that neighbour is " << distanceDeltaToY << endl;
+
         if (distanceDeltaToY < bestPathDistance) {
+            EV << "DHTMember (" << getIndex() << "): that is better than old delta " << bestPathDistance << endl;
+
             bestPathDistance = distanceDeltaToY;
             bestPathNeighbour = request->getNeighbour();
             bestPathLongLinkNumber = request->getLongLinkNumber();
+
+            EV << "DHTMember (" << getIndex() << "): so best path calculated so far is to " << bestPathNeighbour << endl;
         }
 
         replies++;
@@ -334,6 +341,14 @@ void DHTMember::handleMessage(cMessage* msg) {
                 send(response, getGateByRef(bestPathNeighbour));
             }
         }
+    } else if (strcmp(request->getFullName(), "areUXManager") == 0) {
+        Packet* response;
+
+        response = new Packet("amIXManager");
+        response->setX(request->getX());
+
+        getSegmentLengthProcedure();
+        scheduleAt(simTime() + 0.3, response);
     }
 }
 
@@ -397,7 +412,7 @@ void DHTMember::relinkProcedure() {
     Packet* response;
     double randX;
 
-    randX = exp(log(n_estimate)*(drand48() - 1.0));
+    randX = 0.5624;//0.5325//exp(log(n_estimate)*(drand48() - 1.0));
     response = new Packet("amIXManager");
     response->setX(randX);
 
