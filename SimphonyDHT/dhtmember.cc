@@ -16,13 +16,19 @@ class DHTMember : public cSimpleModule {
         int nEstimate;
         int nEstimateAtLinking;
 
-        /* private variable for estimation protocol
+        /* private variables for estimation protocol
          *
          * neighboursTotalSegmentsLengths: partial total of short linked neighbours segment lengths
          * receivedSegments: how many segment lenghts were sent to this node during estimation protocol
          */
         double neighboursTotalSegmentsLengths;
         int receivedSegments;
+
+        /* private variables for relinking protocol */
+        double randomPoint;
+        double bestDistanceFoundSoFar;
+        int gateIndexToClosestNode;
+        int repliesToFindShortestPath;
 
     protected:
         virtual void initialize();
@@ -31,10 +37,15 @@ class DHTMember : public cSimpleModule {
         /* utility methods */
         virtual int getGateToModule(cModule* module);
         virtual double getSegmentLengthByPreviousNodesIntervalPosition(double previousNodeX);
+        virtual int getNeighboursNumber();
+        virtual bool amIManagerForPoint(double p);
+        virtual void broadcast(Packet* msg);
+        virtual int getReverseGateIndexByGateIndex(int index);
 
         /* symphony DHT protocol methods */
         virtual void calculateSegmentLength();
-        virtual void nEstimateProcedure();
+        virtual void calculateNEstimate();
+        virtual void relink();
 };
 
 Define_Module(DHTMember);
@@ -55,6 +66,9 @@ void DHTMember::initialize() {
     neighboursTotalSegmentsLengths = 0;
     receivedSegments = 0;
 
+    bestDistanceFoundSoFar = 42; /* note: every number >= than 1 could be considered +infinity */
+    repliesToFindShortestPath = 0;
+
     WATCH(x);
     WATCH(segmentLength);
     WATCH(nEstimate);
@@ -65,10 +79,13 @@ void DHTMember::initialize() {
         /*
         EV << "DHTMember: " << this->getFullName() << " starts procedure to calculate its segment length." << endl;
         calculateSegmentLength();
-        */
 
         EV << "DHTMember: " << this->getFullName() << " starts procedure to estimate the number of nodes in the DHT." << endl;
-        nEstimateProcedure();
+        calculateNEstimate();
+        */
+
+        EV << "DHTMember: " << this->getFullName() << " starts relinking procedure." << endl;
+        relink();
     }
 }
 
@@ -161,8 +178,116 @@ void DHTMember::handleMessage(cMessage* msg) {
          */
         nEstimate = request->getNEstimate();
         EV << "DHTMember: " << request->getSenderModule()->getFullName() << " asked to " << this->getFullName() << " to update its estimate for n that is " << request->getNEstimate() << "." << endl;
+    } else if (request->isName("amITheManagerOfThisPoint?")) {
+        /* current nodes asks itself if it is the manager for
+         * randomly generated point. When this message is received
+         * current node has updated its segment length
+         */
+        EV << "DHTMember: node " << this->getFullName() << " asks itself if it is the manager for point " << request->getX() << "." << endl;
+
+        int routinglistSize;
+        int previousRequestingNodeGateIndex;
+
+        if (amIManagerForPoint(request->getX())) {
+            /* if current node is the manager for randomly generated point */
+            EV << "DHTMember: node " << this->getFullName() << " is the manager for that point." << endl;
+            routinglistSize = request->getRoutingListArraySize();
+            if (routinglistSize > 0) {
+                /* if information about the manager have not been transmitted
+                 * to the node who made the request for it
+                 */
+                EV << "DHTMember: node " << this->getFullName() << " is not the requesting node so it passes backwards the message deleting itself from routing list." << endl;
+
+                /* current node passes backwards its message along requesting chain (routing list) */
+                previousRequestingNodeGateIndex = request->getRoutingList(routinglistSize - 1);
+                response = request->dup();
+                response->setName("managerIndexIs");
+                response->setManager(getIndex());
+                response->setRoutingListArraySize(routinglistSize - 1);
+                send(response, gate("gate$o", previousRequestingNodeGateIndex));
+            }
+        } else {
+            /* if current node is NOT the manager for randomly generated point */
+            EV << "DHTMember: node " << this->getFullName() << " is NOT the manager for that point. Then current node search for path that minimize distance from randomly generated point." << endl;
+
+            /* it asks to its neighbours their positions on the unit interval in order to
+             * choose the best path to the manager of that point
+             */
+            randomPoint = request->getX();
+            response = request->dup();
+            response->setName("needYourIntervalPositionToCalculateShortestPath");
+            broadcast(response);
+        }
+    } else if (request->isName("needYourIntervalPositionToCalculateShortestPath")) {
+        /* a node needs current node interval position in order to choose the best path
+         * to the manager of a randomly generated point, a message with current node interval
+         * position is created and sent back to it
+         */
+        response = request->dup();
+        response->setName("thisIsMyIntervalPositionToFindShortestPath");
+        response->setX(x);
+        send(response, toSender);
+    } else if (request->isName("thisIsMyIntervalPositionToFindShortestPath")) {
+        EV << "DHTMember: node " << this->getFullName() << " received the interval position of a neighbour in order to calculate shortest path through manager of randomly generated node." << endl;
+
+        int routinglistSize;
+        double distanceDeltaToPoint;
+        int reverseGateIndex;
+
+        distanceDeltaToPoint = fabs(randomPoint - request->getX());
+
+        EV << "DHTMember: distance of point " << randomPoint << " from that neighbour is " << distanceDeltaToPoint << "." << endl;
+
+        if (distanceDeltaToPoint < bestDistanceFoundSoFar) {
+            EV << "DHTMember: that is better than best distance found so far, that is " << bestDistanceFoundSoFar << "." << endl;
+            bestDistanceFoundSoFar = distanceDeltaToPoint;
+            gateIndexToClosestNode = toSenderGateIndex;
+        }
+
+        repliesToFindShortestPath++;
+
+        EV << "DHTMember: node " << this->getFullName() << " received " << repliesToFindShortestPath << "/" << getNeighboursNumber() << " replies." << endl;
+
+        if (repliesToFindShortestPath >= getNeighboursNumber()) {
+            EV << "DHTMember: node " << this->getFullName() << " received all the messages from its neighbours, it is now able to find the shortest path to the manager of randomly generated point." << endl;
+            routinglistSize = request->getRoutingListArraySize();
+            reverseGateIndex = getReverseGateIndexByGateIndex(gateIndexToClosestNode);
+
+            response = request->dup();
+            response->setName("areYouTheManagerOfThisPoint?");
+            response->setX(randomPoint);
+            response->setRoutingListArraySize(routinglistSize + 1);
+            response->setRoutingList(routinglistSize, reverseGateIndex);
+            send(response, "gate$o", gateIndexToClosestNode);
+        }
+    } else if (request->isName("areYouTheManagerOfThisPoint?")) {
+        response = request->dup();
+        response->setName("amITheManagerOfThisPoint?");
+        response->setX(request->getX());
+        calculateSegmentLength();
+        scheduleAt(simTime() + 0.3, response);
+    } else if (request->isName("managerIndexIs")) {
+        EV << "DHTMember: node " << this->getFullName() << " knows that the manager of randomly generated point is " << request->getManager() << ". Routing this information to the node that asked it." << endl;
+
+        int previousRequestingNodeGateIndex;
+        int routinglistSize;
+
+        routinglistSize = request->getRoutingListArraySize();
+        if (routinglistSize > 0) {
+            EV << "DHTMember: node " << this->getFullName() << " is not the requesting node so it passes the message through a chain to requesting node." << endl;
+            previousRequestingNodeGateIndex = request->getRoutingList(routinglistSize - 1);
+            response = request->dup();
+            response->setName("managerIndexIs");
+            response->setManager(getIndex());
+            response->setRoutingListArraySize(routinglistSize - 1);
+            send(response, gate("gate$o", previousRequestingNodeGateIndex));
+        } else {
+            EV << "DHTMember: node " << this->getFullName() << " is the requesting node for the manager of randomly generated point so a long link with that manager is estabilished." << endl;
+            /*@ TODO, create long link connection */
+        }
     }
 
+    /* after every request process delete received message */
     delete request;
 }
 
@@ -198,6 +323,75 @@ double DHTMember::getSegmentLengthByPreviousNodesIntervalPosition(double previou
     return x + 1.0 - previousNodeX;
 }
 
+/* returns the number of neighbours of current node */
+int DHTMember::getNeighboursNumber() {
+    int i;
+    int total;
+    total = 0;
+    for (i=0; i<gateSize("gate$o"); i++) {
+        if (hasGate("gate$o", i) && gate("gate$o", i)->isConnected()) {
+            total++;
+        }
+    }
+
+    return total;
+}
+
+/* returns true if current node is the manager of point p.
+ * there are two cases in which current node (A, with its previous node B) is the manager of point p:
+ * case 1:
+ *      [0       B---x--------(A)      1[
+ *
+ * case 2:
+ *      [0-----x--(A)      B-----------1[
+ * or
+ *      [0--------(A)      B-------x---1[
+ */
+bool DHTMember::amIManagerForPoint(double p) {
+    double delta;
+    delta = x - segmentLength;
+
+    if (delta >= 0 && p > delta && p <= x) {
+       return true;
+    }
+
+    if (delta < 0 && (p > 1 + delta || p <= x)) {
+       return true;
+    }
+
+    return false;
+}
+
+/* sends a copy of the message taken in input to every
+ * neighbour of current node
+ */
+void DHTMember::broadcast(Packet* packet) {
+    int i;
+    cGate* neighbourGate;
+    Packet* packetcp;
+    for (i=0; i<gateSize("gate$o"); i++) {
+        if (hasGate("gate$o", i)) {
+            neighbourGate = gate("gate$o", i);
+            if (neighbourGate->isConnected()) {
+                packetcp = packet->dup();
+                send(packetcp, neighbourGate);
+            }
+        }
+    }
+}
+
+int DHTMember::getReverseGateIndexByGateIndex(int index) {
+    cGate* fromGate;
+    cModule* nextGateModule;
+    DHTMember* nextGateDHTModule;
+
+    fromGate = gate("gate$o", index);
+    nextGateModule = fromGate->getNextGate()->getOwnerModule();
+    nextGateDHTModule = (DHTMember*)nextGateModule;
+
+    return nextGateDHTModule->getGateToModule(this);
+}
+
 /* ===========================================
  * |     symphony DHT protocol methods       |
  * ===========================================
@@ -208,7 +402,7 @@ void DHTMember::calculateSegmentLength() {
     send(request, "gate$o", 0);
 }
 
-void DHTMember::nEstimateProcedure() {
+void DHTMember::calculateNEstimate() {
     int i;
     Packet* request;
 
@@ -222,4 +416,26 @@ void DHTMember::nEstimateProcedure() {
 
     /* In the meantime segment length for current node is calculated */
     calculateSegmentLength();
+}
+
+void DHTMember::relink() {
+    double randx;
+    Packet* response;
+
+    /* generate a random point on unit interval using protocol
+     * probability density function
+     */
+    randx = exp(log(nEstimate)*(drand48() - 1.0));
+    /* DEBUG */
+    randx = 0.75; /* 0.5625 */
+
+    /* current node asks itself if it is the manager for that point */
+    response = new Packet("amITheManagerOfThisPoint?");
+    response->setX(randx);
+
+    /* to do so it calculates its segment length, it will take 0.3
+     * simulated time steps
+     */
+    calculateSegmentLength();
+    scheduleAt(simTime() + 0.3, response);
 }

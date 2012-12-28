@@ -7,16 +7,27 @@ class Internet : public cSimpleModule {
         virtual void initialize();
         virtual void handleMessage(cMessage* msg);
 
+        /* symphony DHT protocol methods */
         virtual void addMember();
 };
 
 Define_Module(Internet);
+
+/* ===========================================
+ * |             omnet++ methods             |
+ * ===========================================
+ */
 
 void Internet::initialize() {
 }
 
 void Internet::handleMessage(cMessage* msg) {
 }
+
+/* ===========================================
+ * |     symphony DHT protocol methods       |
+ * ===========================================
+ */
 
 void Internet::addMember() {
 }

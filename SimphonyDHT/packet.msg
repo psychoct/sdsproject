@@ -17,5 +17,7 @@ packet Packet {
 	double x;
 	double segmentLength;
 	double nEstimate;
-	int toSenderGateIndex;
+	int toSenderGateIndex;	
+    int routingList[];
+    int manager;
 }

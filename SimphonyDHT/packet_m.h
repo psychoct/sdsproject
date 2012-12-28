@@ -22,7 +22,9 @@
  * 	double x;
  * 	double segmentLength;
  * 	double nEstimate;
- * 	int toSenderGateIndex;
+ * 	int toSenderGateIndex;	
+ *     int routingList[];
+ *     int manager;
  * }
  * </pre>
  */
@@ -33,6 +35,9 @@ class Packet : public ::cPacket
     double segmentLength_var;
     double nEstimate_var;
     int toSenderGateIndex_var;
+    int *routingList_var; // array ptr
+    unsigned int routingList_arraysize;
+    int manager_var;
 
   private:
     void copy(const Packet& other);
@@ -59,6 +64,12 @@ class Packet : public ::cPacket
     virtual void setNEstimate(double nEstimate);
     virtual int getToSenderGateIndex() const;
     virtual void setToSenderGateIndex(int toSenderGateIndex);
+    virtual void setRoutingListArraySize(unsigned int size);
+    virtual unsigned int getRoutingListArraySize() const;
+    virtual int getRoutingList(unsigned int k) const;
+    virtual void setRoutingList(unsigned int k, int routingList);
+    virtual int getManager() const;
+    virtual void setManager(int manager);
 };
 
 inline void doPacking(cCommBuffer *b, Packet& obj) {obj.parsimPack(b);}

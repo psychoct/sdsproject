@@ -38,15 +38,21 @@ Packet::Packet(const char *name, int kind) : cPacket(name,kind)
     this->segmentLength_var = 0;
     this->nEstimate_var = 0;
     this->toSenderGateIndex_var = 0;
+    routingList_arraysize = 0;
+    this->routingList_var = 0;
+    this->manager_var = 0;
 }
 
 Packet::Packet(const Packet& other) : cPacket(other)
 {
+    routingList_arraysize = 0;
+    this->routingList_var = 0;
     copy(other);
 }
 
 Packet::~Packet()
 {
+    delete [] routingList_var;
 }
 
 Packet& Packet::operator=(const Packet& other)
@@ -63,6 +69,12 @@ void Packet::copy(const Packet& other)
     this->segmentLength_var = other.segmentLength_var;
     this->nEstimate_var = other.nEstimate_var;
     this->toSenderGateIndex_var = other.toSenderGateIndex_var;
+    delete [] this->routingList_var;
+    this->routingList_var = (other.routingList_arraysize==0) ? NULL : new int[other.routingList_arraysize];
+    routingList_arraysize = other.routingList_arraysize;
+    for (unsigned int i=0; i<routingList_arraysize; i++)
+        this->routingList_var[i] = other.routingList_var[i];
+    this->manager_var = other.manager_var;
 }
 
 void Packet::parsimPack(cCommBuffer *b)
@@ -72,6 +84,9 @@ void Packet::parsimPack(cCommBuffer *b)
     doPacking(b,this->segmentLength_var);
     doPacking(b,this->nEstimate_var);
     doPacking(b,this->toSenderGateIndex_var);
+    b->pack(routingList_arraysize);
+    doPacking(b,this->routingList_var,routingList_arraysize);
+    doPacking(b,this->manager_var);
 }
 
 void Packet::parsimUnpack(cCommBuffer *b)
@@ -81,6 +96,15 @@ void Packet::parsimUnpack(cCommBuffer *b)
     doUnpacking(b,this->segmentLength_var);
     doUnpacking(b,this->nEstimate_var);
     doUnpacking(b,this->toSenderGateIndex_var);
+    delete [] this->routingList_var;
+    b->unpack(routingList_arraysize);
+    if (routingList_arraysize==0) {
+        this->routingList_var = 0;
+    } else {
+        this->routingList_var = new int[routingList_arraysize];
+        doUnpacking(b,this->routingList_var,routingList_arraysize);
+    }
+    doUnpacking(b,this->manager_var);
 }
 
 double Packet::getX() const
@@ -121,6 +145,46 @@ int Packet::getToSenderGateIndex() const
 void Packet::setToSenderGateIndex(int toSenderGateIndex)
 {
     this->toSenderGateIndex_var = toSenderGateIndex;
+}
+
+void Packet::setRoutingListArraySize(unsigned int size)
+{
+    int *routingList_var2 = (size==0) ? NULL : new int[size];
+    unsigned int sz = routingList_arraysize < size ? routingList_arraysize : size;
+    for (unsigned int i=0; i<sz; i++)
+        routingList_var2[i] = this->routingList_var[i];
+    for (unsigned int i=sz; i<size; i++)
+        routingList_var2[i] = 0;
+    routingList_arraysize = size;
+    delete [] this->routingList_var;
+    this->routingList_var = routingList_var2;
+}
+
+unsigned int Packet::getRoutingListArraySize() const
+{
+    return routingList_arraysize;
+}
+
+int Packet::getRoutingList(unsigned int k) const
+{
+    if (k>=routingList_arraysize) throw cRuntimeError("Array of size %d indexed by %d", routingList_arraysize, k);
+    return routingList_var[k];
+}
+
+void Packet::setRoutingList(unsigned int k, int routingList)
+{
+    if (k>=routingList_arraysize) throw cRuntimeError("Array of size %d indexed by %d", routingList_arraysize, k);
+    this->routingList_var[k] = routingList;
+}
+
+int Packet::getManager() const
+{
+    return manager_var;
+}
+
+void Packet::setManager(int manager)
+{
+    this->manager_var = manager;
 }
 
 class PacketDescriptor : public cClassDescriptor
@@ -170,7 +234,7 @@ const char *PacketDescriptor::getProperty(const char *propertyname) const
 int PacketDescriptor::getFieldCount(void *object) const
 {
     cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 4+basedesc->getFieldCount(object) : 4;
+    return basedesc ? 6+basedesc->getFieldCount(object) : 6;
 }
 
 unsigned int PacketDescriptor::getFieldTypeFlags(void *object, int field) const
@@ -186,8 +250,10 @@ unsigned int PacketDescriptor::getFieldTypeFlags(void *object, int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISARRAY | FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<4) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<6) ? fieldTypeFlags[field] : 0;
 }
 
 const char *PacketDescriptor::getFieldName(void *object, int field) const
@@ -203,8 +269,10 @@ const char *PacketDescriptor::getFieldName(void *object, int field) const
         "segmentLength",
         "nEstimate",
         "toSenderGateIndex",
+        "routingList",
+        "manager",
     };
-    return (field>=0 && field<4) ? fieldNames[field] : NULL;
+    return (field>=0 && field<6) ? fieldNames[field] : NULL;
 }
 
 int PacketDescriptor::findField(void *object, const char *fieldName) const
@@ -215,6 +283,8 @@ int PacketDescriptor::findField(void *object, const char *fieldName) const
     if (fieldName[0]=='s' && strcmp(fieldName, "segmentLength")==0) return base+1;
     if (fieldName[0]=='n' && strcmp(fieldName, "nEstimate")==0) return base+2;
     if (fieldName[0]=='t' && strcmp(fieldName, "toSenderGateIndex")==0) return base+3;
+    if (fieldName[0]=='r' && strcmp(fieldName, "routingList")==0) return base+4;
+    if (fieldName[0]=='m' && strcmp(fieldName, "manager")==0) return base+5;
     return basedesc ? basedesc->findField(object, fieldName) : -1;
 }
 
@@ -231,8 +301,10 @@ const char *PacketDescriptor::getFieldTypeString(void *object, int field) const
         "double",
         "double",
         "int",
+        "int",
+        "int",
     };
-    return (field>=0 && field<4) ? fieldTypeStrings[field] : NULL;
+    return (field>=0 && field<6) ? fieldTypeStrings[field] : NULL;
 }
 
 const char *PacketDescriptor::getFieldProperty(void *object, int field, const char *propertyname) const
@@ -258,6 +330,7 @@ int PacketDescriptor::getArraySize(void *object, int field) const
     }
     Packet *pp = (Packet *)object; (void)pp;
     switch (field) {
+        case 4: return pp->getRoutingListArraySize();
         default: return 0;
     }
 }
@@ -276,6 +349,8 @@ std::string PacketDescriptor::getFieldAsString(void *object, int field, int i) c
         case 1: return double2string(pp->getSegmentLength());
         case 2: return double2string(pp->getNEstimate());
         case 3: return long2string(pp->getToSenderGateIndex());
+        case 4: return long2string(pp->getRoutingList(i));
+        case 5: return long2string(pp->getManager());
         default: return "";
     }
 }
@@ -294,6 +369,8 @@ bool PacketDescriptor::setFieldAsString(void *object, int field, int i, const ch
         case 1: pp->setSegmentLength(string2double(value)); return true;
         case 2: pp->setNEstimate(string2double(value)); return true;
         case 3: pp->setToSenderGateIndex(string2long(value)); return true;
+        case 4: pp->setRoutingList(i,string2long(value)); return true;
+        case 5: pp->setManager(string2long(value)); return true;
         default: return false;
     }
 }
@@ -311,8 +388,10 @@ const char *PacketDescriptor::getFieldStructName(void *object, int field) const
         NULL,
         NULL,
         NULL,
+        NULL,
+        NULL,
     };
-    return (field>=0 && field<4) ? fieldStructNames[field] : NULL;
+    return (field>=0 && field<6) ? fieldStructNames[field] : NULL;
 }
 
 void *PacketDescriptor::getFieldStructPointer(void *object, int field, int i) const
