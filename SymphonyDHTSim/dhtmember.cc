@@ -234,12 +234,6 @@ void DHTMember::handleMessage(cMessage* msg) {
                        send(response, "longLinks$o", sender);
                    break;
                }
-           } else {
-
-               //BY MIKE: SECONDO ME QUI NON CI ENTRA MAI PERCHE DA ORA IN POI SAREMO NEL RAMO MANAGERINDEXIS VISTO CHE PASSIAMO I MESSAGGI DI VOLTA IN VOLTA
-               EV << "DHTMember (" << getIndex() << "): I am the requesting node, so I create a long link with the manager of x (@TODO)" << endl;
-               /* create connection with manager node */
-               /* ... */
            }
         } else {
             /* I am not x manager, then i have to route this message to the real manager */
@@ -266,6 +260,8 @@ void DHTMember::handleMessage(cMessage* msg) {
             send(newrequest, "prevShortLink$o");
 
             /* search for shortest path for x along long links */
+            // EV << K << " " << (this->gateSize("longLinks$o")) << " " << (this->gateSize("longLinks$o") / 2) << " BANANA!!!" << endl;
+
             for (int i=0; i<K; i++) {
                 newrequest = new Packet("askXToFindShortestPath");
                 newrequest ->setRoutingListArraySize(rlSize);
@@ -297,7 +293,29 @@ void DHTMember::handleMessage(cMessage* msg) {
         if (strcmp(neighbour, "onLongLink") == 0) {
             response->setNeighbour("onLongLink");
             response->setLongLinkNumber(n);
-            send(response, "longLinks$o", n);
+            //send(response, "longLinks$o", n);
+
+
+            for (int x=0; x<this->gateSize("longLinks$o"); x++) {
+                if (this->gate("longLinks$o", x)->getNextGate()->getOwnerModule() == request->getSenderModule()) {
+                    break;
+                }
+            }
+
+            send(response, "longLinks$o", x);
+
+
+         //   cGate* arrivalGate = request->getArrivalGate();//->getArrivalGate();
+          //  cChannel* xxx = arrivalGate->getChannel();
+
+
+            //EV << xxx << " CHANNEL" << endl;
+
+            //cGate* yyy = xxx->getSourceGate();
+            //cGate* reverseGate = this->gateHalf(arrivalGate->getName(), cGate::OUTPUT, arrivalGate->getId());
+
+            //EV << arrivalGate->getFullName() << " " << arrivalGate->getOwner()->getFullName() << " SENDER GATE!!!" << endl;
+            //send(response, yyy);
 
             EV << "DHTMember (" << getIndex() << "): neighbour on long link number " << n << " asked for my x that is " << x << " to find shortest path to a manager. Sending it back" << endl;
         } else {
@@ -307,6 +325,8 @@ void DHTMember::handleMessage(cMessage* msg) {
 
             EV << "DHTMember (" << getIndex() << "): " << neighbour << " asked for my x that is " << x << " to find shortest path to a manager. Sending it back" << endl;
         }
+
+
     } else if (strcmp(request->getFullName(), "myXToFindShortestPath") == 0) {
         EV << "DHTMember (" << getIndex() << "): I received a message with the position of a neighbour on the unit interval (" << request->getX() << ") in order to calculate best path to manager of x i was looking for that is " << y << endl;
 
@@ -327,9 +347,9 @@ void DHTMember::handleMessage(cMessage* msg) {
 
         replies++;
 
-        EV << "DHTMember (" << getIndex() << "): I received " << replies << "/" << (2 + K) << " replies" << endl;
+        EV << "DHTMember (" << getIndex() << "): I received " << replies << "/" << (2 + this->gateSize("longLinks$o")) << " replies" << endl;
 
-        if (replies >= 2 + K) {
+        if (replies >= 2 + this->gateSize("longLinks$o")) {
             EV << "DHTMember (" << getIndex() << "): I received all the replies and I calculated best route" << endl;
 
             int rlSize = request->getRoutingListArraySize();
@@ -402,9 +422,19 @@ void DHTMember::handleMessage(cMessage* msg) {
                break;
            }
        } else {
-           EV << "DHTMember (" << getIndex() << "): I am the requesting node, so I create a long link with the manager of x (@TODO)" << endl;
-           /* create connection with manager node */
-           /* ... */
+            EV << "DHTMember (" << getIndex() << "): I am the requesting node, so I create a long link with the manager of x (@TODO)" << endl;
+            /* create connection with manager node */
+
+            cGate* ogate1 = this->gate("longLinks$i", 0)->getPreviousGate();
+            cGate* ogate2 = this->gate("longLinks$i", 1)->getPreviousGate();
+
+            if (ogate1 != NULL && ogate2 != NULL) {
+                this->gate("longLinks$o", 0)->disconnect();
+                this->gate("longLinks$o", 1)->disconnect();
+
+                ogate1->disconnect();
+                ogate2->disconnect();
+            }
        }
 
 

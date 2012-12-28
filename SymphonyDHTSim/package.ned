@@ -20,7 +20,7 @@ simple DHTMember {
 
 network SimphonyDHTNetwork {   
     parameters:
-        int K = default(1);
+        int K = default(2);
         int dhtSize = default(16);
         @display("i=misc/cloud");
     gates:
@@ -46,7 +46,7 @@ network SimphonyDHTNetwork {
         }
         
         // Long links
-        for i=0..sizeof(members)-1, for j=0..K-1 {
+        for i=0..sizeof(members)-1, for j=0..K-1, if i+8+j < sizeof(members)  {
     		members[i].longLinks++ <--> MembersChannel <--> members[(i+8+j) % sizeof(members)].longLinks++;
     	}
 }
