@@ -17,7 +17,7 @@ simple DHTMember {
     gates:        
         // first and second gate are short links others are long links, 
         // for each node at most 2K + 2 links are allowed
-        inout gate[2 + (2*K)] @loose; 
+        inout gate[2 + (2*K)] @loose;
 }
 
 network SimphonyDHTNetwork {   
