@@ -41,10 +41,13 @@ class DHTMember : public cSimpleModule {
         virtual bool amIManagerForPoint(double p);
         virtual void broadcast(Packet* msg);
         virtual int getReverseGateIndexByGateIndex(int index);
-        virtual void longLinkToMember(int index);
+        virtual void createLongLinkToMember(int index);
         virtual bool hasAvailableConnections();
-        virtual cGate* getLastLongLinkConnectedGate();
         virtual bool alreadyConnected(DHTMember* member);
+        virtual cGate* getLastConnectedGate(const char* gateRef);
+        virtual cGate* getFirstUnconnectedGate(const char* gateRef);
+        virtual void createLongLinkByFirstUnconnectedGate(DHTMember* member);
+        virtual void createLongLinkDisconnectingLastConnectedGate(DHTMember* member);
 
         /* symphony DHT protocol methods */
         virtual void calculateSegmentLength();
@@ -91,6 +94,11 @@ void DHTMember::initialize() {
         EV << "DHTMember: " << this->getFullName() << " starts relinking procedure." << endl;
         relink();
     }
+
+    if (getIndex() == 10) {
+        Packet* response = new Packet("DEBUG");
+        scheduleAt(3.0, response);
+    }
 }
 
 void DHTMember::handleMessage(cMessage* msg) {
@@ -104,7 +112,9 @@ void DHTMember::handleMessage(cMessage* msg) {
     if (toSenderGateIndex >= 0)
         toSender = gate("gate$o", toSenderGateIndex);
 
-    if (request->isName("needYourIntervalPositionToCalculateMySegmentLength")) {
+    if (request->isName("DEBUG")) {
+        relink();
+    } else if (request->isName("needYourIntervalPositionToCalculateMySegmentLength")) {
         /* a node asked position of current node on unit interval in order to
          * calculate its segment length. A message with that position in sent back
          */
@@ -266,6 +276,7 @@ void DHTMember::handleMessage(cMessage* msg) {
              * for the randomly generated point it was looking for
              */
             EV << "DHTMember: node " << this->getFullName() << " received all the messages from its neighbours, it is now able to find the shortest path to the manager of randomly generated point." << endl;
+
             routinglistSize = request->getRoutingListArraySize();
             reverseGateIndex = getReverseGateIndexByGateIndex(gateIndexToClosestNode);
 
@@ -275,6 +286,11 @@ void DHTMember::handleMessage(cMessage* msg) {
             response->setRoutingListArraySize(routinglistSize + 1);
             response->setRoutingList(routinglistSize, reverseGateIndex);
             send(response, "gate$o", gateIndexToClosestNode);
+
+            /* reset protocol variables for next call of relink */
+            bestDistanceFoundSoFar = 42;
+            gateIndexToClosestNode = 0;
+            repliesToFindShortestPath = 0;
         }
     } else if (request->isName("areYouTheManagerOfThisPoint?")) {
         /* current node calculate its segment length in order to decide, in 0.3 simulated
@@ -306,7 +322,7 @@ void DHTMember::handleMessage(cMessage* msg) {
             send(response, gate("gate$o", previousRequestingNodeGateIndex));
         } else {
             EV << "DHTMember: node " << this->getFullName() << " is the requesting node for the manager of randomly generated point so a long link with that manager, that is " << request->getManager() << ", is estabilished." << endl;
-            longLinkToMember(request->getManager());
+            createLongLinkToMember(request->getManager());
         }
     }
 
@@ -362,12 +378,12 @@ int DHTMember::getNeighboursNumber() {
 /* returns true if current node is the manager of point p.
  * there are two cases in which current node (A, with its previous node B) is the manager of point p:
  * case 1:
- *      [0       B---x--------(A)      1[
+ *      [0      B--x--(A)    1[
  *
  * case 2:
- *      [0-----x--(A)      B-----------1[
+ *      [0--x--(A)     B-----1[
  * or
- *      [0--------(A)      B-------x---1[
+ *      [0-----(A)     B--x--1[
  */
 bool DHTMember::amIManagerForPoint(double p) {
     double delta;
@@ -428,16 +444,7 @@ bool DHTMember::hasAvailableConnections() {
     return false;
 }
 
-cGate* DHTMember::getLastLongLinkConnectedGate() {
-    int i;
-    for (i=gateSize("gate$o")-1; i>2; i--) {
-        if (hasGate("gate$o", i) && gate("gate$o", i)->isConnected()) {
-            return gate("gate$o", i);
-        }
-    }
-    return NULL;
-}
-
+/* returns true if current node is already connected to DHTMember member */
 bool DHTMember::alreadyConnected(DHTMember* member) {
     int i;
     cGate* neighbourGate;
@@ -452,17 +459,89 @@ bool DHTMember::alreadyConnected(DHTMember* member) {
     return false;
 }
 
-void DHTMember::longLinkToMember(int index) {
+/* returns last connected gate for current node over gate vector gateRef,
+ * this method returns NULL if all gates of that gate vector are unconnected
+ */
+cGate* DHTMember::getLastConnectedGate(const char* gateRef) {
+    int i;
+    for (i=gateSize(gateRef)-1; i>2; i--) {
+        if (hasGate(gateRef, i) && gate(gateRef, i)->isConnected()) {
+            return gate(gateRef, i);
+        }
+    }
+    return NULL;
+}
+
+/* returns first unconnected gate for current node over gate vector gateRef,
+ * this method returns NULL if all gates of that gate vector are connected
+ */
+cGate* DHTMember::getFirstUnconnectedGate(const char* gateRef) {
+    int i;
+    cGate* neighbourGate;
+    for (i=0; i<gateSize(gateRef); i++) {
+        if (hasGate(gateRef, i)) {
+            neighbourGate = gate(gateRef, i);
+            if (!neighbourGate->isConnected()) {
+                return neighbourGate;
+            }
+        }
+    }
+    return NULL;
+}
+
+/* this method creates a link from current node to the node which member is
+ * taken in input using the first unconnected gate for current node */
+void DHTMember::createLongLinkByFirstUnconnectedGate(DHTMember* member) {
+    cGate* currentFirstUnconnectedGateIn;
+    cGate* currentFirstUnconnectedGateOut;
+    cGate* memberFirstUnconnectedGateIn;
+    cGate* memberFirstUnconnectedGateOut;
+
+    currentFirstUnconnectedGateIn  = getFirstUnconnectedGate("gate$i");
+    currentFirstUnconnectedGateOut = getFirstUnconnectedGate("gate$o");
+
+    memberFirstUnconnectedGateIn  = member->getFirstUnconnectedGate("gate$i");
+    memberFirstUnconnectedGateOut = member->getFirstUnconnectedGate("gate$o");
+
+    /* connect current node to member */
+    currentFirstUnconnectedGateOut->connectTo(memberFirstUnconnectedGateIn);
+    memberFirstUnconnectedGateOut->connectTo(currentFirstUnconnectedGateIn);
+}
+
+/* this method disconnects the last connected gate for current node and
+ * connects it to the node which member is taken in input
+ */
+void DHTMember::createLongLinkDisconnectingLastConnectedGate(DHTMember* member) {
+    cGate* lastConnectedGate;
+    cGate* neighbourGateToCurrentNode;
+    cGate* memberFirstUnconnectedGateIn;
+    cGate* memberFirstUnconnectedGateOut;
+    int neighbourGateIndexToCurrentNode;
+
+    lastConnectedGate = getLastConnectedGate("gate$o");
+
+    neighbourGateIndexToCurrentNode = getReverseGateIndexByGateIndex(lastConnectedGate->getIndex());
+    neighbourGateToCurrentNode = lastConnectedGate->getNextGate()->getOwnerModule()->gate("gate$o", neighbourGateIndexToCurrentNode);
+
+    /* disconnect last long link for current node */
+    neighbourGateToCurrentNode->disconnect();
+    lastConnectedGate->disconnect();
+
+    /* connect current node to member */
+    memberFirstUnconnectedGateIn  = member->getFirstUnconnectedGate("gate$i");
+    memberFirstUnconnectedGateOut = member->getFirstUnconnectedGate("gate$o");
+
+    lastConnectedGate->connectTo(memberFirstUnconnectedGateIn);
+    memberFirstUnconnectedGateOut->connectTo(gate("gate$i", lastConnectedGate->getIndex()));
+}
+
+/* if necessary creates a long link to node which index is taken in input,
+ * a link is not created if another link to that node yet exists, that node
+ * is current node itself or that node has not any connection left
+ */
+void DHTMember::createLongLinkToMember(int index) {
     int K;
     DHTMember* manager;
-
-    cGate* firstUnconnectedGate;
-    cGate* managerFirstUnconnectedGateOut;
-    cGate* managerFirstUnconnectedGateIn;
-    cGate* lastLongLinkConnectedGate;
-
-    int neighbourGateIndexToCurrentNode;
-    cGate* neighbourGateToCurrentNode;
 
     K = (int)par("K");
     manager = (DHTMember*)(getParentModule()->getSubmodule("members", index));
@@ -472,37 +551,21 @@ void DHTMember::longLinkToMember(int index) {
     /* if manager has got at least one unconnected gate */
     if (manager->hasAvailableConnections() && !alreadyConnected(manager) && manager != this) {
         EV << "DHTMember: manager has got available connections, is not already connected to current node and is not the current node." << endl;
-        managerFirstUnconnectedGateOut = manager->getOrCreateFirstUnconnectedGate("gate", 'o', false, false);
-        managerFirstUnconnectedGateIn  = manager->getOrCreateFirstUnconnectedGate("gate", 'i', false, false);
 
         if (getNeighboursNumber() < 2 + K) {
             EV << "DHTMember: node " << this->getFullName() << " has got less than " << (2 + K) << " connections, then it connects through the first unconnected gate it has got." << endl;
             /* if current node has got at least one unconnected gate
              * then connect that gate to manager's first unconnected gate
              */
-            firstUnconnectedGate = getOrCreateFirstUnconnectedGate("gate", 'o', false, false);
-            firstUnconnectedGate->connectTo(managerFirstUnconnectedGateIn);
-            getOrCreateFirstUnconnectedGate("gate", 'i', false, false)->connectTo(managerFirstUnconnectedGateOut);
+
+            createLongLinkByFirstUnconnectedGate(manager);
         } else {
             EV << "DHTMember: node " << this->getFullName() << " has got more than " << (2 + K) << " connections, then it drops one long distance connection and relinks to manager." << endl;
             /* otherwise, current node has not got any unconnected gate,
              * disconnect its last connected gate and use that gate to connect
              * itself to manager
              */
-            lastLongLinkConnectedGate = getLastLongLinkConnectedGate();
-
-            neighbourGateIndexToCurrentNode = getReverseGateIndexByGateIndex(lastLongLinkConnectedGate->getIndex());
-            neighbourGateToCurrentNode = lastLongLinkConnectedGate->getNextGate()->getOwnerModule()->gate("gate$o", neighbourGateIndexToCurrentNode);
-
-            neighbourGateToCurrentNode->disconnect();
-            lastLongLinkConnectedGate->disconnect();
-            lastLongLinkConnectedGate->connectTo(managerFirstUnconnectedGateIn);
-
-            EV <<"Manager first unconnected gate input: "<< managerFirstUnconnectedGateIn->getFullName() << endl;
-            EV <<"Manager first unconnected gate output: "<<managerFirstUnconnectedGateOut->getFullName() << endl;
-            EV<<"Last long link connected gate index: " << lastLongLinkConnectedGate->getIndex() << endl;
-
-            managerFirstUnconnectedGateOut->connectTo(gate("gate$i", lastLongLinkConnectedGate->getIndex()));
+            createLongLinkDisconnectingLastConnectedGate(manager);
         }
     } else {
         EV << "DHTMember: manager has not got available connections, is already connected to current node or it is the current node itself. Thus the long link connection is NOT estabilished." << endl;
