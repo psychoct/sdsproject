@@ -472,17 +472,17 @@ void DHTMember::longLinkToMember(int index) {
     /* if manager has got at least one unconnected gate */
     if (manager->hasAvailableConnections() && !alreadyConnected(manager) && manager != this) {
         EV << "DHTMember: manager has got available connections, is not already connected to current node and is not the current node." << endl;
-        managerFirstUnconnectedGateOut = manager->getOrCreateFirstUnconnectedGate("gate", 'o', true, false);
-        managerFirstUnconnectedGateIn  = manager->getOrCreateFirstUnconnectedGate("gate", 'i', true, false);
+        managerFirstUnconnectedGateOut = manager->getOrCreateFirstUnconnectedGate("gate", 'o', false, false);
+        managerFirstUnconnectedGateIn  = manager->getOrCreateFirstUnconnectedGate("gate", 'i', false, false);
 
         if (getNeighboursNumber() < 2 + K) {
             EV << "DHTMember: node " << this->getFullName() << " has got less than " << (2 + K) << " connections, then it connects through the first unconnected gate it has got." << endl;
             /* if current node has got at least one unconnected gate
              * then connect that gate to manager's first unconnected gate
              */
-            firstUnconnectedGate = getOrCreateFirstUnconnectedGate("gate", 'o', true, false);
+            firstUnconnectedGate = getOrCreateFirstUnconnectedGate("gate", 'o', false, false);
             firstUnconnectedGate->connectTo(managerFirstUnconnectedGateIn);
-            getOrCreateFirstUnconnectedGate("gate", 'i', true, false)->connectTo(managerFirstUnconnectedGateOut);
+            getOrCreateFirstUnconnectedGate("gate", 'i', false, false)->connectTo(managerFirstUnconnectedGateOut);
         } else {
             EV << "DHTMember: node " << this->getFullName() << " has got more than " << (2 + K) << " connections, then it drops one long distance connection and relinks to manager." << endl;
             /* otherwise, current node has not got any unconnected gate,
@@ -496,10 +496,11 @@ void DHTMember::longLinkToMember(int index) {
 
             neighbourGateToCurrentNode->disconnect();
             lastLongLinkConnectedGate->disconnect();
-            //lastLongLinkConnectedGate->connectTo(managerFirstUnconnectedGateIn);
+            lastLongLinkConnectedGate->connectTo(managerFirstUnconnectedGateIn);
 
-            EV << managerFirstUnconnectedGateIn << endl;
-            EV << managerFirstUnconnectedGateOut->getFullName() << " " << lastLongLinkConnectedGate->getIndex() << endl;
+            EV <<"Manager first unconnected gate input: "<< managerFirstUnconnectedGateIn->getFullName() << endl;
+            EV <<"Manager first unconnected gate output: "<<managerFirstUnconnectedGateOut->getFullName() << endl;
+            EV<<"Last long link connected gate index: " << lastLongLinkConnectedGate->getIndex() << endl;
 
             managerFirstUnconnectedGateOut->connectTo(gate("gate$i", lastLongLinkConnectedGate->getIndex()));
         }
