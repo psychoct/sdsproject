@@ -35,19 +35,19 @@ class DHTMember : public cSimpleModule {
         virtual void handleMessage(cMessage* msg);
 
         /* utility methods */
-        virtual int getGateToModule(cModule* module);
         virtual double getSegmentLengthByPreviousNodesIntervalPosition(double previousNodeX);
+        virtual int getGateToModule(cModule* module);
         virtual int getNeighboursNumber();
-        virtual bool amIManagerForPoint(double p);
-        virtual void broadcast(Packet* msg);
         virtual int getReverseGateIndexByGateIndex(int index);
-        virtual void createLongLinkToMember(int index);
         virtual bool hasAvailableConnections();
         virtual bool alreadyConnected(DHTMember* member);
-        virtual cGate* getLastConnectedGate(const char* gateRef);
-        virtual cGate* getFirstUnconnectedGate(const char* gateRef);
+        virtual bool amIManagerForPoint(double p);
+        virtual void broadcast(Packet* msg);
+        virtual void createLongLinkToMember(int index);
         virtual void createLongLinkByFirstUnconnectedGate(DHTMember* member);
         virtual void createLongLinkDisconnectingLastConnectedGate(DHTMember* member);
+        virtual cGate* getLastConnectedGate(const char* gateRef);
+        virtual cGate* getFirstUnconnectedGate(const char* gateRef);
 
         /* symphony DHT protocol methods */
         virtual void calculateSegmentLength();
@@ -81,7 +81,11 @@ void DHTMember::initialize() {
     WATCH(nEstimate);
     WATCH(nEstimateAtLinking);
 
-    /* DEBUG */
+    /* @~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
+     * |              .:* DEBUG *:.              |
+     * @~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
+     */
+
     if (getIndex() == 0) {
         /*
         EV << "DHTMember: " << this->getFullName() << " starts procedure to calculate its segment length." << endl;
@@ -95,17 +99,21 @@ void DHTMember::initialize() {
         relink();
     }
 
-    if (getIndex() == 10) {
-        Packet* response = new Packet("DEBUG");
-        scheduleAt(3.0, response);
-    }
+    Packet* test1 = new Packet("DEBUG");
+    Packet* test2 = new Packet("DEBUG");
+
+    if (getIndex() == 10)
+        scheduleAt(3.0, test1);
+
+    if (getIndex() == 1)
+        scheduleAt(3.0, test2);
 }
 
 void DHTMember::handleMessage(cMessage* msg) {
     Packet* request = check_and_cast<Packet*>(msg);
-    int toSenderGateIndex;
-    cGate* toSender;
     Packet* response;
+    cGate* toSender;
+    int toSenderGateIndex;
 
     toSenderGateIndex = getGateToModule(msg->getSenderModule());
 
@@ -113,6 +121,10 @@ void DHTMember::handleMessage(cMessage* msg) {
         toSender = gate("gate$o", toSenderGateIndex);
 
     if (request->isName("DEBUG")) {
+        /* @~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
+         * |              .:* DEBUG *:.              |
+         * @~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
+         */
         relink();
     } else if (request->isName("needYourIntervalPositionToCalculateMySegmentLength")) {
         /* a node asked position of current node on unit interval in order to
@@ -557,7 +569,6 @@ void DHTMember::createLongLinkToMember(int index) {
             /* if current node has got at least one unconnected gate
              * then connect that gate to manager's first unconnected gate
              */
-
             createLongLinkByFirstUnconnectedGate(manager);
         } else {
             EV << "DHTMember: node " << this->getFullName() << " has got more than " << (2 + K) << " connections, then it drops one long distance connection and relinks to manager." << endl;
