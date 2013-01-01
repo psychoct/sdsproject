@@ -56,6 +56,8 @@ class DHTMember : public cSimpleModule {
         virtual void calculateSegmentLength();
         virtual void calculateNEstimate();
         virtual void relink();
+        virtual void join(simtime_t delay);
+        virtual void leave(simtime_t delay);
 };
 
 Define_Module(DHTMember);
@@ -67,6 +69,7 @@ Define_Module(DHTMember);
 
 void DHTMember::initialize() {
     double connected = (double)getAncestorPar("connected");
+    simtime_t delay = exponential(10);
 
     x = getIndex() / connected;
     segmentLength = 0;
@@ -85,6 +88,10 @@ void DHTMember::initialize() {
     WATCH(nEstimate);
     WATCH(nEstimateAtLinking);
 
+    if (getIndex() >= connected) {
+        join(delay);
+    }
+
     /* DEBUG */
     if (getIndex() == 0) {
         /*
@@ -93,10 +100,10 @@ void DHTMember::initialize() {
 
         EV << "DHTMember: " << this->getFullName() << " starts procedure to estimate the number of nodes in the DHT." << endl;
         calculateNEstimate();
-        */
 
         EV << "DHTMember: " << this->getFullName() << " starts relinking procedure." << endl;
         relink();
+        */
     }
 }
 
@@ -343,6 +350,12 @@ void DHTMember::handleMessage(cMessage* msg) {
                 longLinksCreated = 0;
             }
         }
+    } else if (request->isName("joinNetwork")) {
+        /* TODO */
+        leave(exponential(10));
+    } else if (request->isName("leaveNetwork")) {
+        /* TODO */
+        join(exponential(10));
     }
 
     /* after every request process delete received message */
@@ -654,4 +667,14 @@ void DHTMember::relink() {
      */
     calculateSegmentLength();
     scheduleAt(simTime() + 0.3, response);
+}
+
+void DHTMember::join(simtime_t delay) {
+    Packet* joinPacket = new Packet("joinNetwork");
+    scheduleAt(simTime() + delay, joinPacket);
+}
+
+void DHTMember::leave(simtime_t delay) {
+    Packet* leavePacket = new Packet("leaveNetwork");
+    scheduleAt(simTime() + delay, leavePacket);
 }

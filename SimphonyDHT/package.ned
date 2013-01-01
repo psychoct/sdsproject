@@ -2,14 +2,6 @@ package simphonydht;
 
 @license(LGPL);
 
-simple Internet {
-    parameters:        
-        @display("i=device/accesspoint");
-    gates:
-        // gate to DHT
-        inout gate; 
-}
-
 simple DHTMember {
     parameters:
         int K = default(3);
@@ -25,24 +17,13 @@ network SimphonyDHTNetwork {
         int DHTSize = default(32); // DHTSize >= 16
         int connected = default(8); // 8 <= connected <= DHTSize
         @display("i=misc/cloud");
-    gates:
-        // gate to internet
-        inout gate; 
     types:
-        channel InternetChannel extends ned.DelayChannel {
-            delay = 100ms;
-        }
-        
         channel MembersChannel extends ned.DelayChannel {
             delay = 100ms;
         }
     submodules:
-        internet: Internet;
     	members[DHTSize]: DHTMember;
-    connections:
-        // submodules connections
-        gate <--> InternetChannel <--> internet.gate;
-        
+    connections:        
         // short links
         // second (output) gate of each node point to first (input) gate of next node
     	for i=0..connected-1 {
