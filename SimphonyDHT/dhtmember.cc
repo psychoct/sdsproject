@@ -29,6 +29,7 @@ class DHTMember : public cSimpleModule {
         double bestDistanceFoundSoFar;
         int gateIndexToClosestNode;
         int repliesToFindShortestPath;
+        int longLinksCreated;
 
     protected:
         virtual void initialize();
@@ -46,6 +47,8 @@ class DHTMember : public cSimpleModule {
         virtual void createLongLinkToMember(int index);
         virtual void createLongLinkByFirstUnconnectedGate(DHTMember* member);
         virtual void createLongLinkDisconnectingLastConnectedGate(DHTMember* member);
+        virtual void disconnectGate(cGate* toDisconnect);
+        virtual void dropAllLongLinks();
         virtual cGate* getLastConnectedGate(const char* gateRef);
         virtual cGate* getFirstUnconnectedGate(const char* gateRef);
 
@@ -75,17 +78,14 @@ void DHTMember::initialize() {
 
     bestDistanceFoundSoFar = 42; /* note: every number >= than 1 could be considered +infinity */
     repliesToFindShortestPath = 0;
+    longLinksCreated = 0;
 
     WATCH(x);
     WATCH(segmentLength);
     WATCH(nEstimate);
     WATCH(nEstimateAtLinking);
 
-    /* @~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
-     * |              .:* DEBUG *:.              |
-     * @~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
-     */
-
+    /* DEBUG */
     if (getIndex() == 0) {
         /*
         EV << "DHTMember: " << this->getFullName() << " starts procedure to calculate its segment length." << endl;
@@ -98,15 +98,6 @@ void DHTMember::initialize() {
         EV << "DHTMember: " << this->getFullName() << " starts relinking procedure." << endl;
         relink();
     }
-
-    Packet* test1 = new Packet("DEBUG");
-    Packet* test2 = new Packet("DEBUG");
-
-    if (getIndex() == 10)
-        scheduleAt(3.0, test1);
-
-    if (getIndex() == 1)
-        scheduleAt(3.0, test2);
 }
 
 void DHTMember::handleMessage(cMessage* msg) {
@@ -120,13 +111,7 @@ void DHTMember::handleMessage(cMessage* msg) {
     if (toSenderGateIndex >= 0)
         toSender = gate("gate$o", toSenderGateIndex);
 
-    if (request->isName("DEBUG")) {
-        /* @~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
-         * |              .:* DEBUG *:.              |
-         * @~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
-         */
-        relink();
-    } else if (request->isName("needYourIntervalPositionToCalculateMySegmentLength")) {
+    if (request->isName("needYourIntervalPositionToCalculateMySegmentLength")) {
         /* a node asked position of current node on unit interval in order to
          * calculate its segment length. A message with that position in sent back
          */
@@ -321,9 +306,11 @@ void DHTMember::handleMessage(cMessage* msg) {
          */
         EV << "DHTMember: node " << this->getFullName() << " knows that the manager of randomly generated point is " << request->getManager() << ". Routing this information to the node that asked it." << endl;
 
+        int K;
         int previousRequestingNodeGateIndex;
         int routinglistSize;
 
+        K = (int)par("K");
         routinglistSize = request->getRoutingListArraySize();
         if (routinglistSize > 0) {
             EV << "DHTMember: node " << this->getFullName() << " is not the requesting node so it passes the message through a chain to requesting node." << endl;
@@ -335,6 +322,14 @@ void DHTMember::handleMessage(cMessage* msg) {
         } else {
             EV << "DHTMember: node " << this->getFullName() << " is the requesting node for the manager of randomly generated point so a long link with that manager, that is " << request->getManager() << ", is estabilished." << endl;
             createLongLinkToMember(request->getManager());
+
+            longLinksCreated++;
+            if (longLinksCreated < K) {
+                EV << "DHTMember: node " << this->getFullName() << " created " << longLinksCreated << "/" << K << " long links. Relink protocol is executed one more time." << endl;
+                relink();
+            } else {
+                longLinksCreated = 0;
+            }
         }
     }
 
@@ -520,24 +515,38 @@ void DHTMember::createLongLinkByFirstUnconnectedGate(DHTMember* member) {
     memberFirstUnconnectedGateOut->connectTo(currentFirstUnconnectedGateIn);
 }
 
+void DHTMember::disconnectGate(cGate* toDisconnect) {
+    int neighbourGateIndexToCurrentNode;
+    cGate* neighbourGateToCurrentNode;
+
+    neighbourGateIndexToCurrentNode = getReverseGateIndexByGateIndex(toDisconnect->getIndex());
+    neighbourGateToCurrentNode = toDisconnect->getNextGate()->getOwnerModule()->gate("gate$o", neighbourGateIndexToCurrentNode);
+
+    /* disconnect last long link for current node */
+    neighbourGateToCurrentNode->disconnect();
+    toDisconnect->disconnect();
+}
+
+void DHTMember::dropAllLongLinks() {
+    int i;
+    for (i=2; i<gateSize("gate$o"); i++) {
+        if (hasGate("gate$o", i) && gate("gate$o", i)->isConnected()) {
+            disconnectGate(gate("gate$o", i));
+        }
+    }
+}
+
 /* this method disconnects the last connected gate for current node and
  * connects it to the node which member is taken in input
  */
 void DHTMember::createLongLinkDisconnectingLastConnectedGate(DHTMember* member) {
     cGate* lastConnectedGate;
-    cGate* neighbourGateToCurrentNode;
     cGate* memberFirstUnconnectedGateIn;
     cGate* memberFirstUnconnectedGateOut;
-    int neighbourGateIndexToCurrentNode;
-
-    lastConnectedGate = getLastConnectedGate("gate$o");
-
-    neighbourGateIndexToCurrentNode = getReverseGateIndexByGateIndex(lastConnectedGate->getIndex());
-    neighbourGateToCurrentNode = lastConnectedGate->getNextGate()->getOwnerModule()->gate("gate$o", neighbourGateIndexToCurrentNode);
 
     /* disconnect last long link for current node */
-    neighbourGateToCurrentNode->disconnect();
-    lastConnectedGate->disconnect();
+    lastConnectedGate = getLastConnectedGate("gate$o");
+    disconnectGate(lastConnectedGate);
 
     /* connect current node to member */
     memberFirstUnconnectedGateIn  = member->getFirstUnconnectedGate("gate$i");
@@ -613,12 +622,16 @@ void DHTMember::relink() {
     double randx;
     Packet* response;
 
+    /* drop all long links to execute relink protocol
+     * for the first time
+     */
+    if (longLinksCreated == 0)
+        dropAllLongLinks();
+
     /* generate a random point on unit interval using protocol
      * probability density function
      */
     randx = exp(log(nEstimate)*(drand48() - 1.0));
-    /* DEBUG */
-    randx = 0.75; /* 0.5625 */
 
     /* current node asks itself if it is the manager for that point */
     response = new Packet("amITheManagerOfThisPoint?");
