@@ -22,7 +22,8 @@ simple DHTMember {
 
 network SimphonyDHTNetwork {   
     parameters:        
-        int DHTSize = default(16);
+        int DHTSize = default(32); // DHTSize >= 16
+        int connected = default(8); // 8 <= connected <= DHTSize
         @display("i=misc/cloud");
     gates:
         // gate to internet
@@ -44,13 +45,13 @@ network SimphonyDHTNetwork {
         
         // short links
         // second (output) gate of each node point to first (input) gate of next node
-    	for i=0..DHTSize-1 {
-        	members[i].gate[1] <--> MembersChannel <--> members[(i+1) % DHTSize].gate[0];
+    	for i=0..connected-1 {
+        	members[i].gate[1] <--> MembersChannel <--> members[(i+1) % connected].gate[0];
         }
         
 		// long links
 		// K other links are created with nodes at a maximum distance of (node index + K)
-        for i=0..DHTSize-1, for j=0..members[i].K-1, if i+j+8 < DHTSize {
-    		members[i].gate++ <--> MembersChannel <--> members[(i+j+8) % DHTSize].gate++;
+        for i=0..connected-1, for j=0..members[i].K-1, if i+j+8 < connected {
+    		members[i].gate++ <--> MembersChannel <--> members[(i+j+8) % connected].gate++;
     	}
 }

@@ -66,12 +66,12 @@ Define_Module(DHTMember);
  */
 
 void DHTMember::initialize() {
-    double DHTSize = (double)getAncestorPar("DHTSize");
+    double connected = (double)getAncestorPar("connected");
 
-    x = getIndex() / DHTSize;
+    x = getIndex() / connected;
     segmentLength = 0;
-    nEstimate = (int)DHTSize;
-    nEstimateAtLinking = (int)DHTSize;
+    nEstimate = (int)connected;
+    nEstimateAtLinking = (int)connected;
 
     neighboursTotalSegmentsLengths = 0;
     receivedSegments = 0;
@@ -216,6 +216,18 @@ void DHTMember::handleMessage(cMessage* msg) {
                 response->setManager(getIndex());
                 response->setRoutingListArraySize(routinglistSize - 1);
                 send(response, gate("gate$o", previousRequestingNodeGateIndex));
+            } else {
+                /* if current node is the manager for the randomly generated
+                 * point it ignores this connection
+                 */
+                int K = (int)par("K");
+                longLinksCreated++;
+                EV << "DHTMember: node " << this->getFullName() << " created " << longLinksCreated << "/" << K << " long links." << endl;
+                if (longLinksCreated < K) {
+                    relink();
+                } else {
+                    longLinksCreated = 0;
+                }
             }
         } else {
             /* if current node is NOT the manager for randomly generated point */
@@ -324,8 +336,8 @@ void DHTMember::handleMessage(cMessage* msg) {
             createLongLinkToMember(request->getManager());
 
             longLinksCreated++;
+            EV << "DHTMember: node " << this->getFullName() << " created " << longLinksCreated << "/" << K << " long links." << endl;
             if (longLinksCreated < K) {
-                EV << "DHTMember: node " << this->getFullName() << " created " << longLinksCreated << "/" << K << " long links. Relink protocol is executed one more time." << endl;
                 relink();
             } else {
                 longLinksCreated = 0;
