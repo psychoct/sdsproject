@@ -4,6 +4,9 @@
 #include <omnetpp.h>
 #include "packet_m.h"
 
+#define RELINK 0
+#define JOIN   1
+
 class DHTMember : public cSimpleModule {
     private:
         /* x: represents the position in the unit interval of this node
@@ -15,6 +18,7 @@ class DHTMember : public cSimpleModule {
         double segmentLength;
         int nEstimate;
         int nEstimateAtLinking;
+        int runningProtocol;
 
         /* private variables for estimation protocol
          *
@@ -49,6 +53,7 @@ class DHTMember : public cSimpleModule {
         virtual void createLongLinkDisconnectingLastConnectedGate(DHTMember* member);
         virtual void disconnectGate(cGate* toDisconnect);
         virtual void dropAllLongLinks();
+        virtual void routingProtocol(double randx, int protocol);
         virtual cGate* getLastConnectedGate(const char* gateRef);
         virtual cGate* getFirstUnconnectedGate(const char* gateRef);
 
@@ -88,6 +93,7 @@ void DHTMember::initialize() {
     WATCH(nEstimate);
     WATCH(nEstimateAtLinking);
 
+    /* each node not in the DHT Network will enter the network sooner or later */
     if (getIndex() >= connected) {
         join(delay);
     }
@@ -351,10 +357,16 @@ void DHTMember::handleMessage(cMessage* msg) {
             }
         }
     } else if (request->isName("joinNetwork")) {
-        /* TODO */
+        double randx = uniform(0, 1);
+        int randFriend = intuniform(0, (int)getAncestorPar("connected") - 1);
+        DHTMember* friendOfMine = (DHTMember*)(getParentModule()->getSubmodule("members", randFriend));
+
+        friendOfMine->routingProtocol(randx, JOIN);
+
+        /* current node will leave network sooner or later */
         leave(exponential(10));
     } else if (request->isName("leaveNetwork")) {
-        /* TODO */
+        /* current node will join the network again sooner or later */
         join(exponential(10));
     }
 
@@ -643,20 +655,11 @@ void DHTMember::calculateNEstimate() {
     calculateSegmentLength();
 }
 
-void DHTMember::relink() {
-    double randx;
+void DHTMember::routingProtocol(double randx, int protocol) {
+    Enter_Method("routingProtocol()");
+
     Packet* response;
-
-    /* drop all long links to execute relink protocol
-     * for the first time
-     */
-    if (longLinksCreated == 0)
-        dropAllLongLinks();
-
-    /* generate a random point on unit interval using protocol
-     * probability density function
-     */
-    randx = exp(log(nEstimate)*(drand48() - 1.0));
+    runningProtocol = protocol;
 
     /* current node asks itself if it is the manager for that point */
     response = new Packet("amITheManagerOfThisPoint?");
@@ -667,6 +670,20 @@ void DHTMember::relink() {
      */
     calculateSegmentLength();
     scheduleAt(simTime() + 0.3, response);
+}
+
+void DHTMember::relink() {
+    double randx;
+
+    /* drop all long links to execute relink protocol
+     * for the first time
+     */
+    if (longLinksCreated == 0)
+        dropAllLongLinks();
+
+    randx = exp(log(nEstimate)*(drand48() - 1.0));
+
+    routingProtocol(randx, RELINK);
 }
 
 void DHTMember::join(simtime_t delay) {
