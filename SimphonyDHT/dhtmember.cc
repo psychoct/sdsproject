@@ -103,7 +103,7 @@ void DHTMember::initialize() {
 
     /* each node not in the DHT Network will enter the network sooner or later */
     if (getIndex() == connected) {
-        join(delay);
+        join(10.0 + delay);
     }
 
     /* DEBUG */
@@ -409,7 +409,7 @@ void DHTMember::handleMessage(cMessage* msg) {
         friendOfMine->routingProtocol(randx, JOIN);
 
         /* current node will leave network sooner or later */
-        leave(exponential(10));
+        leave(10.0 + exponential(10));
     } else if (request->isName("leaveNetwork")) {
         response = request->dup();
         response->setName("youMustRelink");
@@ -425,7 +425,9 @@ void DHTMember::handleMessage(cMessage* msg) {
         next->gate("gate$o", 0)->connectTo(prev->gate("gate$i", 1));
 
         /* current node will join the network again sooner or later */
-        join(exponential(10));
+        join(10.0 + exponential(10));
+    } else if (request->isName("youMustRelink")) {
+        relink();
     }
 
     /* after every request process delete received message */
