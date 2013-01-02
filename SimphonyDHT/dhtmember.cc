@@ -46,6 +46,7 @@ class DHTMember : public cSimpleModule {
         virtual int getGateToModule(cModule* module);
         virtual int getNeighboursNumber();
         virtual int getReverseGateIndexByGateIndex(int index);
+        virtual bool needToRelink();
         virtual bool hasAvailableConnections();
         virtual bool alreadyConnected(DHTMember* member);
         virtual bool amIManagerForPoint(double p);
@@ -56,9 +57,9 @@ class DHTMember : public cSimpleModule {
         virtual void disconnectGate(cGate* toDisconnect);
         virtual void dropAllLongLinks();
         virtual void routingProtocol(double randx, int protocol);
-        virtual void addNodeWithSpecificIntervalPosition(double randx, int manager);
         virtual cGate* getLastConnectedGate(const char* gateRef);
         virtual cGate* getFirstUnconnectedGate(const char* gateRef);
+        virtual DHTMember* addNodeWithSpecificIntervalPosition(double randx, int manager);
         virtual DHTMember* getMemberWithSpecificIntervalPosition(double randx);
 
         /* symphony DHT protocol methods */
@@ -100,7 +101,7 @@ void DHTMember::initialize() {
     WATCH(runningProtocol);
 
     /* each node not in the DHT Network will enter the network sooner or later */
-    if (getIndex() >= connected) {
+    if (getIndex() == connected) {
         join(delay);
     }
 
@@ -199,6 +200,11 @@ void DHTMember::handleMessage(cMessage* msg) {
             }
 
             EV << "DHTMember: asking neighbours to update their estimates for n to " << nEstimate << "." << endl;
+
+            /* start relink procedure on nEstimate update after join */
+            if (runningProtocol == JOIN) {
+                relink();
+            }
        }
     } else if (request->isName("updateYourEstimate")) {
         /* a node completed the calculus of an estimate of the number of
@@ -207,6 +213,11 @@ void DHTMember::handleMessage(cMessage* msg) {
          * for current node too
          */
         nEstimate = request->getNEstimate();
+
+        /* if updated estimate is too old, relink */
+        if (needToRelink())
+            relink();
+
         EV << "DHTMember: " << request->getSenderModule()->getFullName() << " asked to " << this->getFullName() << " to update its estimate for n that is " << request->getNEstimate() << "." << endl;
     } else if (request->isName("amITheManagerOfThisPoint?")) {
         /* current nodes asks itself if it is the manager for
@@ -253,7 +264,8 @@ void DHTMember::handleMessage(cMessage* msg) {
                      * to join the network is inserted between the manager and its
                      * predecessor
                      */
-                    addNodeWithSpecificIntervalPosition(request->getX(), getIndex());
+                    DHTMember* joiningMember = addNodeWithSpecificIntervalPosition(request->getX(), getIndex());
+                    joiningMember->calculateNEstimate();
                 }
             }
         } else {
@@ -380,7 +392,8 @@ void DHTMember::handleMessage(cMessage* msg) {
                  * to join the network is inserted between the manager and its
                  * predecessor
                  */
-                addNodeWithSpecificIntervalPosition(request->getX(), request->getManager());
+                DHTMember* joiningMember = addNodeWithSpecificIntervalPosition(request->getX(), request->getManager());
+                joiningMember->calculateNEstimate();
             }
         }
     } else if (request->isName("joinNetwork")) {
@@ -391,6 +404,7 @@ void DHTMember::handleMessage(cMessage* msg) {
         EV << "DHTMember: node " << this->getFullName() << " want to join the network, then it talks to node " << friendOfMine->getFullName() << ". Interval position for current point is " << randx << "." << endl;
 
         x = randx;
+        runningProtocol = JOIN;
         friendOfMine->routingProtocol(randx, JOIN);
 
         /* current node will leave network sooner or later */
@@ -408,6 +422,11 @@ void DHTMember::handleMessage(cMessage* msg) {
  * |             utility methods             |
  * ===========================================
  */
+
+bool DHTMember::needToRelink() {
+    double estimateRatio = nEstimate / nEstimateAtLinking;
+    return estimateRatio < 0.5 || estimateRatio > 2;
+}
 
 /* returns the index of the first output gate for current node which is connected
  * to the module taken in input. Returns -1 if no such gate exists
@@ -670,6 +689,8 @@ void DHTMember::calculateSegmentLength() {
 }
 
 void DHTMember::calculateNEstimate() {
+    Enter_Method("calculateNEstimate()");
+
     int i;
     Packet* request;
 
@@ -704,6 +725,8 @@ void DHTMember::routingProtocol(double randx, int protocol) {
 
 void DHTMember::relink() {
     double randx;
+
+    nEstimateAtLinking = nEstimate;
 
     /* drop all long links to execute relink protocol
      * for the first time
@@ -743,7 +766,7 @@ DHTMember* DHTMember::getMemberWithSpecificIntervalPosition(double randx) {
     return NULL;
 }
 
-void DHTMember::addNodeWithSpecificIntervalPosition(double randx, int manager) {
+DHTMember* DHTMember::addNodeWithSpecificIntervalPosition(double randx, int manager) {
     DHTMember* joiningMember;
     DHTMember* managerMember;
     DHTMember* managerPredecessorMember;
@@ -779,4 +802,6 @@ void DHTMember::addNodeWithSpecificIntervalPosition(double randx, int manager) {
 
     managerOut->connectTo(joiningInRight);
     joiningOutRight->connectTo(managerIn);
+
+    return joiningMember;
 }
