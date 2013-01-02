@@ -2,8 +2,10 @@
 #include <string.h>
 #include <math.h>
 #include <omnetpp.h>
+#include <algorithm>
 #include "packet_m.h"
 
+#define NONE  -1
 #define RELINK 0
 #define JOIN   1
 
@@ -54,8 +56,10 @@ class DHTMember : public cSimpleModule {
         virtual void disconnectGate(cGate* toDisconnect);
         virtual void dropAllLongLinks();
         virtual void routingProtocol(double randx, int protocol);
+        virtual void addNodeWithSpecificIntervalPosition(double randx, int manager);
         virtual cGate* getLastConnectedGate(const char* gateRef);
         virtual cGate* getFirstUnconnectedGate(const char* gateRef);
+        virtual DHTMember* getMemberWithSpecificIntervalPosition(double randx);
 
         /* symphony DHT protocol methods */
         virtual void calculateSegmentLength();
@@ -80,6 +84,7 @@ void DHTMember::initialize() {
     segmentLength = 0;
     nEstimate = (int)connected;
     nEstimateAtLinking = (int)connected;
+    runningProtocol = NONE;
 
     neighboursTotalSegmentsLengths = 0;
     receivedSegments = 0;
@@ -92,6 +97,7 @@ void DHTMember::initialize() {
     WATCH(segmentLength);
     WATCH(nEstimate);
     WATCH(nEstimateAtLinking);
+    WATCH(runningProtocol);
 
     /* each node not in the DHT Network will enter the network sooner or later */
     if (getIndex() >= connected) {
@@ -230,16 +236,24 @@ void DHTMember::handleMessage(cMessage* msg) {
                 response->setRoutingListArraySize(routinglistSize - 1);
                 send(response, gate("gate$o", previousRequestingNodeGateIndex));
             } else {
-                /* if current node is the manager for the randomly generated
-                 * point it ignores this connection
-                 */
-                int K = (int)par("K");
-                longLinksCreated++;
-                EV << "DHTMember: node " << this->getFullName() << " created " << longLinksCreated << "/" << K << " long links." << endl;
-                if (longLinksCreated < K) {
-                    relink();
-                } else {
-                    longLinksCreated = 0;
+                if (runningProtocol == RELINK) {
+                    /* if current node is the manager for the randomly generated
+                     * point it ignores this connection
+                     */
+                    int K = (int)par("K");
+                    longLinksCreated++;
+                    EV << "DHTMember: node " << this->getFullName() << " created " << longLinksCreated << "/" << K << " long links." << endl;
+                    if (longLinksCreated < K) {
+                        relink();
+                    } else {
+                        longLinksCreated = 0;
+                    }
+                } else if (runningProtocol == JOIN) {
+                    /* routing procol completed, the node who made the request
+                     * to join the network is inserted between the manager and its
+                     * predecessor
+                     */
+                    addNodeWithSpecificIntervalPosition(request->getX(), getIndex());
                 }
             }
         } else {
@@ -279,6 +293,8 @@ void DHTMember::handleMessage(cMessage* msg) {
          * current node remembers the gate that connects itself to it
          */
         distanceDeltaToPoint = fabs(randomPoint - request->getX());
+        if (request->getX() == 0)
+            distanceDeltaToPoint = std::min(distanceDeltaToPoint, fabs(randomPoint - 1));
 
         EV << "DHTMember: distance of point " << randomPoint << " from that neighbour is " << distanceDeltaToPoint << "." << endl;
 
@@ -345,15 +361,26 @@ void DHTMember::handleMessage(cMessage* msg) {
             response->setRoutingListArraySize(routinglistSize - 1);
             send(response, gate("gate$o", previousRequestingNodeGateIndex));
         } else {
-            EV << "DHTMember: node " << this->getFullName() << " is the requesting node for the manager of randomly generated point so a long link with that manager, that is " << request->getManager() << ", is estabilished." << endl;
-            createLongLinkToMember(request->getManager());
+            if (runningProtocol == RELINK) {
+                /* a long link to the manager of the randomly generated point is created,
+                 * relink protocol is called once again if necessary
+                 */
+                EV << "DHTMember: node " << this->getFullName() << " is the requesting node for the manager of randomly generated point so a long link with that manager, that is " << request->getManager() << ", is estabilished." << endl;
+                createLongLinkToMember(request->getManager());
 
-            longLinksCreated++;
-            EV << "DHTMember: node " << this->getFullName() << " created " << longLinksCreated << "/" << K << " long links." << endl;
-            if (longLinksCreated < K) {
-                relink();
-            } else {
-                longLinksCreated = 0;
+                longLinksCreated++;
+                EV << "DHTMember: node " << this->getFullName() << " created " << longLinksCreated << "/" << K << " long links." << endl;
+                if (longLinksCreated < K) {
+                    relink();
+                } else {
+                    longLinksCreated = 0;
+                }
+            } else if (runningProtocol == JOIN) {
+                /* routing procol completed, the node who made the request
+                 * to join the network is inserted between the manager and its
+                 * predecessor
+                 */
+                addNodeWithSpecificIntervalPosition(request->getX(), request->getManager());
             }
         }
     } else if (request->isName("joinNetwork")) {
@@ -361,6 +388,9 @@ void DHTMember::handleMessage(cMessage* msg) {
         int randFriend = intuniform(0, (int)getAncestorPar("connected") - 1);
         DHTMember* friendOfMine = (DHTMember*)(getParentModule()->getSubmodule("members", randFriend));
 
+        EV << "DHTMember: node " << this->getFullName() << " want to join the network, then it talks to node " << friendOfMine->getFullName() << ". Interval position for current point is " << randx << "." << endl;
+
+        x = randx;
         friendOfMine->routingProtocol(randx, JOIN);
 
         /* current node will leave network sooner or later */
@@ -694,4 +724,59 @@ void DHTMember::join(simtime_t delay) {
 void DHTMember::leave(simtime_t delay) {
     Packet* leavePacket = new Packet("leaveNetwork");
     scheduleAt(simTime() + delay, leavePacket);
+}
+
+DHTMember* DHTMember::getMemberWithSpecificIntervalPosition(double randx) {
+    int i;
+    int connected;
+    int DHTSize;
+    DHTMember* member;
+
+    connected = (int)getAncestorPar("connected");
+    DHTSize = (int)getAncestorPar("DHTSize");
+    for (i=connected; i<DHTSize; i++) {
+        member = (DHTMember*)getParentModule()->getSubmodule("members", i);
+        if (member->x == randx)
+            return member;
+    }
+
+    return NULL;
+}
+
+void DHTMember::addNodeWithSpecificIntervalPosition(double randx, int manager) {
+    DHTMember* joiningMember;
+    DHTMember* managerMember;
+    DHTMember* managerPredecessorMember;
+    cGate* joiningInLeft;
+    cGate* joiningOutLeft;
+    cGate* joiningInRight;
+    cGate* joiningOutRight;
+    cGate* managerIn;
+    cGate* managerOut;
+    cGate* managerPredIn;
+    cGate* managerPredOut;
+
+    joiningMember = (DHTMember*)getMemberWithSpecificIntervalPosition(randx);
+    managerMember = (DHTMember*)(getParentModule()->getSubmodule("members", manager));
+    managerPredecessorMember = (DHTMember*)(managerMember->gate("gate$o", 0)->getNextGate()->getOwnerModule());
+
+    disconnectGate(managerMember->gate("gate$o", 0));
+
+    joiningInLeft   = joiningMember->gate("gate$i", 0);
+    joiningOutLeft  = joiningMember->gate("gate$o", 0);
+    joiningInRight  = joiningMember->gate("gate$i", 1);
+    joiningOutRight = joiningMember->gate("gate$o", 1);
+
+    managerIn  = managerMember->gate("gate$i", 0);
+    managerOut = managerMember->gate("gate$o", 0);
+
+    managerPredIn  = managerPredecessorMember->gate("gate$i", 1);
+    managerPredOut = managerPredecessorMember->gate("gate$o", 1);
+
+    /* connect current node to member */
+    joiningOutLeft->connectTo(managerPredIn);
+    managerPredOut->connectTo(joiningInLeft);
+
+    managerOut->connectTo(joiningInRight);
+    joiningOutRight->connectTo(managerIn);
 }
