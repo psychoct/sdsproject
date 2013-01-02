@@ -51,6 +51,7 @@ class DHTMember : public cSimpleModule {
         virtual bool alreadyConnected(DHTMember* member);
         virtual bool amIManagerForPoint(double p);
         virtual void broadcast(Packet* msg);
+        virtual void broadcastOnLongLinks(Packet* msg);
         virtual void createLongLinkToMember(int index);
         virtual void createLongLinkByFirstUnconnectedGate(DHTMember* member);
         virtual void createLongLinkDisconnectingLastConnectedGate(DHTMember* member);
@@ -410,6 +411,19 @@ void DHTMember::handleMessage(cMessage* msg) {
         /* current node will leave network sooner or later */
         leave(exponential(10));
     } else if (request->isName("leaveNetwork")) {
+        response = request->dup();
+        response->setName("youMustRelink");
+        broadcastOnLongLinks(response);
+
+        DHTMember* prev = (DHTMember*)gate("gate$o", 0)->getNextGate()->getOwnerModule();
+        DHTMember* next = (DHTMember*)gate("gate$o", 1)->getNextGate()->getOwnerModule();
+
+        disconnectGate(gate("gate$o", 0));
+        disconnectGate(gate("gate$o", 1));
+
+        prev->gate("gate$o", 1)->connectTo(next->gate("gate$i", 0));
+        next->gate("gate$o", 0)->connectTo(prev->gate("gate$i", 1));
+
         /* current node will join the network again sooner or later */
         join(exponential(10));
     }
@@ -491,6 +505,21 @@ bool DHTMember::amIManagerForPoint(double p) {
     }
 
     return false;
+}
+
+void DHTMember::broadcastOnLongLinks(Packet* packet) {
+    int i;
+    cGate* neighbourGate;
+    Packet* packetcp;
+    for (i=2; i<gateSize("gate$o"); i++) {
+        if (hasGate("gate$o", i)) {
+            neighbourGate = gate("gate$o", i);
+            if (neighbourGate->isConnected()) {
+                packetcp = packet->dup();
+                send(packetcp, neighbourGate);
+            }
+        }
+    }
 }
 
 /* sends a copy of the message taken in input to every
@@ -608,7 +637,6 @@ void DHTMember::disconnectGate(cGate* toDisconnect) {
     neighbourGateIndexToCurrentNode = getReverseGateIndexByGateIndex(toDisconnect->getIndex());
     neighbourGateToCurrentNode = toDisconnect->getNextGate()->getOwnerModule()->gate("gate$o", neighbourGateIndexToCurrentNode);
 
-    /* disconnect last long link for current node */
     neighbourGateToCurrentNode->disconnect();
     toDisconnect->disconnect();
 }
