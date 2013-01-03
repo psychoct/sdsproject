@@ -305,9 +305,9 @@ void DHTMember::handleMessage(cMessage* msg) {
         /* if that neighbour is the closest one (found so far) to the manager of that point
          * current node remembers the gate that connects itself to it
          */
-        distanceDeltaToPoint = fabs(randomPoint - request->getX());
-        if (request->getX() == 0)
-            distanceDeltaToPoint = std::min(distanceDeltaToPoint, fabs(randomPoint - 1));
+        distanceDeltaToPoint = request->getX() - randomPoint;
+        if (distanceDeltaToPoint < 0)
+            distanceDeltaToPoint += 1;
 
         EV << "DHTMember: distance of point " << randomPoint << " from that neighbour is " << distanceDeltaToPoint << "." << endl;
 
@@ -439,6 +439,10 @@ void DHTMember::handleMessage(cMessage* msg) {
  * ===========================================
  */
 
+/* returns true if current node need to execute the relink
+ * procedure after it received a forced update of its estimate
+ * for the number of nodes in the network
+ */
 bool DHTMember::needToRelink() {
     double estimateRatio = nEstimate / nEstimateAtLinking;
     return estimateRatio < 0.5 || estimateRatio > 2;
@@ -736,10 +740,17 @@ void DHTMember::calculateNEstimate() {
     calculateSegmentLength();
 }
 
+/* current node execute routing protocol to locate the manager of the
+ * point taken in input. Then executes a certain protocol with that manager
+ */
 void DHTMember::routingProtocol(double randx, int protocol) {
     Enter_Method("routingProtocol()");
 
     Packet* response;
+
+    /* current node is executing routing protocol
+     * to complete another protocol
+     */
     runningProtocol = protocol;
 
     /* current node asks itself if it is the manager for that point */
@@ -753,32 +764,50 @@ void DHTMember::routingProtocol(double randx, int protocol) {
     scheduleAt(simTime() + 0.3, response);
 }
 
+/* current nodes starts procedure to refresh
+ * its long links
+ */
 void DHTMember::relink() {
     double randx;
 
+    /* estimate at relinking time for current node
+     * is a copy of the old estimate
+     */
     nEstimateAtLinking = nEstimate;
 
-    /* drop all long links to execute relink protocol
-     * for the first time
+    /* if current node is going to relink its first connection
+     * then drop all long links
      */
     if (longLinksCreated == 0)
         dropAllLongLinks();
 
+    /* generate a random position over the unit interval
+     * using armonic probability density function
+     */
     randx = exp(log(nEstimate)*(drand48() - 1.0));
 
+    /* use routing protocol to locate that position manager
+     * completing relink when it will be found
+     */
     routingProtocol(randx, RELINK);
 }
 
+/* current nodes starts procedure to enter the network */
 void DHTMember::join(simtime_t delay) {
     Packet* joinPacket = new Packet("joinNetwork");
     scheduleAt(simTime() + delay, joinPacket);
 }
 
+/* current nodes starts procedure to exit the network */
 void DHTMember::leave(simtime_t delay) {
     Packet* leavePacket = new Packet("leaveNetwork");
     scheduleAt(simTime() + delay, leavePacket);
 }
 
+/* returns the first member of the network that was not connected to the DHT when
+ * the simulation started and that has got an interval position that is the
+ * same of the one taken in input
+ */
 DHTMember* DHTMember::getMemberWithSpecificIntervalPosition(double randx) {
     int i;
     int connected;
@@ -796,6 +825,10 @@ DHTMember* DHTMember::getMemberWithSpecificIntervalPosition(double randx) {
     return NULL;
 }
 
+/* puts (using short links) the node which interval position is taken in input between
+ * the node which id is taken in input and its predecessor.
+ * This procedure returns the joining member
+ */
 DHTMember* DHTMember::addNodeWithSpecificIntervalPosition(double randx, int manager) {
     DHTMember* joiningMember;
     DHTMember* managerMember;
@@ -809,10 +842,12 @@ DHTMember* DHTMember::addNodeWithSpecificIntervalPosition(double randx, int mana
     cGate* managerPredIn;
     cGate* managerPredOut;
 
+    /* get joining member, the node to connect it to and its predecessor */
     joiningMember = (DHTMember*)getMemberWithSpecificIntervalPosition(randx);
     managerMember = (DHTMember*)(getParentModule()->getSubmodule("members", manager));
     managerPredecessorMember = (DHTMember*)(managerMember->gate("gate$o", 0)->getNextGate()->getOwnerModule());
 
+    /* disconnect that node and its predecessor */
     disconnectGate(managerMember->gate("gate$o", 0));
 
     joiningInLeft   = joiningMember->gate("gate$i", 0);
@@ -826,7 +861,7 @@ DHTMember* DHTMember::addNodeWithSpecificIntervalPosition(double randx, int mana
     managerPredIn  = managerPredecessorMember->gate("gate$i", 1);
     managerPredOut = managerPredecessorMember->gate("gate$o", 1);
 
-    /* connect current node to member */
+    /* connect joining node between other two nodes */
     joiningOutLeft->connectTo(managerPredIn);
     managerPredOut->connectTo(joiningInLeft);
 
