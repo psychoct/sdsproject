@@ -102,8 +102,8 @@ void DHTMember::initialize() {
     WATCH(runningProtocol);
 
     /* each node not in the DHT Network will enter the network sooner or later */
-    if (getIndex() == connected) {
-        join(10.0 + delay);
+    if (getIndex() >= connected) {
+        join(100.0 * (getIndex() + 1) + delay);
     }
 
     /* DEBUG */
