@@ -409,7 +409,8 @@ void DHTMember::handleMessage(cMessage* msg) {
         friendOfMine->routingProtocol(randx, JOIN);
 
         /* current node will leave network sooner or later */
-        leave(10.0 + exponential(10));
+        simtime_t delay = exponential(10);
+        leave(100.0 * (getIndex() + 1) + delay);
     } else if (request->isName("leaveNetwork")) {
         response = request->dup();
         response->setName("youMustRelink");
@@ -425,7 +426,8 @@ void DHTMember::handleMessage(cMessage* msg) {
         next->gate("gate$o", 0)->connectTo(prev->gate("gate$i", 1));
 
         /* current node will join the network again sooner or later */
-        join(10.0 + exponential(10));
+        simtime_t delay = exponential(10);
+        join(100.0 * (getIndex() + 1) + delay);
     } else if (request->isName("youMustRelink")) {
         relink();
     }
