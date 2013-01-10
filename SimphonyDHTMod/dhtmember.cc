@@ -303,19 +303,13 @@ void DHTMember::handleMessage(cMessage* msg) {
             int reverseGateIndex;
             randomPoint = request->getX();
             routinglistSize = request->getRoutingListArraySize();
-            EV<<"1"<<endl;
             response = request->dup();
             response->setName("areYouTheManagerOfThisPoint?");
             response->setX(randomPoint);
-            EV<<"2"<<endl;
             gateIndexToClosestNode=getBestNeighbourIndex();
-            EV<<"gate index to closest node:"<<gateIndexToClosestNode<<endl;
             reverseGateIndex = getReverseGateIndexByGateIndex(gateIndexToClosestNode);
-            EV<<"2.5"<<endl;
             response->setRoutingListArraySize(routinglistSize + 1);
-            EV<<"2.75"<<endl;
             response->setRoutingList(routinglistSize, reverseGateIndex);
-            EV<<"3"<<endl;
 
             sendToBestNeighbour(response);
         }
