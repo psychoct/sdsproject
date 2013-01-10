@@ -15,7 +15,8 @@ class DHTMember : public cSimpleModule {
     public:
         void finish() {
             if(packetsSentOverTheNet > 0){
-                recordScalar("#packetsInTheNetwork",packetsSentByMe/packetsSentOverTheNet);
+                //double division=packetsSentByMe/packetsSentOverTheNet;
+                recordScalar("#packetsInTheNetwork",packetsSentByMe);
                 packetsInNetworkHistogram.recordAs("packets statistics");
             }
         }
@@ -145,8 +146,8 @@ void DHTMember::handleMessage(cMessage* msg) {
     int toSenderGateIndex;
 
     if(packetsSentOverTheNet > 0) {
-        packetsInNetworkHistogram.collect(packetsSentByMe/packetsSentOverTheNet);
-        packetsInNetworkVector.record(packetsSentByMe/packetsSentOverTheNet);
+        packetsInNetworkHistogram.collect(packetsSentByMe);
+        packetsInNetworkVector.record(packetsSentByMe);
     }
 
     toSenderGateIndex = getGateToModule(msg->getSenderModule());
