@@ -116,143 +116,75 @@
 \begin{document}
 	\maketitle
 	\thispagestyle{fancy} % Enabling the custom headers/footers for the first page 
-	
-	\textbf{Il protocollo DHT Symphony discusso da Manku, Bawa e Raghavan si propone come nuova frontiera per il mantenimento e l'accesso di dizionari distribuiti sulla rete globale. Sfruttando una topologia di rete virtuale ad anello sulla quale vengono instaurate connessioni tra nodi distanti, è possibile ridurre drasticamente i tempi di recupero di dati evitandone l'eccessiva replicazione. Tuttavia il numero di messaggi necessari al funzionamento del protocollo stesso non è oggetto di studio del documento prodotto dagli autori di cui sopra. Si intende quindi analizzare tale aspetto mediante la simulazione del protocollo a mezzo del simulatore Omnet++. Verrà inoltre introdotta una modifica protocollare con lo scopo di diminuire il numero di messaggi transitanti nella rete senza inficiare la correttezza e l'efficacia del protocollo. }
+	\begin{abstract}
+	Il protocollo DHT Symphony discusso da Manku, Bawa e Raghavan si propone come nuova frontiera per il mantenimento e l'accesso di dizionari distribuiti sulla rete globale. Sfruttando una topologia di rete virtuale ad anello sulla quale vengono instaurate connessioni tra nodi distanti, è possibile ridurre drasticamente i tempi di recupero di dati evitandone l'eccessiva replicazione. Tuttavia il numero di messaggi necessari al funzionamento del protocollo stesso non è oggetto di studio del documento prodotto dagli autori di cui sopra. Si intende quindi analizzare tale aspetto mediante la simulazione del protocollo a mezzo del simulatore Omnet++. Verrà inoltre introdotta una modifica protocollare con lo scopo di diminuire il numero di messaggi transitanti nella rete senza inficiare la correttezza e l'efficacia del protocollo.
+	\end{abstract}
 
-	\section*{}
-	Al fine di completare l'installazione del software Open Nebula sono stati impiegati due calcolatori portatili le cui caratteristiche sono brevemente riassunte di seguito:
-	
+\section{Simulazione}
+	\subsection{Gli strumenti}
+	Lo studio di simulazione è stato realizzato a mezzo del simulatore Omnet++. Nello specifico il protocollo oggetto dello studio è stato emulato mediante l'implementazione dei moduli stanti alla lista seguente:
 	\begin{itemize}
-		\item OS: Ubuntu 11.10 (Oneiric Ocelot), 32 bit.
-		\item CPU:
-			\begin{itemize}
-				\item frontend: Intel® Core™2 Duo CPU T6670 @ 2.20GHz × 2
-				\item client: Intel® Core i5-460M da 2,53 GHz. 
-			\end{itemize}
-		\item Ram: 4 GB DDR3
-		\item Virtualizzazione: Supporto nativo alla virtualizzazione hardware (vmx).
+		\item File NED descrivente la topologia di rete virtuale;
+		\item Classe rappresentante i singoli nodi all'interno della rete;
+		\item Pacchetti di rete strutturati per la trasmissione delle informazioni protocollari rilevanti;
+		\item File di configurazione per gestire le informazioni parametriche della simulazione.
+	\end{itemize}
+	Sono stati inoltre utilizzati gli strumenti di analisi offline messi a disposizione da tale simulatore per l'analisi prestazionale del protocollo nella versione originale e soggetto a modifica. I risultati di tale studio verranno discussi nella sezione ``Risultati'' del presente elaborato.
+	\subsection{Il livello di dettaglio}
+	L'implementazione in esame consiste a tutti gli effetti in una emulazione puntuale del protocollo DHT Symphony allo scopo di analizzare con assoluta precisione le prestazioni dello stesso in termini di numero di messaggi scambiati tra i nodi della rete al passare del tempo. La simulazione di rete astrae dalla topologia di rete reale realizzando soltanto le connessioni virtuali previste dal protocollo medesimo. In particolare i nodi sono disposti su di un ipotetico cerchio di perimetro unitario che costituisce una rete ad anello. Nella fase di inizializzazione del protocollo ogni nodo è quindi connesso ai suoi due immediati vicini ed è dotato di un numero K (configurabile) di connessioni ``lunghe'' con i nodi i cui id differiscono dal proprio tra le 8 e le 8+K unità. \\*\\*
+Per semplicità le connessioni con i nodi vicini (da qui in poi connessioni brevi) sono state realizzate mediante gate bidirezionali facenti parte di un vettore di gate contenente la totalità delle connessioni per il nodo corrente. In fase di sperimentazione il numero di nodi della rete è stato fissato a 16, 32 e 64, di cui la metà connessi nella struttura ad anello discussa in precedenza e la rimanente metà in principio non connessa.\\*\\* 
+Infine sono stati individuati e simulati fedelmente i seguenti aspetti del protocollo:
+	\begin{itemize}
+		\item[1.] stima della lunghezza del segmento gestito da un nodo;
+		\item[2.] stima del numero di nodi della rete;
+		\item[3.] protocollo di routing per individuare il manager di un punto qualsiasi sull'anello di perimetro unitario;
+		\item[4.] protocollo di relink;
+		\item[5.] protocollo di join;
+		\item[6.] protocollo di leave.		
+	\end{itemize}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{topologia.png}
+	\caption{Topologie di reti virtuali}
+	\label{Figura 1}
+\end{figure}
+
+	\subsection{Assunzioni}
+	Il documento ``Symphony: Distributed Hashing In A Small World'' non specifica una variegata serie di dettagli. Pertanto è stato necessario effettuare tutta una serie di assunzioni al fine di poter implementare il protocollo stesso.
+	\begin{itemize}
+	\item[1.] La rete è supposta essere, in principio, popolata;
+	\item[2.] Il numero di nodi della DHT è inferiormente limitato da un valore positivo configurabile, supposto maggiore di 8;
+	\item[3.] Ogni nodo non ha conoscenza della posizione all'interno della circonferenza di perimetro unitario dei propri vicini;
+	\item[4.] Il lookup dei file della DHT non è ritenuto di interesse e pertanto non è simulato;
+	\item[5.] Nessuna coppia di nodi facente parte della DHT ha la stessa posizione sulla circonferenza di perimetro unitario.
 	\end{itemize}
 	
-	Se non diversamente specificato le caratteristiche di cui sopra sono da riferirsi ad entrambi i calcolatori.
-
-\section*{Il software di rilievo}
-Il programma Open Nebula utilizza una vasta gamma di programmi e servizi open source disponibili per i sistemi Linux. Tra questi spiccano qemu, libvirt, ssh, apparmor. Una serie di test ha evidenziato la necessità di utilizzare le versioni più recenti di tali programmi, con particolare riguardo per qemu (v. 0.15.1). A tale scopo è stata effettuata la compilazione ed installazione della suddetta versione di qemu mediante gcc sia sulla macchina client che sulla macchina frontend mediante un procedimento della durata di circa 45 minuti.
-
-\section*{Installazione e configurazione}
-L'installazione del software Open Nebula (v. 3.2.1) è stata effettuata estraendo l'archivio tar prelevato dal sito web \textit{http://opennebula.org/}, configurandolo mediante ruby scons e compilandolo opportunamente. Per poter compilare correttamente è stato necessario installare una serie di librerie aggiuntive: g++, libxmlrpc-c3-dev, scons, libsqlite3-dev, libmysqlclient-dev, libxml2-dev, libssl-dev, ruby. I comandi seguenti riassumono i passi necessari per l'installazione del programma sulla macchina client e sulla macchina frontend:
-
+\section{Modifica protocollare}
+	L'implementazione originale del protocollo di routing prevede, in virtù del punto 3. della sezione ``Assunzioni'', la necessità di effettuare un broadcast ai nodi vicini per poter definire quali di questi dista meno dal nodo destinazione e quindi instradare le successive richieste ad esso. In fase di simulazione suddetto dettaglio sembra inficiare duramente la qualità del protocollo in termini prestazionali (quantità di messaggi trasmessi). Quindi, sotto l'assunzione che ogni nodo mantenga traccia della posizione dei suoi vicini sulla circonferenza di perimetro unitario, è stata effettuata una modifica protocollare che snellisce sostanzialmente il protocollo di routing (massivamente sfruttato anche da parte dei protocolli di join e di relink) sotto tale punto di vista. 	
+	\subsection{Implementazione}	
+	In teoria sarebbe stato necessario tenere traccia per ogni nodo della posizione di ogni altro nodo ad esso connesso mediante un vettore locale. Si noti che la posizione dei vicini di un dato nodo può variare solamente a seguito dell'accesso o dell'uscita di un nodo dalla rete; si ritiene che tale evento occorra assai più raramente rispetto al protocollo di routing (che è cuore del meccanismo di inserimento e ricerca di chiavi nel dizionario distribuito). Per semplicità, tale vettore è stato assunto esistere e la posizione dei nodi vicini al nodo corrente è stata recuperata mediante le direttive del simulatore Omnet++ stesso. 
+	\subsection{Correttezza}
+	La modifica protocollare precedentemente discussa non modifica in alcun modo la semantica del protocollo. Segue una dimostrazione informale di tale evidenza:
 \begin{itemize}
-	\item sudo apt-get install g++ libxmlrpc-c3-dev scons libsqlite3-dev libmysqlclient-dev libxml2-dev libssl-dev ruby
-	\item scons -j2
-	\item Frontend) sudo ./install.sh -d /srv/cloud/one -u oneadmin -g cloud
-	\item Client) sudo ./install.sh -d /srv/cloud/one -u oneadmin -g cloud -c
-	\item /srv/cloud/one/share/install\_gems sunstone cloud
+	\item[1.] la modifica in esame riguarda esclusivamente il protocollo di routing; se la semantica di tale protocollo rimane la medesima, di conseguenza la semantica del protocollo complessivo non varia.
+	\item[2.] per dimostrare che la semantica del protocollo di routing non cambia è sufficiente dimostrare che in ogni caso in cui la versione originale del protocollo effettua una scelta tra i nodi vicini per l'instradamento di una richiesta, il protocollo modificato effettua la medesima scelta.
+	\item[3.] dimostriamo per induzione sul numero di connessioni lunghe del nodo corrente il punto 2. 
+	\begin{itemize}
+	\item \textbf{caso base}: il nodo corrente ha solo le connessioni brevi con i nodi che lo seguono immediatamente in senso orario e antiorario. Poiché sono supposti esistere almeno 3 nodi all'interno della rete simulata, deve esistere una relazione d'ordine totale tra le posizioni di questi sulla circonferenza di perimetro unitario. Siano \[0 \leq a \neq b \neq c < 1\] tali posizioni e sia \[0 \leq x < 1\] il valore di cui si intende individuare il nodo manager per mezzo del protocollo di routing. Ne consegue che \[|a-x| \neq |b-x| \neq |c-x|\] e quindi una sola distanza è quella minima. Non essendoci alcuna forma di non determinismo ed essendo la stima di a, b e c uguale per entrambe le versioni del protocollo la scelta di instradamento non subisce variazioni.
+	\item \textbf{caso induttivo}: supponiamo che i protocolli si comportino allo stesso modo per un certo numero n di link lunghi. Dimostriamo che continuano a comportarsi allo stesso modo anche per n+1 link lunghi. In virtù del punto 5. della sezione ``Assunzioni'' il nodo connesso al nodo corrente mediante l'n+1-esimo link lungo ha una posizione diversa da tutti gli altri sulla circonferenza di perimetro unitario. I casi sono dunque due:
+		\begin{itemize}
+			\item il nuovo nodo è il più vicino al nodo destinazione; ma in tal caso lo è per entrambe le versioni del protocollo.
+			\item il nuovo nodo è più distante rispetto ad un altro vicino del nodo corrente dal nodo destinazione; in tal caso il protocollo si comporta come nel caso in cui l'n+1-esimo link lungo non esistesse affatto, ma in questa situazione i due protocolli hanno lo stesso comportamento per ipotesi induttiva.
+		\end{itemize}
+	\end{itemize} 
 \end{itemize}
+Fino ad ora abbiamo supposto che la posizione dei nodi vicini al nodo che sta correntemente eseguendo il protocollo di routing sia costantemente aggiornata per la versione modificata del protocollo. Ciò è tuttavia certamente vero sotto l'ipotesi che nel momento in cui un nodo accede alla rete o immediatamente prima di abbandonarla si comunichi ai propri vicini la necessità di aggiornare le posizioni dei nodi adiacenti. 
+\section{Risultati}
 
-Sulle macchine è stato poi configurato l'account di amministrazione di Open Nebula (oneadmin) ed il gruppo relativo (cloud), ed è stata presa nota dell'uid e dell'gid. In particolare per semplicità all'utente oneadmin è stata associata la password "test".
 
-\begin{itemize}
-	\item groupadd cloud
-	\item useradd -d /srv/cloud/one -g cloud -m oneadmin
-	\item sudo passwd oneadmin
-\end{itemize}
+\section{Bibliografia}
 
-In seguito sono state esportate le variabili globali di riferimento del softare Open Nebula. Per comodità le istruzioni relative sono state introdotte nel file di configurazione del terminale bash (.bashrc) in modo da effettuarne l'esecuzione su ogni terminale attivo. Inoltre è stato ribadito che l'utente oneadmin ha password "test" per mezzo del file di configurazione one\_auth.
 
-\begin{itemize}
-	\item
-	\footnotesize{ 
-	echo\\``export PATH=\$PATH:/var/lib/gems/1.8/bin:\\/srv/cloud/one/bin
-	\\export ONE\_LOCATION=/srv/cloud/one
-	\\export ONE\_XMLRPC=http://localhost:2633/RPC2
-	\\export ONE\_AUTH=/srv/cloud/one/.one/one\_auth''\\ $>>$ ~/.bashrc
-	\item echo ``oneadmin:test'' $>$ /src/cloud/one/.one/one\_auth
-	}
-\end{itemize}
-
-Poichè il sottoalbero del filesystem /srv/cloud/one/ è stato destinato ad essere la home dell'utente oneadmin i file e le directory in esso contenute sono state assegnate a tale utente: sudo chown -R oneadmin:cloud /srv/cloud/one/
-
-Infine, sebbene non fosse strettamente necessario, abbiamo garantito permessi di root all'utente oneadmin. Tale scelta semplifica lo sforzo di configurazione permettendo di effettuare modifiche ai file di configurazione protetti anche se loggati con tale utente. Pertanto abbiamo editato il file di dichiarazione dei sudoers mediante il comando visudo introducendo la linea: oneadmin ALL=(ALL:ALL) ALL
-
-Dopo aver acceduto al sistema come utente oneadmin a mezzo del comando: su oneadmin, è stato riscontrato un errore di configurazione della shell di base e della home directory di tale utente. Di conseguenza mediante il comando chsh è stata assegnata una shell bash a oneadmin permettendo il funzionamento del login. A tal punto sono stati avviati i demoni di gestione dell'ambiente Open Nebula:
-
-\begin{itemize}
-	\item one start
-	\item oneacctd start
-	\item sunstone-server start
-\end{itemize}
-
-Il servizio web sunstone è quindi stato reso disponibile mediante browser (ampiamente testato su Chromium Browser) all'url: http://127.0.0.1:9869
-
-La configurazione degli host per Open Nebula è stata effettuata a mezzo terminale per permettere la configurazione dei parametri relativi ai driver delle macchine virtuali in uso, del filesystem distribuito (con particolare riguardo per nfs) e della rete. Per far ciò è stata dichiarata una entry nel file /etc/hosts che associa al nome andryak l'indirizzo ip 10.42.43.1 e al nome host1 l'indirizzo ip 10.42.43.12. Dopo tale specifica il comando: onehost create host1 im\_kvm vmm\_kvm tm\_shared dummy, permette la creazione di un host virtuale relativo alla macchina fisica in ascolto sull'indirizzo specificato per host1. La medesima procedura è stata effettuata per configurare l'host andryak in quanto, per scarsità di risorse, abbiamo dovuto incorporare nel frontend anche le caratteristiche di un client Open Nebula.
-
-Dopo aver realizzato un'immagine disco di una macchina virtuale Ubuntu 10.04 Lucid Lynx (tty only) mediante la procedura descritta nel seguente paragrafo vi sono stati applicati i massimi permessi (777), l'utente possessore oneadmin ed il gruppo di appartenenza cloud. Mediante il servizio web sunstone tale immagine disco è stata caricata e configurata come immagine raw per Open Nebula, le sono stati assegnati 512 MB di memoria RAM ed un massimo consumo del 50\% di CPU. Infine è stato configurato un canale vnc verso l'indirizzo di loopback 127.0.0.1 alla porta 5930 per poter monitorare lo stato della macchina virtuale in esecuzione.
-
-In seguito dopo che la macchina client ha effettuato il mounting del sottoalbero in cui opera Open Nebula (/srv/cloud/one) mediante il file system distribuito nfs è stato possibile effettuare il deploy della macchina e la sua migrazione (e migrazione live) dalla macchina host alla macchina frontend e viceversa. La procedura di configurazione del filesystem distribuito è argomento del paragrafo "Configurazione nfs".
-
-\section*{Disco virtuale per Ubuntu 10.04 tty}
-Per poter procedere alla creazione del disco virtuale contenente l'installazione di Ubuntu 10.04 tty è stato necessario innanzi tutto installare Qemu (versione 1.0.1). Una volta scaricato il pacchetto di installazione dall'indirizzo http://wiki.qemu.org/Download, è stato decompresso e sono state eseguite da terminale le seguenti istruzioni:
-\begin{itemize}
-	\item sudo apt-get remove qemu qemu-kvm
-	\item sudo apt-get install libglib2.0-dev zlib1g-dev
-	\item ./configure --prefix=/usr
-	\item make
-	\item sudo make install
-\end{itemize}
-
-È stato quindi scaricato il pacchetto di installazione di Qemu-kvm 1.0 dall'indirizzo http://sourceforge.net/projects/kvm/files/qemu-kvm/1.0/qemu-kvm-1.0.tar.gz/download,estratto in una cartella ed installato a mezzo terminale tramite i seguenti comandi:
-\begin{itemize}
-	\item ./configure --prefix=/usr
-	\item make
-	\item sudo make install
-\end{itemize}
-
-A questo punto è stato creato un disco virtuale vuoto tramite il comando
-\begin{itemize}
-	\item qemu-img create -f raw ubuntu.img 3G
-\end{itemize}
-dove 3G sta per 3 Gigabyte.
-\\*Successivamente è stata avviata la macchina virtuale con il suddetto disco virtuale per installare il sistema operativo con il comando
-\begin{itemize}
-	\item qemu -m 512 -hda ubuntu.img -cdrom ubuntu10-04.iso -boot d
-\end{itemize}
-dove ``-cdrom'' è la flag per lanciare il sistema operativo da iso,``-hda'' dichiara l'hard disk virtuale di riferimento e ``-m'' serve ad indicare il quantitativo di ram da destinare alla macchina virtuale.
-Il suddetto comando ha però generato un errore (pci\_add\_option\_rom: failed to find romfile ``pxe-rtl8139.bin'') che è stato risolto installando il pacchetto kvm-pxe.
-\\*Infine è stata avviata la macchina virtuale per testare il corretto funzionamento della stessa successivamente all'installazione del sistema operativo tramite il comando
-\begin{itemize}
-	\item qemu-system-i386 -m 1024M -hda ubuntu.img
-\end{itemize}
-
-\section*{Configurazione nfs}
-Per poter rendere funzionante il file system distribuito nfs sono stati installati il server ed il client nfs rispettivamente sull'host che funge da front-end e su quello che funge da nodo del cluster.
-\\*Quindi è stato modificato il file /etc/exports nella macchina che funge da server, al cui interno è stata aggiunta la seguente riga:
-\begin{itemize}
-	\item /srv/cloud/one *(rw,async, \\*no\_root\_squash, \\*no\_subtree\_check,anonuid=1001,anongid=1001)
-\end{itemize}
-che, in pratica, specifica di rendere disponibile la directory /srv/cloud/one con tutte le sottodirectory in modalità rw,che l'utente root nella macchina client accederà ai file come utente root anche sul server,con la verifica della presenza dei file richiesti nella corretta porzione del volume disabilitata e con userid e groupid corrispondenti a quelli di oneadmin e cloud in entrambe le macchine.
-\\*Fatto ciò si esporta la directory desiderata tramite il comando
-\begin{itemize}
-	\item sudo exportfs -a
-\end{itemize}
-
-Il client, invece, dovrà semplicemente montare la directory desiderata prima di effettuare qualunque altra operazione, tramite il comando
-\begin{itemize}
-	\item mount -t nfs andryak:/srv/cloud/one /srv/cloud/one
-\end{itemize}
-che indica di montare,tramite nfs, la directory esportata dalla macchina andryak all'interno della rispettiva directory nel client.
-
-\section*{JBoss Application Server}
-All'interno della macchina virtuale la cui creazione è stata discussa nel paragrafo ``Disco virtuale per Ubuntu 10.04 tty'' è stato installato l'application server JBoss nella sua versione più recente (v. 7.1). Dopo aver scaricato l'archivio relativo ed averlo decompresso è stato avviato lo script di esecuzione (standalone) dell'application server configurato sulla porta 8080 all'indirizzo di loopback 127.0.0.1. E' stata creata una semplice applicazione, prendendo spunto da quella fornita da JBoss, in modo da far apparire il classico messaggio di test ``Hello World''. Infine attraverso il browser testuale elinks è stato possibile accedere al servizio web e dimostrare l'effettiva riuscita della configurazione di sistema. E' stata anche verificata l'effettiva persistenza del servizio in seguito a numerose migrazioni (live) della macchina virtuale per mezzo del software Open Nebula da un host ad un altro.
-
-\section*{Bibliografia}
-
-\begin{itemize}
-	\item http://opennebula.org/documentation:archives:rel3.2, [ultima visita] Lun. 14 Mag. 2012 
-	\item http://www.scons.org/wiki/
-	\item https://docs.jboss.org/author/display/AS71/Documentation
-	\item http://wiki.qemu.org/Manual
-	\item http://www.ubuntu.com/download/desktop/alternative-downloads
-	\item https://help.ubuntu.com/community/KVM
-\end{itemize}
 
 \end{document}
