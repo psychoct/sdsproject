@@ -9,7 +9,16 @@
 #define RELINK 0
 #define JOIN   1
 
+double packetsSentOverTheNet=0;
+
 class DHTMember : public cSimpleModule {
+    public:
+        void finish() {
+            if(packetsSentOverTheNet > 0){
+                recordScalar("#packetsInTheNetwork",packetsSentByMe/packetsSentOverTheNet);
+                packetsInNetworkHistogram.recordAs("packets statistics");
+            }
+        }
     private:
         /* x: represents the position in the unit interval of this node
          * segmentLength: length of the segment between this node and its previous neighbour
@@ -36,6 +45,10 @@ class DHTMember : public cSimpleModule {
         int gateIndexToClosestNode;
         int repliesToFindShortestPath;
         int longLinksCreated;
+
+        cLongHistogram packetsInNetworkHistogram;
+        cOutVector packetsInNetworkVector;
+        double packetsSentByMe;
 
     protected:
         virtual void initialize();
@@ -95,11 +108,15 @@ void DHTMember::initialize() {
     repliesToFindShortestPath = 0;
     longLinksCreated = 0;
 
+    packetsSentByMe=0;
+
     WATCH(x);
     WATCH(segmentLength);
     WATCH(nEstimate);
     WATCH(nEstimateAtLinking);
     WATCH(runningProtocol);
+    WATCH(packetsSentByMe);
+    WATCH(packetsSentOverTheNet);
 
     /* each node not in the DHT Network will enter the network sooner or later */
     if (getIndex() >= connected) {
@@ -127,6 +144,11 @@ void DHTMember::handleMessage(cMessage* msg) {
     cGate* toSender;
     int toSenderGateIndex;
 
+    if(packetsSentOverTheNet > 0) {
+        packetsInNetworkHistogram.collect(packetsSentByMe/packetsSentOverTheNet);
+        packetsInNetworkVector.record(packetsSentByMe/packetsSentOverTheNet);
+    }
+
     toSenderGateIndex = getGateToModule(msg->getSenderModule());
 
     if (toSenderGateIndex >= 0)
@@ -139,7 +161,7 @@ void DHTMember::handleMessage(cMessage* msg) {
         response = request->dup();
         response->setName("thisIsMyIntervalPosition");
         response->setX(x);
-        send(response, toSender);
+        packetsSentOverTheNet++; packetsSentByMe++; send(response, toSender);
         EV << "DHTMember: " << request->getSenderModule()->getFullName() << " asked for interval position of " << this->getFullName() << " that is: " << x << ". Sending it back." << endl;
     } else if (request->isName("thisIsMyIntervalPosition")) {
         /* a message with the position of a node has been received,
@@ -168,7 +190,7 @@ void DHTMember::handleMessage(cMessage* msg) {
         response = request->dup();
         response->setName("thisIsMySegmentLength");
         response->setSegmentLength(segmentLength);
-        send(response, gate("gate$o", request->getToSenderGateIndex()));
+        packetsSentOverTheNet++; packetsSentByMe++; send(response, gate("gate$o", request->getToSenderGateIndex()));
         EV << "DHTMember: segment length of node " << this->getFullName() << " that is " << segmentLength << " is now ready. Sending it back." << endl;
     } else if (request->isName("thisIsMySegmentLength")) {
         /* the segment length of a neighbour has been received,
@@ -197,7 +219,7 @@ void DHTMember::handleMessage(cMessage* msg) {
                 response = request->dup();
                 response->setName("updateYourEstimate");
                 response->setNEstimate(nEstimate);
-                send(response, "gate$o", i);
+                packetsSentOverTheNet++; packetsSentByMe++; send(response, "gate$o", i);
             }
 
             EV << "DHTMember: asking neighbours to update their estimates for n to " << nEstimate << "." << endl;
@@ -246,7 +268,7 @@ void DHTMember::handleMessage(cMessage* msg) {
                 response->setName("managerIndexIs");
                 response->setManager(getIndex());
                 response->setRoutingListArraySize(routinglistSize - 1);
-                send(response, gate("gate$o", previousRequestingNodeGateIndex));
+                packetsSentOverTheNet++; packetsSentByMe++; send(response, gate("gate$o", previousRequestingNodeGateIndex));
             } else {
                 if (runningProtocol == RELINK) {
                     /* if current node is the manager for the randomly generated
@@ -291,7 +313,7 @@ void DHTMember::handleMessage(cMessage* msg) {
         response = request->dup();
         response->setName("thisIsMyIntervalPositionToFindShortestPath");
         response->setX(x);
-        send(response, toSender);
+        packetsSentOverTheNet++; packetsSentByMe++; send(response, toSender);
     } else if (request->isName("thisIsMyIntervalPositionToFindShortestPath")) {
         /* a neighbour sent its interval position in order to find shortest path to the manager
          * of a randomly generated point
@@ -336,7 +358,7 @@ void DHTMember::handleMessage(cMessage* msg) {
             response->setX(randomPoint);
             response->setRoutingListArraySize(routinglistSize + 1);
             response->setRoutingList(routinglistSize, reverseGateIndex);
-            send(response, "gate$o", gateIndexToClosestNode);
+            packetsSentOverTheNet++; packetsSentByMe++; send(response, "gate$o", gateIndexToClosestNode);
 
             /* reset protocol variables for next call of relink */
             bestDistanceFoundSoFar = 42;
@@ -372,7 +394,7 @@ void DHTMember::handleMessage(cMessage* msg) {
             response = request->dup();
             response->setName("managerIndexIs");
             response->setRoutingListArraySize(routinglistSize - 1);
-            send(response, gate("gate$o", previousRequestingNodeGateIndex));
+            packetsSentOverTheNet++; packetsSentByMe++; send(response, gate("gate$o", previousRequestingNodeGateIndex));
         } else {
             if (runningProtocol == RELINK) {
                 /* a long link to the manager of the randomly generated point is created,
@@ -524,7 +546,7 @@ void DHTMember::broadcastOnLongLinks(Packet* packet) {
             neighbourGate = gate("gate$o", i);
             if (neighbourGate->isConnected()) {
                 packetcp = packet->dup();
-                send(packetcp, neighbourGate);
+                packetsSentOverTheNet++; packetsSentByMe++; send(packetcp, neighbourGate);
             }
         }
     }
@@ -542,7 +564,7 @@ void DHTMember::broadcast(Packet* packet) {
             neighbourGate = gate("gate$o", i);
             if (neighbourGate->isConnected()) {
                 packetcp = packet->dup();
-                send(packetcp, neighbourGate);
+                packetsSentOverTheNet++; packetsSentByMe++; send(packetcp, neighbourGate);
             }
         }
     }
@@ -721,7 +743,7 @@ void DHTMember::createLongLinkToMember(int index) {
 
 void DHTMember::calculateSegmentLength() {
     Packet* request = new Packet("needYourIntervalPositionToCalculateMySegmentLength");
-    send(request, "gate$o", 0);
+    packetsSentOverTheNet++; packetsSentByMe++; send(request, "gate$o", 0);
 }
 
 void DHTMember::calculateNEstimate() {
@@ -735,7 +757,7 @@ void DHTMember::calculateNEstimate() {
      */
     for (i=0; i<2; i++) {
         request = new Packet("needYourSegmentLength");
-        send(request, "gate$o", i);
+        packetsSentOverTheNet++; packetsSentByMe++; send(request, "gate$o", i);
     }
 
     /* In the meantime segment length for current node is calculated */
