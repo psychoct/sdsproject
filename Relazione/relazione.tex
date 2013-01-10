@@ -1,0 +1,258 @@
+%%% LaTeX Template: Two column article
+%%%
+%%% Source: http://www.howtotex.com/
+%%% Feel free to distribute this template, but please keep to referal to http://www.howtotex.com/ here.
+%%% Date: February 2011
+
+%%% Preamble
+\documentclass[	
+	DIV=calc,
+	paper=a4,
+	fontsize=11pt,
+	onecolumn
+]{scrartcl} % KOMA-article class
+
+\usepackage{lipsum} % Package to create dummy text
+
+\usepackage[utf8x]{inputenc}
+\usepackage[italian]{babel} % English language/hyphenation
+\usepackage[protrusion=true,expansion=true]{microtype} % Better typography
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage[pdftex]{graphicx} % Enable pdflatex
+\usepackage[svgnames]{xcolor} % Enabling colors by their 'svgnames'
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats
+\usepackage{epstopdf} % Converts .eps to .pdf
+\usepackage{subfig} % Subfigures
+\usepackage{booktabs} % Nicer tables
+\usepackage{fix-cm} % Custom fontsizes
+
+%%% Custom sectioning (sectsty package)
+\usepackage{sectsty} % Custom sectioning (see below)
+\allsectionsfont{ % Change font of al section commands
+	\usefont{OT1}{}{b}{n} % bch-b-n: CharterBT-Bold font
+}
+
+\sectionfont{ % Change font of \section command
+	\usefont{OT1}{}{b}{n} % bch-b-n: CharterBT-Bold font
+}
+
+%%% Headers and footers
+\usepackage{fancyhdr}												% Needed to define custom headers/footers
+	\pagestyle{fancy}														% Enabling the custom headers/footers
+\usepackage{lastpage}	
+
+% Header (empty)
+\lhead{}
+\chead{}
+\rhead{}
+% Footer (you may change this to your own needs)
+\lfoot{
+	\footnotesize 
+	\texttt{Andrea Aquino, Michele Consiglio. DHT Symphony Simulation} 
+}
+\cfoot{}
+\rfoot{
+	\footnotesize 
+	pagina 
+	\thepage\ 
+	di 
+	\pageref{LastPage}
+}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%%% Creating an initial of the very first character of the content
+\usepackage{lettrine}
+\newcommand{\initial}[1]{
+	\lettrine[lines=3,lhang=0.3,nindent=0em]{
+     \color{Black}
+     {\textsf{#1}}}{}}
+
+%%% Title, author and date metadata
+\usepackage{titling}															% For custom titles
+
+\newcommand{\HorRule}{\color{DarkRed} % Creating a horizontal rule
+\rule{\linewidth}{1pt}
+}
+
+\pretitle{
+	\vspace{-60pt} 
+	\begin{flushleft} 
+		\HorRule 
+		\fontsize{40}{50} 
+		\usefont{OT1}{}{b}{n} 
+		\color{DarkRed} 
+		\selectfont 
+}
+	
+	\title{DHT Symphony Simulation}					% Title of your article goes here
+	\posttitle{
+		\par
+	\end{flushleft}
+		\vskip 0.5em
+	}
+
+\preauthor{
+	\begin{flushleft}
+		\large 
+		\lineskip 0.5em 
+		\usefont{OT1}{}{b}{sl} 
+		\color{DarkRed}
+}
+\author{Andrea Aquino, Michele Consiglio}											% Author name goes here
+\postauthor{
+	\footnotesize 
+	\usefont{OT1}{}{m}{sl} 
+	\color{Black} 
+	Università di Bologna 								% Institution of author
+	\par
+	\end{flushleft}
+	\HorRule
+}
+
+\date{\today}																				% No date
+
+%%% Begin document
+\begin{document}
+	\maketitle
+	\thispagestyle{fancy} % Enabling the custom headers/footers for the first page 
+	
+	\textbf{Il protocollo DHT Symphony discusso da Manku, Bawa e Raghavan si propone come nuova frontiera per il mantenimento e l'accesso di dizionari distribuiti sulla rete globale. Sfruttando una topologia di rete virtuale ad anello sulla quale vengono instaurate connessioni tra nodi distanti, è possibile ridurre drasticamente i tempi di recupero di dati evitandone l'eccessiva replicazione. Tuttavia il numero di messaggi necessari al funzionamento del protocollo stesso non è oggetto di studio del documento prodotto dagli autori di cui sopra. Si intende quindi analizzare tale aspetto mediante la simulazione del protocollo a mezzo del simulatore Omnet++. Verrà inoltre introdotta una modifica protocollare con lo scopo di diminuire il numero di messaggi transitanti nella rete senza inficiare la correttezza e l'efficacia del protocollo. }
+
+	\section*{}
+	Al fine di completare l'installazione del software Open Nebula sono stati impiegati due calcolatori portatili le cui caratteristiche sono brevemente riassunte di seguito:
+	
+	\begin{itemize}
+		\item OS: Ubuntu 11.10 (Oneiric Ocelot), 32 bit.
+		\item CPU:
+			\begin{itemize}
+				\item frontend: Intel® Core™2 Duo CPU T6670 @ 2.20GHz × 2
+				\item client: Intel® Core i5-460M da 2,53 GHz. 
+			\end{itemize}
+		\item Ram: 4 GB DDR3
+		\item Virtualizzazione: Supporto nativo alla virtualizzazione hardware (vmx).
+	\end{itemize}
+	
+	Se non diversamente specificato le caratteristiche di cui sopra sono da riferirsi ad entrambi i calcolatori.
+
+\section*{Il software di rilievo}
+Il programma Open Nebula utilizza una vasta gamma di programmi e servizi open source disponibili per i sistemi Linux. Tra questi spiccano qemu, libvirt, ssh, apparmor. Una serie di test ha evidenziato la necessità di utilizzare le versioni più recenti di tali programmi, con particolare riguardo per qemu (v. 0.15.1). A tale scopo è stata effettuata la compilazione ed installazione della suddetta versione di qemu mediante gcc sia sulla macchina client che sulla macchina frontend mediante un procedimento della durata di circa 45 minuti.
+
+\section*{Installazione e configurazione}
+L'installazione del software Open Nebula (v. 3.2.1) è stata effettuata estraendo l'archivio tar prelevato dal sito web \textit{http://opennebula.org/}, configurandolo mediante ruby scons e compilandolo opportunamente. Per poter compilare correttamente è stato necessario installare una serie di librerie aggiuntive: g++, libxmlrpc-c3-dev, scons, libsqlite3-dev, libmysqlclient-dev, libxml2-dev, libssl-dev, ruby. I comandi seguenti riassumono i passi necessari per l'installazione del programma sulla macchina client e sulla macchina frontend:
+
+\begin{itemize}
+	\item sudo apt-get install g++ libxmlrpc-c3-dev scons libsqlite3-dev libmysqlclient-dev libxml2-dev libssl-dev ruby
+	\item scons -j2
+	\item Frontend) sudo ./install.sh -d /srv/cloud/one -u oneadmin -g cloud
+	\item Client) sudo ./install.sh -d /srv/cloud/one -u oneadmin -g cloud -c
+	\item /srv/cloud/one/share/install\_gems sunstone cloud
+\end{itemize}
+
+Sulle macchine è stato poi configurato l'account di amministrazione di Open Nebula (oneadmin) ed il gruppo relativo (cloud), ed è stata presa nota dell'uid e dell'gid. In particolare per semplicità all'utente oneadmin è stata associata la password "test".
+
+\begin{itemize}
+	\item groupadd cloud
+	\item useradd -d /srv/cloud/one -g cloud -m oneadmin
+	\item sudo passwd oneadmin
+\end{itemize}
+
+In seguito sono state esportate le variabili globali di riferimento del softare Open Nebula. Per comodità le istruzioni relative sono state introdotte nel file di configurazione del terminale bash (.bashrc) in modo da effettuarne l'esecuzione su ogni terminale attivo. Inoltre è stato ribadito che l'utente oneadmin ha password "test" per mezzo del file di configurazione one\_auth.
+
+\begin{itemize}
+	\item
+	\footnotesize{ 
+	echo\\``export PATH=\$PATH:/var/lib/gems/1.8/bin:\\/srv/cloud/one/bin
+	\\export ONE\_LOCATION=/srv/cloud/one
+	\\export ONE\_XMLRPC=http://localhost:2633/RPC2
+	\\export ONE\_AUTH=/srv/cloud/one/.one/one\_auth''\\ $>>$ ~/.bashrc
+	\item echo ``oneadmin:test'' $>$ /src/cloud/one/.one/one\_auth
+	}
+\end{itemize}
+
+Poichè il sottoalbero del filesystem /srv/cloud/one/ è stato destinato ad essere la home dell'utente oneadmin i file e le directory in esso contenute sono state assegnate a tale utente: sudo chown -R oneadmin:cloud /srv/cloud/one/
+
+Infine, sebbene non fosse strettamente necessario, abbiamo garantito permessi di root all'utente oneadmin. Tale scelta semplifica lo sforzo di configurazione permettendo di effettuare modifiche ai file di configurazione protetti anche se loggati con tale utente. Pertanto abbiamo editato il file di dichiarazione dei sudoers mediante il comando visudo introducendo la linea: oneadmin ALL=(ALL:ALL) ALL
+
+Dopo aver acceduto al sistema come utente oneadmin a mezzo del comando: su oneadmin, è stato riscontrato un errore di configurazione della shell di base e della home directory di tale utente. Di conseguenza mediante il comando chsh è stata assegnata una shell bash a oneadmin permettendo il funzionamento del login. A tal punto sono stati avviati i demoni di gestione dell'ambiente Open Nebula:
+
+\begin{itemize}
+	\item one start
+	\item oneacctd start
+	\item sunstone-server start
+\end{itemize}
+
+Il servizio web sunstone è quindi stato reso disponibile mediante browser (ampiamente testato su Chromium Browser) all'url: http://127.0.0.1:9869
+
+La configurazione degli host per Open Nebula è stata effettuata a mezzo terminale per permettere la configurazione dei parametri relativi ai driver delle macchine virtuali in uso, del filesystem distribuito (con particolare riguardo per nfs) e della rete. Per far ciò è stata dichiarata una entry nel file /etc/hosts che associa al nome andryak l'indirizzo ip 10.42.43.1 e al nome host1 l'indirizzo ip 10.42.43.12. Dopo tale specifica il comando: onehost create host1 im\_kvm vmm\_kvm tm\_shared dummy, permette la creazione di un host virtuale relativo alla macchina fisica in ascolto sull'indirizzo specificato per host1. La medesima procedura è stata effettuata per configurare l'host andryak in quanto, per scarsità di risorse, abbiamo dovuto incorporare nel frontend anche le caratteristiche di un client Open Nebula.
+
+Dopo aver realizzato un'immagine disco di una macchina virtuale Ubuntu 10.04 Lucid Lynx (tty only) mediante la procedura descritta nel seguente paragrafo vi sono stati applicati i massimi permessi (777), l'utente possessore oneadmin ed il gruppo di appartenenza cloud. Mediante il servizio web sunstone tale immagine disco è stata caricata e configurata come immagine raw per Open Nebula, le sono stati assegnati 512 MB di memoria RAM ed un massimo consumo del 50\% di CPU. Infine è stato configurato un canale vnc verso l'indirizzo di loopback 127.0.0.1 alla porta 5930 per poter monitorare lo stato della macchina virtuale in esecuzione.
+
+In seguito dopo che la macchina client ha effettuato il mounting del sottoalbero in cui opera Open Nebula (/srv/cloud/one) mediante il file system distribuito nfs è stato possibile effettuare il deploy della macchina e la sua migrazione (e migrazione live) dalla macchina host alla macchina frontend e viceversa. La procedura di configurazione del filesystem distribuito è argomento del paragrafo "Configurazione nfs".
+
+\section*{Disco virtuale per Ubuntu 10.04 tty}
+Per poter procedere alla creazione del disco virtuale contenente l'installazione di Ubuntu 10.04 tty è stato necessario innanzi tutto installare Qemu (versione 1.0.1). Una volta scaricato il pacchetto di installazione dall'indirizzo http://wiki.qemu.org/Download, è stato decompresso e sono state eseguite da terminale le seguenti istruzioni:
+\begin{itemize}
+	\item sudo apt-get remove qemu qemu-kvm
+	\item sudo apt-get install libglib2.0-dev zlib1g-dev
+	\item ./configure --prefix=/usr
+	\item make
+	\item sudo make install
+\end{itemize}
+
+È stato quindi scaricato il pacchetto di installazione di Qemu-kvm 1.0 dall'indirizzo http://sourceforge.net/projects/kvm/files/qemu-kvm/1.0/qemu-kvm-1.0.tar.gz/download,estratto in una cartella ed installato a mezzo terminale tramite i seguenti comandi:
+\begin{itemize}
+	\item ./configure --prefix=/usr
+	\item make
+	\item sudo make install
+\end{itemize}
+
+A questo punto è stato creato un disco virtuale vuoto tramite il comando
+\begin{itemize}
+	\item qemu-img create -f raw ubuntu.img 3G
+\end{itemize}
+dove 3G sta per 3 Gigabyte.
+\\*Successivamente è stata avviata la macchina virtuale con il suddetto disco virtuale per installare il sistema operativo con il comando
+\begin{itemize}
+	\item qemu -m 512 -hda ubuntu.img -cdrom ubuntu10-04.iso -boot d
+\end{itemize}
+dove ``-cdrom'' è la flag per lanciare il sistema operativo da iso,``-hda'' dichiara l'hard disk virtuale di riferimento e ``-m'' serve ad indicare il quantitativo di ram da destinare alla macchina virtuale.
+Il suddetto comando ha però generato un errore (pci\_add\_option\_rom: failed to find romfile ``pxe-rtl8139.bin'') che è stato risolto installando il pacchetto kvm-pxe.
+\\*Infine è stata avviata la macchina virtuale per testare il corretto funzionamento della stessa successivamente all'installazione del sistema operativo tramite il comando
+\begin{itemize}
+	\item qemu-system-i386 -m 1024M -hda ubuntu.img
+\end{itemize}
+
+\section*{Configurazione nfs}
+Per poter rendere funzionante il file system distribuito nfs sono stati installati il server ed il client nfs rispettivamente sull'host che funge da front-end e su quello che funge da nodo del cluster.
+\\*Quindi è stato modificato il file /etc/exports nella macchina che funge da server, al cui interno è stata aggiunta la seguente riga:
+\begin{itemize}
+	\item /srv/cloud/one *(rw,async, \\*no\_root\_squash, \\*no\_subtree\_check,anonuid=1001,anongid=1001)
+\end{itemize}
+che, in pratica, specifica di rendere disponibile la directory /srv/cloud/one con tutte le sottodirectory in modalità rw,che l'utente root nella macchina client accederà ai file come utente root anche sul server,con la verifica della presenza dei file richiesti nella corretta porzione del volume disabilitata e con userid e groupid corrispondenti a quelli di oneadmin e cloud in entrambe le macchine.
+\\*Fatto ciò si esporta la directory desiderata tramite il comando
+\begin{itemize}
+	\item sudo exportfs -a
+\end{itemize}
+
+Il client, invece, dovrà semplicemente montare la directory desiderata prima di effettuare qualunque altra operazione, tramite il comando
+\begin{itemize}
+	\item mount -t nfs andryak:/srv/cloud/one /srv/cloud/one
+\end{itemize}
+che indica di montare,tramite nfs, la directory esportata dalla macchina andryak all'interno della rispettiva directory nel client.
+
+\section*{JBoss Application Server}
+All'interno della macchina virtuale la cui creazione è stata discussa nel paragrafo ``Disco virtuale per Ubuntu 10.04 tty'' è stato installato l'application server JBoss nella sua versione più recente (v. 7.1). Dopo aver scaricato l'archivio relativo ed averlo decompresso è stato avviato lo script di esecuzione (standalone) dell'application server configurato sulla porta 8080 all'indirizzo di loopback 127.0.0.1. E' stata creata una semplice applicazione, prendendo spunto da quella fornita da JBoss, in modo da far apparire il classico messaggio di test ``Hello World''. Infine attraverso il browser testuale elinks è stato possibile accedere al servizio web e dimostrare l'effettiva riuscita della configurazione di sistema. E' stata anche verificata l'effettiva persistenza del servizio in seguito a numerose migrazioni (live) della macchina virtuale per mezzo del software Open Nebula da un host ad un altro.
+
+\section*{Bibliografia}
+
+\begin{itemize}
+	\item http://opennebula.org/documentation:archives:rel3.2, [ultima visita] Lun. 14 Mag. 2012 
+	\item http://www.scons.org/wiki/
+	\item https://docs.jboss.org/author/display/AS71/Documentation
+	\item http://wiki.qemu.org/Manual
+	\item http://www.ubuntu.com/download/desktop/alternative-downloads
+	\item https://help.ubuntu.com/community/KVM
+\end{itemize}
+
+\end{document}
