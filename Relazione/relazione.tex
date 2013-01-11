@@ -13,7 +13,7 @@
 ]{scrartcl} % KOMA-article class
 
 \usepackage{lipsum} % Package to create dummy text
-
+\usepackage{float}
 \usepackage[utf8x]{inputenc}
 \usepackage[italian]{babel} % English language/hyphenation
 \usepackage[protrusion=true,expansion=true]{microtype} % Better typography
@@ -143,7 +143,7 @@ Infine sono stati individuati e simulati fedelmente i seguenti aspetti del proto
 		%\item[6.] protocollo di leave.		
 	\end{itemize}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{topologia.png}
 	\caption{Topologie di reti virtuali}
@@ -187,64 +187,64 @@ Nelle figure che seguono sono rappresentati i grafici dei messaggi inviati dai n
 
 In figura 2 e 3 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 0 nel protocollo originale e nella sua versione modificata. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 0 del 67\% circa. 
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{TwoThousandNodesNode0.png}
-	\caption{Messaggi inviati dal nodo 0}
+	\caption{Messaggi inviati dal nodo 0 col protocollo originale}
 	\label{Figura 2}
 \end{figure}
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{TwoThousandNodesNode0Mod.png}
-	\caption{Messaggi inviati dal nodo 0}
+	\caption{Messaggi inviati dal nodo 0 col protocollo modificato}
 	\label{Figura 3}
 \end{figure}
 
 In figura 4 e 5 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 3 nel protocollo originale e nella sua versione modificata.In particolare tale nodo è risultato essere quello che invia il maggior numero di messaggi all'interno della simulazione. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 3 del 75\%. 
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{TwoThousandNodesNode3.png}
-	\caption{Messaggi inviati dal nodo 3}
+	\caption{Messaggi inviati dal nodo 3 col protocollo originale}
 	\label{Figura 4}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{TwoThousandNodesNode3Mod.png}
-	\caption{Messaggi inviati dal nodo 3}
+	\caption{Messaggi inviati dal nodo 3 col protocollo modificato}
 	\label{Figura 5}
 \end{figure}
 
 In figura 6 e 7 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 1023 nel protocollo originale e nella sua versione modificata. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 1023 del 46\%.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{TwoThousandNodesNode1023.png}
-	\caption{Messaggi inviati dal nodo 1023}
+	\caption{Messaggi inviati dal nodo 1023 col protocollo originale}
 	\label{Figura 6}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{TwoThousandNodesNode1023Mod.png}
-	\caption{Messaggi inviati dal nodo 1023}
+	\caption{Messaggi inviati dal nodo 1023 col protocollo modificato}
 	\label{Figura 7}
 \end{figure}
 
 In figura 8 e 9 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 1024 nel protocollo originale e nella sua versione modificata. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 1024 del 27\% circa.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{TwoThousandNodesNode1024.png}
-	\caption{Messaggi inviati dal nodo 1024}
+	\caption{Messaggi inviati dal nodo 1024 col protocollo originale}
 	\label{Figura 8}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.35]{TwoThousandNodesNode1024Mod.png}
-	\caption{Messaggi inviati dal nodo 1024}
+	\caption{Messaggi inviati dal nodo 1024 col protocollo modificato}
 	\label{Figura 9}
 \end{figure}
 
