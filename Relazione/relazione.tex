@@ -179,17 +179,84 @@ Infine sono stati individuati e simulati fedelmente i seguenti aspetti del proto
 		\end{itemize}
 	\end{itemize} 
 \end{itemize}
-Fino ad ora abbiamo supposto che la posizione dei nodi vicini al nodo che sta correntemente eseguendo il protocollo di routing sia costantemente aggiornata per la versione modificata del protocollo. Ciò è tuttavia certamente vero sotto l'ipotesi che nel momento in cui un nodo accede alla rete o immediatamente prima di abbandonarla comunichi ai propri vicini la necessità di aggiornare le posizioni dei nodi adiacenti. 
+Fino ad ora abbiamo supposto che la posizione dei nodi vicini al nodo che sta correntemente eseguendo il protocollo di routing sia costantemente aggiornata per la versione modificata del protocollo. Ciò è tuttavia certamente vero sotto l'ipotesi che nel momento in cui un nodo accede alla rete o immediatamente prima di abbandonarla comunichi ai propri vicini la necessità di aggiornare le posizioni dei nodi adiacenti.
 \section{Risultati}
 \'E stata effettuata la simulazione a mezzo del simulatore Omnet++ del protocollo Symphony sia nella versione originale che nella versione modificata. Quindi è stato analizzato il parametro prestazionale di interesse (numero di messaggi inviati dai singoli nodi) mediante gli strumenti di analisi offline messi a disposizione da tale simulatore. Di seguito verranno esposti i risultati dell'analisi prestazionale effettuata sul protocollo, impostando il numero di nodi all'interno della rete a 2048 di cui 1024 inizialmente facenti parte della rete virtuale.
-\subsection{Symphony: Versione originale}
+\\*
+Nelle figure che seguono sono rappresentati i grafici dei messaggi inviati dai nodi in fase di simulazione. In particolare nell'asse delle ascisse si trova il tempo simulato, mentre in quello delle ordinate il numero di messaggi inviati dal nodo in questione.
 
+In figura 2 e 3 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 0 nel protocollo originale e nella sua versione modificata. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 0 del 67\% circa. 
 
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{TwoThousandNodesNode0.png}
+	\caption{Messaggi inviati dal nodo 0}
+	\label{Figura 2}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{TwoThousandNodesNode0Mod.png}
+	\caption{Messaggi inviati dal nodo 0}
+	\label{Figura 3}
+\end{figure}
 
-\subsection{Symphony: Versione modificata}
+In figura 4 e 5 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 3 nel protocollo originale e nella sua versione modificata.In particolare tale nodo è risultato essere quello che invia il maggior numero di messaggi all'interno della simulazione. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 3 del 75\%. 
 
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{TwoThousandNodesNode3.png}
+	\caption{Messaggi inviati dal nodo 3}
+	\label{Figura 4}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{TwoThousandNodesNode3Mod.png}
+	\caption{Messaggi inviati dal nodo 3}
+	\label{Figura 5}
+\end{figure}
+
+In figura 6 e 7 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 1023 nel protocollo originale e nella sua versione modificata. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 1023 del 46\%.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{TwoThousandNodesNode1023.png}
+	\caption{Messaggi inviati dal nodo 1023}
+	\label{Figura 6}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{TwoThousandNodesNode1023Mod.png}
+	\caption{Messaggi inviati dal nodo 1023}
+	\label{Figura 7}
+\end{figure}
+
+In figura 8 e 9 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 1024 nel protocollo originale e nella sua versione modificata. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 1024 del 27\% circa.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{TwoThousandNodesNode1024.png}
+	\caption{Messaggi inviati dal nodo 1024}
+	\label{Figura 8}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{TwoThousandNodesNode1024Mod.png}
+	\caption{Messaggi inviati dal nodo 1024}
+	\label{Figura 9}
+\end{figure}
+
+Come ci aspettavamo, in tutti i casi analizzati la riduzione del numero di messaggi inviata apportata dalla modifica protocollare è sostanziale. 
 \section{Bibliografia}
-
+\begin{itemize}
+\item[1.] Gurmeet Singh Manku, Mayank Bawa, and Prabhakar Raghavan. 2003. Symphony: distributed
+hashing in a small world. In Proceedings of the 4th conference on USENIX Symposium on
+Internet Technologies and Systems - Volume 4 (USITS'03), Vol. 4. USENIX Association,
+Berkeley, CA, USA, 10-10
+\item[2.] Omnet++ Network Simulation Framework - http://www.omnetpp.org/ 
+\end{itemize}
 
 
 \end{document}
