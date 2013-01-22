@@ -93,7 +93,7 @@ Define_Module(DHTMember);
 
 void DHTMember::initialize() {
     double connected = (double)getAncestorPar("connected");
-    simtime_t delay = exponential(10);
+    //simtime_t delay = exponential(10);
 
     x = getIndex() / connected;
     segmentLength = 0;
@@ -119,8 +119,14 @@ void DHTMember::initialize() {
     WATCH(packetsSentOverTheNet);
 
     /* each node not in the DHT Network will enter the network sooner or later */
+    simtime_t lastEnter = 0;
+    simtime_t ar;
     if (getIndex() >= connected) {
-        join(100.0 * (getIndex() + 1) + delay);
+        //join(100.0 * (getIndex() + 1) + delay);
+
+        ar = (simtime_t)par("accessRate");
+        join(lastEnter + ar);
+        lastEnter += ar;
     }
 
     /* DEBUG */
