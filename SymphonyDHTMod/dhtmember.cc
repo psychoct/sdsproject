@@ -120,8 +120,18 @@ void DHTMember::initialize() {
     WATCH(packetsSentOverTheNet);
 
     /* each node not in the DHT Network will enter the network sooner or later */
+    simtime_t lastEnter = 0;
+    simtime_t ar;
     if (getIndex() >= connected) {
-        join(100.0 * (getIndex() + 1) + delay);
+        //join(100.0 * (getIndex() + 1) + delay);
+
+        ar = (simtime_t)par("accessRate");
+        int size=getAncestorPar("DHTSize");
+
+        //join(lastEnter + ar);
+        //lastEnter += ar;
+        join(100.0 * (getIndex() + 1) + ar);
+        EV<<"DHTMember["<< getIndex()<<"]: DHTSize=" << size <<"; accessRate=" <<ar<< "; will join in "<< 100.0 * (getIndex() + 1) + ar <<endl;
     }
 
     /* DEBUG */

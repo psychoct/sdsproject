@@ -5,6 +5,7 @@ package simphonydht;
 simple DHTMember {
     parameters:
         int K = default(3);
+        double accessRate = default(100);
         @display("i=block/app2_vs");
     gates:        
         // first and second gate are short links others are long links, 

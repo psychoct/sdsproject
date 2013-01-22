@@ -14,3 +14,19 @@ in expression "-_@_"
 "create_graphicalmodwindow .ptr0x9d10920-2 "862x624+65+24:normal""
 
 
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0xad41a88-2 "862x624+64+24:normal""
+
+
