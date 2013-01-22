@@ -125,8 +125,13 @@ void DHTMember::initialize() {
         //join(100.0 * (getIndex() + 1) + delay);
 
         ar = (simtime_t)par("accessRate");
-        join(lastEnter + ar);
-        lastEnter += ar;
+        int size=getAncestorPar("DHTSize");
+
+        //join(lastEnter + ar);
+        //lastEnter += ar;
+        join(100.0 * (getIndex() + 1) + ar);
+        EV<<"DHTMember["<< getIndex()<<"]: DHTSize=" << size <<"; accessRate=" <<ar<< "; will join in "<< 100.0 * (getIndex() + 1) + ar <<endl;
+
     }
 
     /* DEBUG */
