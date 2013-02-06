@@ -157,7 +157,7 @@ void DHTMember::handleMessage(cMessage* msg) {
 
     if(packetsSentOverTheNet > 0) {
         packetsInNetworkHistogram.collect(packetsSentByMe/packetsSentOverTheNet);
-        packetsInNetworkVector.record(packetsSentByMe);
+        packetsInNetworkVector.record(packetsSentByMe/packetsSentOverTheNet);
     }
 
     toSenderGateIndex = getGateToModule(msg->getSenderModule());
