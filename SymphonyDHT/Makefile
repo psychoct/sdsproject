@@ -14,7 +14,7 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(TKENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I. -Iplots
+INCLUDE_PATH = -I. -Iplots -Iplots/128_Nodes_FastAccess -Iplots/128_Nodes_SlowAccess -Iresults
 
 # Additional object and library files to link with
 EXTRA_OBJS =
@@ -103,12 +103,15 @@ clean:
 	-rm -f SymphonyDHT SymphonyDHT.exe libSymphonyDHT.so libSymphonyDHT.a libSymphonyDHT.dll libSymphonyDHT.dylib
 	-rm -f ./*_m.cc ./*_m.h
 	-rm -f plots/*_m.cc plots/*_m.h
+	-rm -f plots/128_Nodes_FastAccess/*_m.cc plots/128_Nodes_FastAccess/*_m.h
+	-rm -f plots/128_Nodes_SlowAccess/*_m.cc plots/128_Nodes_SlowAccess/*_m.h
+	-rm -f results/*_m.cc results/*_m.h
 
 cleanall: clean
 	-rm -rf $(PROJECT_OUTPUT_DIR)
 
 depend:
-	$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc plots/*.cc
+	$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc plots/*.cc plots/128_Nodes_FastAccess/*.cc plots/128_Nodes_SlowAccess/*.cc results/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/dhtmember.o: dhtmember.cc \

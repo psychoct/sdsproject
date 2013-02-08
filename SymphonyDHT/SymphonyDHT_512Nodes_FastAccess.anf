@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-120.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-121.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-122.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-123.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-124.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-125.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-126.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-127.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-128.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-129.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-130.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-131.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-132.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-133.vec"/>
+    <inputs name="/SymphonyDHT/results/SymphonyDHT-134.vec"/>
+  </inputs>
+  <datasets>
+    <datasets name="DS_512Nodes">
+      <items xsi:type="scave:Add" filterPattern="run(*) AND module(*.members[0]) OR run(*) AND module(*.members[64]) OR run(*) AND module(*.members[96]) " type="VECTOR"/>
+    </datasets>
+  </datasets>
+  <chartSheets/>
+</scave:Analysis>

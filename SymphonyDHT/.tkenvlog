@@ -639,3 +639,211 @@ in expression "-_@_"
 "create_graphicalmodwindow .ptr0xadfc8c8-2 "607x328+64+24:normal""
 
 
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0x97bbd20-2 "607x328+64+24:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0x9477e90-2 "607x328+65+24:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0xa2d0760-2 "607x328+65+24:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0xa69c898-2 "607x328+64+24:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0xa147000-2 "607x328+64+24:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0x9c8bfd0-2 "607x328+64+24:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0xab74e90-2 "607x328+64+24:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0x93429b8-2 "607x328+107+459:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0xa307750-2 "607x328+107+459:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0x980a508-2 "607x328+107+459:normal""
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0xa100558-2 """
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0xa68c490-2 """
+
+
+----------------------------------------------------------------------
+
+
+Tcl error: modinsp.cc#237: missing operand at _@_
+in expression "-_@_"
+    (parsing expression "-")
+    invoked from within
+"expr [lindex $bb 2]-[lindex $bb 0]"
+    (procedure "graphmodwin_adjust_windowsize_and_zoom" line 13)
+    invoked from within
+"graphmodwin_adjust_windowsize_and_zoom $w"
+    (procedure "create_graphicalmodwindow" line 104)
+    invoked from within
+"create_graphicalmodwindow .ptr0xa081508-2 "607x328+185+736:normal""
+
+
