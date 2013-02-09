@@ -189,17 +189,166 @@ Infine sono stati individuati e simulati fedelmente i seguenti aspetti del proto
 \end{itemize}
 Fino ad ora abbiamo supposto che la posizione dei nodi vicini al nodo che sta correntemente eseguendo il protocollo di routing sia costantemente aggiornata per la versione modificata del protocollo. Ciò è tuttavia certamente vero sotto l'ipotesi che nel momento in cui un nodo accede alla rete o immediatamente prima di abbandonarla comunichi ai propri vicini la necessità di aggiornare le posizioni dei nodi adiacenti.
 \section{Risultati}
+\'E stata effettuata la simulazione a mezzo del simulatore Omnet++ del protocollo Symphony sia nella versione originale che nella versione modificata. Per entrambe i protocolli è stato fissato il numero di nodi della DHT a 128,256 e 512, di cui all'inizio 64 già connessi. Fissato il numero di nodi sono stati quindi eseguiti quattro blocchi da quindici run di simulazione, in cui ogni run di simulazione presentava seed diversi da tutti gli altri, mentre ogni blocco da quindici run presentava diverso access rate dei nodi all'interno della DHT. Utilizzando gli strumenti di analisi offline messi a disposizione da tale simulatore sono state quindi effettuate le seguenti analisi:
+	\begin{itemize}
+	\item[1.] scalabilità del protocollo, utilizzando come parametro prestazionale la percentuale di messaggi inviati da ciascun nodo rispetto al numero totale di messaggi inviati all'interno della DHT da tutti i nodi;
+	\item[2.] confronto tra la versione originale e la versione modificata del protocollo Symphony, utilizzando come parametro prestazionale il numero di messaggi inviati dai singoli nodi.
+	\end{itemize}
+	
+	\subsection{Scalabilità del protocollo}
+	Di seguito verranno esposti i risultati dell'analisi di scalabilità del protocollo Symphony nella sua versione originale, concentrando i confronti in prima battuta sull'eventuale variazione del parametro prestazionale al variare dell'access rate dei nodi all'interno della DHT e successivamente sull'impatto della variazione del numero di nodi che entrano nella DHT.
+Nelle figure che seguono sono rappresentati i grafici delle percentuali di messaggi inviati da ciascun nodo rispetto al numero totale di messaggi inviati da tutti i nodi. In particolare nell'asse delle ascisse si trova il tempo simulato, mentre in quello delle ordinate la percentuale di messaggi inviati dal nodo in questione.
 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.35]{SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_FastAccess/SymphonyDHTMod_128Nodes_FastAccess_Node0.png}
-	\caption{Topologie di reti virtuali}
-	\label{Figura 1}
-\end{figure}
-
-
-
+	In figura 2 e 3 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con access rate alto e con access rate basso all'interno di una DHT con massimo 128 nodi. Come si evince, a meno di due run di simulazione in cui la percentuale di messaggi inviati da tale nodo è più alta (quasi doppia) con access rate basso, la percentuale di messaggi inviati si attesta circa sull'1\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.  
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_FastAccess/SymphonyDHT_128Nodes_FastAccess_Node0.png}
+		\caption{Percentuale di messaggi inviati dal nodo 0 con access rate alto all'interno di una DHT con massimo 128 nodi}
+		\label{Figura 2}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDHT_128Nodes_SlowAccess_Node0.png}
+		\caption{Percentuale di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 128 nodi}
+		\label{Figura 3}
+	\end{figure}
+	
+	In figura 4 e 5 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 64 con access rate alto e con access rate basso all'interno di una DHT con massimo 128 nodi. Come si evince, a meno di una fase iniziale in cui la percentuale di messaggi inviati da tale nodo è più alta (circa quattro volte di più) con access rate basso, la percentuale di messaggi inviati si attesta circa sul 2\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_FastAccess/SymphonyDHT_128Nodes_FastAccess_Node64.png}
+		\caption{Percentuale di messaggi inviati dal nodo 64 con access rate alto all'interno di una DHT con massimo 128 nodi}
+		\label{Figura 4}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDHT_128Nodes_SlowAccess_Node64.png}
+		\caption{Percentuale di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 128 nodi}
+		\label{Figura 5}
+	\end{figure}
+	
+	In figura 6 e 7 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 96 con access rate alto e con access rate basso all'interno di una DHT con massimo 128 nodi. Come si evince, a meno di due run di simulazione in cui con access rate alto il nodo in questione ha una percentuale di messaggi inviati più alta (alla fine circa doppia) rispetto a tutte le altre run nelle stesse condizioni, la percentuale di messaggi inviati si attesta sotto lo 0,6\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.	
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_FastAccess/SymphonyDHT_128Nodes_FastAccess_Node96.png}
+		\caption{Percentuale di messaggi inviati dal nodo 96 con access rate alto all'interno di una DHT con massimo 128 nodi}
+		\label{Figura 6}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDHT_128Nodes_SlowAccess_Node96.png}
+		\caption{Percentuale di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 128 nodi}
+		\label{Figura 7}
+	\end{figure}
+		
+	In figura 8 e 9 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con access rate alto e con access rate basso all'interno di una DHT con massimo 256 nodi. Come si evince, a meno di una run di simulazione in cui la percentuale di messaggi inviati da tale nodo è più alta (quasi doppia) con access rate alto, la percentuale di messaggi inviati si attesta circa sull'1\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/256_Nodes_FastAccess/SymphonyDHT_256Nodes_FastAccess_Node0.png}
+		\caption{Percentuale di messaggi inviati dal nodo 0 con access rate alto all'interno di una DHT con massimo 256 nodi}
+		\label{Figura 8}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/256_Nodes_SlowAccess/SymphonyDHT_256Nodes_SlowAccess_Node0.png}
+		\caption{Percentuale di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 256 nodi}
+		\label{Figura 9}
+	\end{figure}	
+	
+	In figura 10 e 11 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 64 con access rate alto e con access rate basso all'interno di una DHT con massimo 256 nodi. Come si evince, a meno di una fase iniziale in cui la percentuale di messaggi inviati da tale nodo è più alta (quasi il doppio) con access rate basso, la percentuale di messaggi inviati si attesta sotto il 2\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/256_Nodes_FastAccess/SymphonyDHT_256Nodes_FastAccess_Node64.png}
+		\caption{Percentuale di messaggi inviati dal nodo 64 con access rate alto all'interno di una DHT con massimo 256 nodi}
+		\label{Figura 10}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/256_Nodes_SlowAccess/SymphonyDHT_256Nodes_SlowAccess_Node64.png}
+		\caption{Percentuale di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 256 nodi}
+		\label{Figura 11}
+	\end{figure}	
+	
+	In figura 12 e 13 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 96 con access rate alto e con access rate basso all'interno di una DHT con massimo 256 nodi. Come si evince, a meno di due run di simulazione in cui con access rate alto il nodo in questione ha una percentuale di messaggi inviati più alta (alla fine circa doppia) rispetto a tutte le altre run nelle stesse condizioni, la percentuale di messaggi inviati si attesta sotto lo 0,9\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/256_Nodes_FastAccess/SymphonyDHT_256Nodes_FastAccess_Node96.png}
+		\caption{Percentuale di messaggi inviati dal nodo 96 con access rate alto all'interno di una DHT con massimo 256 nodi}
+		\label{Figura 12}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/256_Nodes_SlowAccess/SymphonyDHT_256Nodes_SlowAccess_Node96.png}
+		\caption{Percentuale di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 256 nodi}
+		\label{Figura 13}
+	\end{figure}	
+	
+	In figura 14 e 15 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con access rate alto e con access rate basso all'interno di una DHT con massimo 512 nodi. Come si evince, a meno di una fase iniziale in cui la percentuale di messaggi inviati da tale nodo è più alta (circa doppia) con access rate basso, la percentuale di messaggi inviati si attesta circa sull'1\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.  
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/SymphonyDHT_512Nodes_FastAccess_Node0.png}
+		\caption{Percentuale di messaggi inviati dal nodo 0 con access rate alto all'interno di una DHT con massimo 512 nodi}
+		\label{Figura 14}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_SlowAccess/SymphonyDHT_512Nodes_SlowAccess_Node0.png}
+		\caption{Percentuale di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 512 nodi}
+		\label{Figura 15}
+	\end{figure}	
+	
+	In figura 16 e 17 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 64 con access rate alto e con access rate basso all'interno di una DHT con massimo 512 nodi. Come si evince, a meno di una run di simulazione in cui la percentuale di messaggi inviati da tale nodo è più alta (circa il doppio) con access rate basso, la percentuale di messaggi inviati si attesta sotto il 2\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/SymphonyDHT_512Nodes_FastAccess_Node64.png}
+		\caption{Percentuale di messaggi inviati dal nodo 64 con access rate alto all'interno di una DHT con massimo 512 nodi}
+		\label{Figura 16}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_SlowAccess/SymphonyDHT_512Nodes_SlowAccess_Node64.png}
+		\caption{Percentuale di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 512 nodi}
+		\label{Figura 17}
+	\end{figure}		
+	
+	In figura 18 e 19 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 96 con access rate alto e con access rate basso all'interno di una DHT con massimo 512 nodi. Come si evince, a meno di due run di simulazione in cui con access rate alto il nodo in questione ha una percentuale di messaggi inviati più alta (alla fine circa doppia) rispetto a tutte le altre run nelle stesse condizioni, la percentuale di messaggi inviati si attesta sotto lo 0,7\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/SymphonyDHT_512Nodes_FastAccess_Node96.png}
+		\caption{Percentuale di messaggi inviati dal nodo 96 con access rate alto all'interno di una DHT con massimo 512 nodi}
+		\label{Figura 18}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_SlowAccess/SymphonyDHT_512Nodes_SlowAccess_Node96.png}
+		\caption{Percentuale di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 512 nodi}
+		\label{Figura 19}
+	\end{figure}		
+	
+	
+	
+	
+	\subsection{Confronto tra protocollo originale e modifica protocollare}
+	
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDHT_128Nodes_SlowAccess_Node0.png}
+		\caption{ESEMPIO DI FIGURA}
+		\label{Figura }
+	\end{figure}
+	
+	
+	
 \section{Bibliografia}
 \begin{itemize}
 \item[1.] Gurmeet Singh Manku, Mayank Bawa, and Prabhakar Raghavan. 2003. Symphony: distributed
