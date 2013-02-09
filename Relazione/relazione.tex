@@ -119,6 +119,14 @@
 	\begin{abstract}
 	Il protocollo DHT Symphony discusso da Manku, Bawa e Raghavan si propone come nuova frontiera per il mantenimento e l'accesso di dizionari distribuiti sulla rete globale. Sfruttando una topologia di rete virtuale ad anello sulla quale vengono instaurate connessioni tra nodi distanti, è possibile ridurre drasticamente i tempi di recupero di dati evitandone l'eccessiva replicazione. Tuttavia il numero di messaggi necessari al funzionamento del protocollo stesso non è oggetto di studio del documento prodotto dagli autori di cui sopra. Si intende quindi analizzare tale aspetto mediante la simulazione del protocollo a mezzo del simulatore Omnet++. Verrà inoltre introdotta una modifica protocollare con lo scopo di diminuire il numero di messaggi transitanti nella rete senza inficiare la correttezza e l'efficacia del protocollo.
 	\end{abstract}
+	
+\section{Protocollo DHT Symphony}
+	Al fine di realizzare una tabella hash distribuita affidabile è necessario che si mantengano copie dei dati in essa contenuti su svariate macchine facenti parte della rete che compone la tabella stessa. In pratica ciò è quasi sempre inattuabile. Il protocollo DHT Symphony tenta di risolvere il problema eleggendo dei candidati facenti parte della rete per la gestione e la memorizzazione di determinate porzioni della tabella. Affinché l'accesso ai dati in essa contenuti sia efficiente i nodi vengono organizzati in una struttura circolare in modo che ogni nodo abbia un vicino ad esso immediatamente precedente ed uno successivo. Questo approccio garantisce la raggiungibilità di qualsiasi macchina della DHT a partire da qualunque altra in un numero di passi non maggiore della metà del numero di nodi facenti parte della rete. Al fine di ridurre ulteriormente questo valore il protocollo introduce delle connessioni ulteriori tra nodi non adiacenti instaurate a mezzo di una particolare distribuzione di probabilità (distribuzione armonica da cui il protocollo trae il suo nome). Per poter comprendere al meglio il suo funzionamento è consigliabile pensare alla totalità dei dati contenuti nella DHT come se fossero posti su una circonferenza di perimetro unitario. Ogni nodo facente parte della rete occupa una posizione differente su tale circonferenza e si occupa di soddisfare le richieste (in gergo, \textit{fa da manager}) per la porzione di dati contenuta tra il nodo medesimo ed il suo immediato vicino in senso antiorario. Si noti che:
+\begin{itemize}
+	\item[1.] Sebbene un nodo sia connesso ai due nodi a lui adiacenti e a svariati altri non conosce il punto preciso che questi occupano sulla circonferenza. Tale informazione è di vitale importanza per il funzionamento di diversi punti del protocollo;
+	\item[2.] Inoltre essendo la rete particolarmente dinamica, il protocollo gestisce l'accesso e l'uscita di nodi in modo che i dati della DHT rimangano consistenti. In particolare quando un nodo intende accedere alla rete decide autonomamente in quale punto della circonferenza posizionarsi mediante la scelta randomica di un valore uniformemente distribuito nell'intervallo [0,1). Informa poi un nodo già connesso della sua volontà di accedere alla rete distribuita; mediante un protocollo di instradamento interno noto come \textit{protocollo di routing} tale nodo contatta l'attuale manager di quel punto permettendo al nuovo nodo di accedere previa modifica delle connessioni opportune.
+\end{itemize}
+Il protocollo consta di tutta una serie di sottoprotocolli più o meno complessi che gli permettono di operare nella sua interezza. Per informazioni più dettagliate si rimanda il lettore al documento ``DHT Symphony: Distributed hashing in a small world''[1.]
 
 \section{Simulazione}
 	\subsection{Gli strumenti}
@@ -155,9 +163,9 @@ Infine sono stati individuati e simulati fedelmente i seguenti aspetti del proto
 	\begin{itemize}
 	\item[1.] La rete è supposta essere, in principio, popolata;
 	\item[2.] Il numero di nodi della DHT è inferiormente limitato da un valore positivo configurabile, supposto maggiore di 8;
-	\item[3.] Ogni nodo non ha conoscenza della posizione all'interno della circonferenza di perimetro unitario dei propri vicini;
+	\item[3.] Ogni nodo non ha accesso diretto al valore indicante la posizione all'interno della circonferenza di perimetro unitario dei propri vicini, deve pertanto recuperarla chiedendola esplicitamente a questi mediante l'uso di messaggi di rete. Il protocollo Symphony assume che la posizione dei nodi manager del segmento immediatamente precedente e del segmento immediatamente successivo di un dato nodo sia direttamente accessibile in ogni momento. Ciò ha perfettamente senso in termini matematici in quanto ogni nodo altro non è che una particolare struttura dotata di collegamenti ai nodi vicini. Tuttavia i nodi descritti dal protocollo sono a tutti gli effetti macchine connesse attraverso la rete, ne deriva il non trascurabile dettaglio implementativo che consiste nel dover recuperare tali valori a mezzo messaggi mediati dai canali di comunicazione dai nodi adiacenti. 
 	\item[4.] Il lookup dei file della DHT non è ritenuto di interesse e pertanto non è simulato;
-	\item[5.] Nessuna coppia di nodi facente parte della DHT ha la stessa posizione sulla circonferenza di perimetro unitario.
+	\item[5.] Nessuna coppia di nodi facente parte della DHT ha la stessa posizione sulla circonferenza di perimetro unitario. In linea teorica pescando valori randomici dalla distribuzione armonica del protocollo in esame due nodi diversi potrebbero ottenere lo stesso valore. Ciò significherebbe che entrambi i nodi sono manager della stessa porzione della DHT. Il protocollo Symphony non dichiara come affrontare questo particolare problema, che crea ambiguità in fase di esecuzione del sottoprotocollo di join.
 	\end{itemize}
 	
 \section{Modifica protocollare}
@@ -181,74 +189,17 @@ Infine sono stati individuati e simulati fedelmente i seguenti aspetti del proto
 \end{itemize}
 Fino ad ora abbiamo supposto che la posizione dei nodi vicini al nodo che sta correntemente eseguendo il protocollo di routing sia costantemente aggiornata per la versione modificata del protocollo. Ciò è tuttavia certamente vero sotto l'ipotesi che nel momento in cui un nodo accede alla rete o immediatamente prima di abbandonarla comunichi ai propri vicini la necessità di aggiornare le posizioni dei nodi adiacenti.
 \section{Risultati}
-\'E stata effettuata la simulazione a mezzo del simulatore Omnet++ del protocollo Symphony sia nella versione originale che nella versione modificata. Quindi è stato analizzato il parametro prestazionale di interesse (numero di messaggi inviati dai singoli nodi) mediante gli strumenti di analisi offline messi a disposizione da tale simulatore. Di seguito verranno esposti i risultati dell'analisi prestazionale effettuata sul protocollo, impostando il numero di nodi all'interno della rete a 2048 di cui 1024 inizialmente facenti parte della rete virtuale.
-\\*
-Nelle figure che seguono sono rappresentati i grafici dei messaggi inviati dai nodi in fase di simulazione. In particolare nell'asse delle ascisse si trova il tempo simulato, mentre in quello delle ordinate il numero di messaggi inviati dal nodo in questione.
 
-In figura 2 e 3 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 0 nel protocollo originale e nella sua versione modificata. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 0 del 67\% circa. 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.35]{TwoThousandNodesNode0.png}
-	\caption{Messaggi inviati dal nodo 0 col protocollo originale}
-	\label{Figura 2}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.35]{TwoThousandNodesNode0Mod.png}
-	\caption{Messaggi inviati dal nodo 0 col protocollo modificato}
-	\label{Figura 3}
+	\includegraphics[scale=0.35]{SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_FastAccess/SymphonyDHTMod_128Nodes_FastAccess_Node0.png}
+	\caption{Topologie di reti virtuali}
+	\label{Figura 1}
 \end{figure}
 
-In figura 4 e 5 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 3 nel protocollo originale e nella sua versione modificata. In particolare tale nodo è risultato essere quello che invia il maggior numero di messaggi all'interno della simulazione. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 3 del 75\% circa. 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.35]{TwoThousandNodesNode3.png}
-	\caption{Messaggi inviati dal nodo 3 col protocollo originale}
-	\label{Figura 4}
-\end{figure}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.35]{TwoThousandNodesNode3Mod.png}
-	\caption{Messaggi inviati dal nodo 3 col protocollo modificato}
-	\label{Figura 5}
-\end{figure}
-
-In figura 6 e 7 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 1023 nel protocollo originale e nella sua versione modificata. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 1023 del 46\% circa.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.35]{TwoThousandNodesNode1023.png}
-	\caption{Messaggi inviati dal nodo 1023 col protocollo originale}
-	\label{Figura 6}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.35]{TwoThousandNodesNode1023Mod.png}
-	\caption{Messaggi inviati dal nodo 1023 col protocollo modificato}
-	\label{Figura 7}
-\end{figure}
-
-In figura 8 e 9 vengono rappresentati rispettivamente il numero di messaggi inviati dal nodo 1024 nel protocollo originale e nella sua versione modificata. Come si può facilmente verificare, in questo caso la modifica protocollare apporta una riduzione dei messaggi inviati da parte del nodo 1024 del 27\% circa.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.35]{TwoThousandNodesNode1024.png}
-	\caption{Messaggi inviati dal nodo 1024 col protocollo originale}
-	\label{Figura 8}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.35]{TwoThousandNodesNode1024Mod.png}
-	\caption{Messaggi inviati dal nodo 1024 col protocollo modificato}
-	\label{Figura 9}
-\end{figure}
-
-Come ci aspettavamo, in tutti i casi analizzati la riduzione del numero di messaggi inviati a seguito della modifica protocollare è sostanziale. 
 \section{Bibliografia}
 \begin{itemize}
 \item[1.] Gurmeet Singh Manku, Mayank Bawa, and Prabhakar Raghavan. 2003. Symphony: distributed
