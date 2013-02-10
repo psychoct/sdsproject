@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.12.18)  9 FEB 2013 20:37
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.12.18)  10 FEB 2013 19:05
 entering extended mode
  %&-line parsing enabled.
 **relazione.tex
@@ -784,24 +784,80 @@ HT_128Nodes_SlowAccess_Node0.png Graphic file (type png)
 
 <use SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDH
 T_128Nodes_SlowAccess_Node0.png>
-Overfull \hbox (11.88286pt too wide) in paragraph at lines 345--346
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 341--342
  [][] 
  []
 
 [18 <./SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/Symphony
 DHT_512Nodes_FastAccess_Node96.png> <./SymphonyDHT/plots/PercentageOfMessagesSe
 nt/512_Nodes_SlowAccess/SymphonyDHT_512Nodes_SlowAccess_Node96.png>]
-AED: lastpage setting LastPage [19] (./relazione.aux)
+File: SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/SymphonyD
+HT_512Nodes_FastAccess_Node0.png Graphic file (type png)
+
+<use SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/SymphonyDH
+T_512Nodes_FastAccess_Node0.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 347--348
+ [][] 
+ []
+
+[19]
+File: SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyD
+HT_128Nodes_SlowAccess_Node64.png Graphic file (type png)
+
+<use SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDH
+T_128Nodes_SlowAccess_Node64.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 356--357
+ [][] 
+ []
+
+File: SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/SymphonyD
+HT_512Nodes_FastAccess_Node64.png Graphic file (type png)
+
+<use SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/SymphonyDH
+T_512Nodes_FastAccess_Node64.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 362--363
+ [][] 
+ []
+
+[20]
+File: SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyD
+HT_128Nodes_SlowAccess_Node96.png Graphic file (type png)
+
+<use SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDH
+T_128Nodes_SlowAccess_Node96.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 371--372
+ [][] 
+ []
+
+File: SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/SymphonyD
+HT_512Nodes_FastAccess_Node96.png Graphic file (type png)
+
+<use SymphonyDHT/plots/PercentageOfMessagesSent/512_Nodes_FastAccess/SymphonyDH
+T_512Nodes_FastAccess_Node96.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 377--378
+ [][] 
+ []
+
+File: SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyD
+HT_128Nodes_SlowAccess_Node0.png Graphic file (type png)
+
+<use SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDH
+T_128Nodes_SlowAccess_Node0.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 390--391
+ [][] 
+ []
+
+[21] AED: lastpage setting LastPage [22] (./relazione.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 8834 strings out of 495061
- 144287 string characters out of 1182620
- 343664 words of memory out of 3000000
- 11715 multiletter control sequences out of 15000+50000
- 15803 words of font info for 101 fonts, out of 3000000 for 9000
+ 8844 strings out of 495061
+ 144385 string characters out of 1182620
+ 343725 words of memory out of 3000000
+ 11721 multiletter control sequences out of 15000+50000
+ 15905 words of font info for 103 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  46i,11n,45p,1617b,628s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
@@ -812,9 +868,9 @@ type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public
 /cmr9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
 /usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/
 texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on relazione.pdf (19 pages, 1265190 bytes).
+Output written on relazione.pdf (22 pages, 1269665 bytes).
 PDF statistics:
- 138 PDF objects out of 1000 (max. 8388607)
+ 147 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  20064 words of extra memory for PDF output out of 20736 (max. 10000000)
 
