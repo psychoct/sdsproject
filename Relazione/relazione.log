@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.12.18)  10 FEB 2013 19:05
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.12.18)  10 FEB 2013 20:44
 entering extended mode
  %&-line parsing enabled.
 **relazione.tex
@@ -838,26 +838,254 @@ Overfull \hbox (11.88286pt too wide) in paragraph at lines 377--378
  [][] 
  []
 
-File: SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyD
-HT_128Nodes_SlowAccess_Node0.png Graphic file (type png)
+[21]
+<SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHT_128
+Nodes_SlowAccess_Node0.png, id=115, 1100.913pt x 498.663pt>
+File: SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDH
+T_128Nodes_SlowAccess_Node0.png Graphic file (type png)
 
-<use SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDH
-T_128Nodes_SlowAccess_Node0.png>
-Overfull \hbox (11.88286pt too wide) in paragraph at lines 390--391
+<use SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHT
+_128Nodes_SlowAccess_Node0.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 392--393
  [][] 
  []
 
-[21] AED: lastpage setting LastPage [22] (./relazione.aux)
+
+<SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHTM
+od_128Nodes_SlowAccess_Node0.png, id=116, 1100.913pt x 498.663pt>
+File: SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/Symphon
+yDHTMod_128Nodes_SlowAccess_Node0.png Graphic file (type png)
+
+<use SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/Symphony
+DHTMod_128Nodes_SlowAccess_Node0.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 398--399
+ [][] 
+ []
+
+[22 <./SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyD
+HT_128Nodes_SlowAccess_Node0.png>]
+<SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHT_128
+Nodes_SlowAccess_Node64.png, id=121, 1100.913pt x 498.663pt>
+File: SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDH
+T_128Nodes_SlowAccess_Node64.png Graphic file (type png)
+
+<use SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHT
+_128Nodes_SlowAccess_Node64.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 407--408
+ [][] 
+ []
+
+
+<SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHTM
+od_128Nodes_SlowAccess_Node64.png, id=122, 1100.913pt x 498.663pt>
+File: SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/Symphon
+yDHTMod_128Nodes_SlowAccess_Node64.png Graphic file (type png)
+
+<use SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/Symphony
+DHTMod_128Nodes_SlowAccess_Node64.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 413--414
+ [][] 
+ []
+
+[23 <./SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/Sympho
+nyDHTMod_128Nodes_SlowAccess_Node0.png>] [24 <./SymphonyDHT/plots/MessagesSentB
+yEveryNode/128_Nodes_SlowAccess/SymphonyDHT_128Nodes_SlowAccess_Node64.png> <./
+SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHTMo
+d_128Nodes_SlowAccess_Node64.png>]
+<SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHT_128
+Nodes_SlowAccess_Node96.png, id=132, 1100.913pt x 498.663pt>
+File: SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDH
+T_128Nodes_SlowAccess_Node96.png Graphic file (type png)
+
+<use SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHT
+_128Nodes_SlowAccess_Node96.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 422--423
+ [][] 
+ []
+
+
+<SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHTM
+od_128Nodes_SlowAccess_Node96.png, id=133, 1100.913pt x 498.663pt>
+File: SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/Symphon
+yDHTMod_128Nodes_SlowAccess_Node96.png Graphic file (type png)
+
+<use SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/Symphony
+DHTMod_128Nodes_SlowAccess_Node96.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 428--429
+ [][] 
+ []
+
+[25 <./SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyD
+HT_128Nodes_SlowAccess_Node96.png> <./SymphonyDHTMod/plots/MessagesSentByEveryN
+ode/128_Nodes_SlowAccess/SymphonyDHTMod_128Nodes_SlowAccess_Node96.png>]
+<SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHT_256
+Nodes_SlowAccess_Node0.png, id=140, 1100.913pt x 498.663pt>
+File: SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDH
+T_256Nodes_SlowAccess_Node0.png Graphic file (type png)
+
+<use SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHT
+_256Nodes_SlowAccess_Node0.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 437--438
+ [][] 
+ []
+
+
+<SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHTM
+od_256Nodes_SlowAccess_Node0.png, id=141, 1100.913pt x 498.663pt>
+File: SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/Symphon
+yDHTMod_256Nodes_SlowAccess_Node0.png Graphic file (type png)
+
+<use SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/Symphony
+DHTMod_256Nodes_SlowAccess_Node0.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 443--444
+ [][] 
+ []
+
+[26 <./SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyD
+HT_256Nodes_SlowAccess_Node0.png> <./SymphonyDHTMod/plots/MessagesSentByEveryNo
+de/256_Nodes_SlowAccess/SymphonyDHTMod_256Nodes_SlowAccess_Node0.png>]
+<SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHT_256
+Nodes_SlowAccess_Node64.png, id=147, 1100.913pt x 498.663pt>
+File: SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDH
+T_256Nodes_SlowAccess_Node64.png Graphic file (type png)
+
+<use SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHT
+_256Nodes_SlowAccess_Node64.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 452--453
+ [][] 
+ []
+
+
+<SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHTM
+od_256Nodes_SlowAccess_Node64.png, id=148, 1100.913pt x 498.663pt>
+File: SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/Symphon
+yDHTMod_256Nodes_SlowAccess_Node64.png Graphic file (type png)
+
+<use SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/Symphony
+DHTMod_256Nodes_SlowAccess_Node64.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 458--459
+ [][] 
+ []
+
+[27 <./SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyD
+HT_256Nodes_SlowAccess_Node64.png>]
+<SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHT_256
+Nodes_SlowAccess_Node96.png, id=153, 1100.913pt x 498.663pt>
+File: SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDH
+T_256Nodes_SlowAccess_Node96.png Graphic file (type png)
+
+<use SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHT
+_256Nodes_SlowAccess_Node96.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 467--468
+ [][] 
+ []
+
+
+<SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHTM
+od_256Nodes_SlowAccess_Node96.png, id=154, 1100.913pt x 498.663pt>
+File: SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/Symphon
+yDHTMod_256Nodes_SlowAccess_Node96.png Graphic file (type png)
+
+<use SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/Symphony
+DHTMod_256Nodes_SlowAccess_Node96.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 473--474
+ [][] 
+ []
+
+[28 <./SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/Sympho
+nyDHTMod_256Nodes_SlowAccess_Node64.png>] [29 <./SymphonyDHT/plots/MessagesSent
+ByEveryNode/256_Nodes_SlowAccess/SymphonyDHT_256Nodes_SlowAccess_Node96.png> <.
+/SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHTM
+od_256Nodes_SlowAccess_Node96.png>]
+<SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHT_512
+Nodes_SlowAccess_Node0.png, id=164, 1100.913pt x 498.663pt>
+File: SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDH
+T_512Nodes_SlowAccess_Node0.png Graphic file (type png)
+
+<use SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHT
+_512Nodes_SlowAccess_Node0.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 482--483
+ [][] 
+ []
+
+
+<SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHTM
+od_512Nodes_SlowAccess_Node0.png, id=165, 1100.913pt x 498.663pt>
+File: SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/Symphon
+yDHTMod_512Nodes_SlowAccess_Node0.png Graphic file (type png)
+
+<use SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/Symphony
+DHTMod_512Nodes_SlowAccess_Node0.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 488--489
+ [][] 
+ []
+
+[30 <./SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyD
+HT_512Nodes_SlowAccess_Node0.png> <./SymphonyDHTMod/plots/MessagesSentByEveryNo
+de/512_Nodes_SlowAccess/SymphonyDHTMod_512Nodes_SlowAccess_Node0.png>]
+<SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHT_512
+Nodes_SlowAccess_Node64.png, id=171, 1100.913pt x 498.663pt>
+File: SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDH
+T_512Nodes_SlowAccess_Node64.png Graphic file (type png)
+
+<use SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHT
+_512Nodes_SlowAccess_Node64.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 497--498
+ [][] 
+ []
+
+
+<SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHTM
+od_512Nodes_SlowAccess_Node64.png, id=172, 1100.913pt x 498.663pt>
+File: SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/Symphon
+yDHTMod_512Nodes_SlowAccess_Node64.png Graphic file (type png)
+
+<use SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/Symphony
+DHTMod_512Nodes_SlowAccess_Node64.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 503--504
+ [][] 
+ []
+
+[31 <./SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyD
+HT_512Nodes_SlowAccess_Node64.png> <./SymphonyDHTMod/plots/MessagesSentByEveryN
+ode/512_Nodes_SlowAccess/SymphonyDHTMod_512Nodes_SlowAccess_Node64.png>]
+<SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHT_512
+Nodes_SlowAccess_Node96.png, id=179, 1100.913pt x 498.663pt>
+File: SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDH
+T_512Nodes_SlowAccess_Node96.png Graphic file (type png)
+
+<use SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHT
+_512Nodes_SlowAccess_Node96.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 512--513
+ [][] 
+ []
+
+
+<SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHTM
+od_512Nodes_SlowAccess_Node96.png, id=180, 1100.913pt x 498.663pt>
+File: SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/Symphon
+yDHTMod_512Nodes_SlowAccess_Node96.png Graphic file (type png)
+
+<use SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/Symphony
+DHTMod_512Nodes_SlowAccess_Node96.png>
+Overfull \hbox (11.88286pt too wide) in paragraph at lines 518--519
+ [][] 
+ []
+
+[32 <./SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyD
+HT_512Nodes_SlowAccess_Node96.png>] AED: lastpage setting LastPage [33 <./Symph
+onyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHTMod_512
+Nodes_SlowAccess_Node96.png>] (./relazione.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 8844 strings out of 495061
- 144385 string characters out of 1182620
- 343725 words of memory out of 3000000
- 11721 multiletter control sequences out of 15000+50000
- 15905 words of font info for 103 fonts, out of 3000000 for 9000
+ 8950 strings out of 495061
+ 153511 string characters out of 1182620
+ 343895 words of memory out of 3000000
+ 11810 multiletter control sequences out of 15000+50000
+ 16013 words of font info for 104 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  46i,11n,45p,1617b,628s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
@@ -868,9 +1096,9 @@ type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public
 /cmr9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
 /usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/
 texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on relazione.pdf (22 pages, 1269665 bytes).
+Output written on relazione.pdf (33 pages, 2527530 bytes).
 PDF statistics:
- 147 PDF objects out of 1000 (max. 8388607)
+ 218 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 20064 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 20154 words of extra memory for PDF output out of 20736 (max. 10000000)
 

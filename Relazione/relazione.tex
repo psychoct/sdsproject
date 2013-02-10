@@ -379,20 +379,148 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 25}
 	\end{figure}		
 	
-	
-	
+	Possiamo quindi concludere, alla luce dei risultati fin qui esposti, che il protocollo DHT Symphony presenta una ottima scalabilità.
 	
 	\subsection{Confronto tra protocollo originale e modifica protocollare}
+	Di seguito verranno esposti i risultati del confronto tra il protocollo DHT Symhpony nella sua versione originale e nella versione modificata precedentemente esposta. Il parametro prestazionale utilizzato per tale confronto è il numero di messaggi inviati da ciascun nodo all'interno della rete virtuale.
+Nelle figure che seguono sono rappresentati nell'asse delle ascisse il tempo simulato, mentre in quello delle ordinate il numero di messaggi inviati dal nodo in questione.
 	
+	In figura 26 e 27 vengono rappresentati il numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 128 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, in tutte le run il nodo 0 invia sempre un numero inferiore di messaggi se si utilizza il protocollo suddetto nella sua versione modificata.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]	{SymphonyDHT/plots/PercentageOfMessagesSent/128_Nodes_SlowAccess/SymphonyDHT_128Nodes_SlowAccess_Node0.png}
-		\caption{ESEMPIO DI FIGURA}
-		\label{Figura }
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHT_128Nodes_SlowAccess_Node0.png}
+		\caption{Numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 128 nodi utilizzando il protocollo DHT Symphony}
+		\label{Figura 26}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHTMod_128Nodes_SlowAccess_Node0.png}
+		\caption{Numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 128 nodi utilizzando il protocollo DHT Symphony modificato}
+		\label{Figura 27}
 	\end{figure}
 	
+	In figura 28 e 29 vengono rappresentati il numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 128 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, il numero di messaggi inviati dal nodo 64 si aggira sempre intorno ai 100 (ad eccezione di alcune run) e comunque sotto ai 250 se si utilizza la versione modificata del protocollo, mentre utilizzando la versione originale avremmo un numero massimo di messaggi inviati di circa 750 con quasi tutte le run di simulazione che si attestano su un numero di messaggi tra i 150 e i 250. Possiamo quindi affermare che, anche in questo caso, la versione modificata del protocollo sembra migliore.
 	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHT_128Nodes_SlowAccess_Node64.png}
+		\caption{Numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 128 nodi utilizzando il protocollo DHT Symphony}
+		\label{Figura 28}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHTMod_128Nodes_SlowAccess_Node64.png}
+		\caption{Numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 128 nodi utilizzando il protocollo DHT Symphony modificato}
+		\label{Figura 29}
+	\end{figure}	
+	
+	In figura 30 e 31 vengono rappresentati il numero di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 128 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, il numero dei messaggi inviati da tale nodo nella versione modificata del protocollo si aggira (ad eccezione di due run) tra i 20 e i 60, mentre utilizzando il protocollo originale vi sono solo due run di simulazione in cui il numero di messaggi inviati è tra i 50 e i 60. Anche in questo caso quindi, la versione modificata del protocollo risulta essere migliore.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHT_128Nodes_SlowAccess_Node96.png}
+		\caption{Numero di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 128 nodi utilizzando il protocollo DHT Symphony}
+		\label{Figura 30}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHTMod/plots/MessagesSentByEveryNode/128_Nodes_SlowAccess/SymphonyDHTMod_128Nodes_SlowAccess_Node96.png}
+		\caption{Numero di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 128 nodi utilizzando il protocollo DHT Symphony modificato}
+		\label{Figura 31}
+	\end{figure}	
+	
+	In figura 32 e 33 vengono rappresentati il numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 256 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, in tutte le run il nodo 0 invia sempre un numero inferiore di messaggi se si utilizza il protocollo suddetto nella sua versione modificata. Possiamo quindi affermare che anche in questo caso la versione modificata del protocollo risulta essere migliore.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHT_256Nodes_SlowAccess_Node0.png}
+		\caption{Numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 256 nodi utilizzando il protocollo DHT Symphony}
+		\label{Figura 32}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHTMod_256Nodes_SlowAccess_Node0.png}
+		\caption{Numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 256 nodi utilizzando il protocollo DHT Symphony modificato}
+		\label{Figura 33}
+	\end{figure}	
+	
+	In figura 34 e 35 vengono rappresentati il numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 256 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, nella versione modificata del protocollo il nodo 64 invia, nella maggior parte delle run di simulazione, un numero di messaggi inferiore a 400, mentre nella versione originale invia un numero di messaggi superiore a 400. Anche in questo caso quindi la versione modificata risulta essere migliore.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHT_256Nodes_SlowAccess_Node64.png}
+		\caption{Numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 256 nodi utilizzando il protocollo DHT Symphony}
+		\label{Figura 34}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHTMod_256Nodes_SlowAccess_Node64.png}
+		\caption{Numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 256 nodi utilizzando il protocollo DHT Symphony modificato}
+		\label{Figura 35}
+	\end{figure}		
+	
+	In figura 36 e 37 vengono rappresentati il numero di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 256 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, nella versione modificata del protocollo il nodo 96 invia un numero di messaggi sempre inferiore a 250, mentre nella versione originale (a meno di due run di simulazione) invia un numero di messaggi sempre superiore a 300. Quindi anche in questo caso la versione modificata del protocollo risulta essere migliore.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHT_256Nodes_SlowAccess_Node96.png}
+		\caption{Numero di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 256 nodi utilizzando il protocollo DHT Symphony}
+		\label{Figura 36}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHTMod/plots/MessagesSentByEveryNode/256_Nodes_SlowAccess/SymphonyDHTMod_256Nodes_SlowAccess_Node96.png}
+		\caption{Numero di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 256 nodi utilizzando il protocollo DHT Symphony modificato}
+		\label{Figura 37}
+	\end{figure}		
+	
+	In figura 38 e 39 vengono rappresentati il numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 512 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, nella versione modificata del protocollo il nodo 0 invia un numero di messaggi sempre inferiore a 800, mentre nella versione originale tale nodo invia più di 800 messaggi. Quindi anche in questo caso la versione modificata del protocollo risulta essere migliore.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHT_512Nodes_SlowAccess_Node0.png}
+		\caption{Numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 512 nodi utilizzando il protocollo DHT Symphony}
+		\label{Figura 38}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHTMod_512Nodes_SlowAccess_Node0.png}
+		\caption{Numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 512 nodi utilizzando il protocollo DHT Symphony modificato}
+		\label{Figura 39}
+	\end{figure}			
+		
+	In figura 40 e 41 vengono rappresentati il numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 512 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, nella versione modificata del protocollo il nodo 64 invia un numero di messaggi sempre inferiore a 700, mentre nella versione originale tale nodo invia sempre più di 700 messaggi. Quindi anche in questo caso la versione modificata del protocollo risulta essere migliore. 
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHT_512Nodes_SlowAccess_Node64.png}
+		\caption{Numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 512 nodi utilizzando il protocollo DHT Symphony}
+		\label{Figura 40}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHTMod_512Nodes_SlowAccess_Node64.png}
+		\caption{Numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 512 nodi utilizzando il protocollo DHT Symphony modificato}
+		\label{Figura 41}
+	\end{figure}	
+	
+	In figura 42 e 43 vengono rappresentati il numero di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 512 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, nella versione modificata del protocollo il nodo 96 invia un numero di messaggi sempre inferiore a 800, mentre nella versione originale tale nodo invia più di 800 messaggi (a meno di una run di simulazione). Quindi anche in questo caso la versione modificata del protocollo risulta essere migliore.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHT/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHT_512Nodes_SlowAccess_Node96.png}
+		\caption{Numero di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 512 nodi utilizzando il protocollo DHT Symphony}
+		\label{Figura 42}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]	{SymphonyDHTMod/plots/MessagesSentByEveryNode/512_Nodes_SlowAccess/SymphonyDHTMod_512Nodes_SlowAccess_Node96.png}
+		\caption{Numero di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 512 nodi utilizzando il protocollo DHT Symphony modificato}
+		\label{Figura 43}
+	\end{figure}				
+			
+	Alla luce di quanto detto fin'ora possiamo quindi affermare che il protocollo DHT Symphony scala molto bene, ed inoltre la modifica protocollare proposta apporta dei miglioramenti considerevoli in relazione alla misura prestazionale considerata.
 	
 \section{Bibliografia}
 \begin{itemize}
