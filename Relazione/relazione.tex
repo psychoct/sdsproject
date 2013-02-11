@@ -126,7 +126,7 @@
 	\item[1.] Sebbene un nodo sia connesso ai due nodi a lui adiacenti e a svariati altri non conosce il punto preciso che questi occupano sulla circonferenza. Tale informazione è di vitale importanza per il funzionamento di diversi punti del protocollo;
 	\item[2.] Inoltre essendo la rete particolarmente dinamica, il protocollo gestisce l'accesso e l'uscita di nodi in modo che i dati della DHT rimangano consistenti. In particolare quando un nodo intende accedere alla rete decide autonomamente in quale punto della circonferenza posizionarsi mediante la scelta randomica di un valore uniformemente distribuito nell'intervallo [0,1). Informa poi un nodo già connesso della sua volontà di accedere alla rete distribuita; mediante un protocollo di instradamento interno noto come \textit{protocollo di routing} tale nodo contatta l'attuale manager di quel punto permettendo al nuovo nodo di accedere previa modifica delle connessioni opportune.
 \end{itemize}
-Il protocollo consta di tutta una serie di sottoprotocolli più o meno complessi che gli permettono di operare nella sua interezza. Per informazioni più dettagliate si rimanda il lettore al documento ``DHT Symphony: Distributed hashing in a small world''[1.]
+Il protocollo consta di tutta una serie di sottoprotocolli più o meno complessi che gli permettono di operare nella sua interezza. Per informazioni più dettagliate si rimanda il lettore al documento ``DHT Symphony: Distributed hashing in a small world'' \cite{ref1}.
 
 \section{Simulazione}
 	\subsection{Gli strumenti}
@@ -165,7 +165,7 @@ Infine sono stati individuati e simulati fedelmente i seguenti aspetti del proto
 	\item[2.] Il numero di nodi della DHT è inferiormente limitato da un valore positivo configurabile, supposto maggiore di 8;
 	\item[3.] Ogni nodo non ha accesso diretto al valore indicante la posizione all'interno della circonferenza di perimetro unitario dei propri vicini, deve pertanto recuperarla chiedendola esplicitamente a questi mediante l'uso di messaggi di rete. Il protocollo Symphony assume che la posizione dei nodi manager del segmento immediatamente precedente e del segmento immediatamente successivo di un dato nodo sia direttamente accessibile in ogni momento. Ciò ha perfettamente senso in termini matematici in quanto ogni nodo altro non è che una particolare struttura dotata di collegamenti ai nodi vicini. Tuttavia i nodi descritti dal protocollo sono a tutti gli effetti macchine connesse attraverso la rete, ne deriva il non trascurabile dettaglio implementativo che consiste nel dover recuperare tali valori a mezzo messaggi mediati dai canali di comunicazione dai nodi adiacenti. 
 	\item[4.] Il lookup dei file della DHT non è ritenuto di interesse e pertanto non è simulato;
-	\item[5.] Nessuna coppia di nodi facente parte della DHT ha la stessa posizione sulla circonferenza di perimetro unitario. In linea teorica pescando valori randomici dalla distribuzione armonica del protocollo in esame due nodi diversi potrebbero ottenere lo stesso valore. Ciò significherebbe che entrambi i nodi sono manager della stessa porzione della DHT. Il protocollo Symphony non dichiara come affrontare questo particolare problema, che crea ambiguità in fase di esecuzione del sottoprotocollo di join.
+	\item[5.] Nessuna coppia di nodi facente parte della DHT ha la stessa posizione sulla circonferenza di perimetro unitario. In linea teorica pescando valori randomici uniformemente distribuiti nell'intervallo [0,1) due nodi diversi potrebbero ottenere lo stesso valore. Ciò significherebbe che entrambi i nodi sono manager della stessa porzione della DHT. Il protocollo Symphony non dichiara come affrontare questo particolare problema, che crea ambiguità in fase di esecuzione del sottoprotocollo di join.
 	\end{itemize}
 	
 \section{Modifica protocollare}
@@ -189,17 +189,21 @@ Infine sono stati individuati e simulati fedelmente i seguenti aspetti del proto
 \end{itemize}
 Fino ad ora abbiamo supposto che la posizione dei nodi vicini al nodo che sta correntemente eseguendo il protocollo di routing sia costantemente aggiornata per la versione modificata del protocollo. Ciò è tuttavia certamente vero sotto l'ipotesi che nel momento in cui un nodo accede alla rete o immediatamente prima di abbandonarla comunichi ai propri vicini la necessità di aggiornare le posizioni dei nodi adiacenti.
 \section{Risultati}
-\'E stata effettuata la simulazione a mezzo del simulatore Omnet++ del protocollo Symphony sia nella versione originale che nella versione modificata. Per entrambe i protocolli è stato fissato il numero di nodi della DHT a 128,256 e 512, di cui all'inizio 64 già connessi. Fissato il numero di nodi sono stati quindi eseguiti quattro blocchi da quindici run di simulazione, in cui ogni run di simulazione presentava seed diversi da tutti gli altri, mentre ogni blocco da quindici run presentava diverso access rate dei nodi all'interno della DHT. Utilizzando gli strumenti di analisi offline messi a disposizione da tale simulatore sono state quindi effettuate le seguenti analisi:
+A mezzo del simulatore general purpose Omnet++ è stata effettuata la simulazione del protocollo Symphony sia nella versione originale che nella versione modificata. Per entrambi i protocolli è stato fissato il numero di nodi della DHT a 128, 256 e 512, di cui in principio 64 connessi tra loro nella canonica rete ad anello. Per ognuna di queste configurazioni sono state analizzate differenti politiche relative ai tempi di attesa per l'accesso dei nodi alla rete. Per ogni configurazione sono state eseguite quindici run di simulazione, ed in ogni run i generatori di numeri casuali dell'applicazione sviluppata sono stati inizializzati con dei seed diversi. Utilizzando gli strumenti di analisi offline messi a disposizione da Omnet++ sono state effettuate le seguenti analisi:
 	\begin{itemize}
-	\item[1.] scalabilità del protocollo, utilizzando come parametro prestazionale la percentuale di messaggi inviati da ciascun nodo rispetto al numero totale di messaggi inviati all'interno della DHT da tutti i nodi;
-	\item[2.] confronto tra la versione originale e la versione modificata del protocollo Symphony, utilizzando come parametro prestazionale il numero di messaggi inviati dai singoli nodi.
+	\item[1.] \textit{scalabilità del protocollo}, utilizzando come parametro prestazionale il rapporto tra il numero di messaggi inviati da ciascun nodo ed il numero totale di messaggi inviati all'interno della rete da tutti i nodi;
+	\item[2.] \textit{confronto tra la versione originale e la versione modificata del protocollo Symphony}, utilizzando come parametro prestazionale il numero di messaggi inviati dai singoli nodi.
 	\end{itemize}
 	
 	\subsection{Scalabilità del protocollo}
 	Di seguito verranno esposti i risultati dell'analisi di scalabilità del protocollo Symphony nella sua versione originale, concentrando i confronti in prima battuta sull'eventuale variazione del parametro prestazionale al variare dell'access rate dei nodi all'interno della DHT e successivamente sull'impatto della variazione del numero di nodi che entrano nella DHT.
-Nelle figure che seguono sono rappresentati i grafici delle percentuali di messaggi inviati da ciascun nodo rispetto al numero totale di messaggi inviati da tutti i nodi. In particolare nell'asse delle ascisse si trova il tempo simulato, mentre in quello delle ordinate la percentuale di messaggi inviati dal nodo in questione.
+Nelle figure che seguono sono rappresentati i grafici delle percentuali di messaggi inviati da ciascun nodo. In particolare l'asse delle ascisse rappresenta il tempo simulato, mentre quello delle ordinate la percentuale di messaggi inviati dal nodo in questione. Per semplicità ogni studio prestazionale del presente elaborato prende in esame due sole possibili politiche di access rate:
+	\begin{itemize}
+		\item access rate alto: attesa tra l'accesso alla rete di un nodo e quello successivo uniformemente distribuita in un intervallo rappresentante pochi secondi.
+		\item access rate basso: attesa tra l'accesso alla rete di un nodo e quello successivo uniformemente distribuita in un intervallo rappresentante svariati minuti.
+	\end{itemize}
 
-	In figura 2 e 3 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con access rate alto e con access rate basso all'interno di una DHT con massimo 128 nodi. Come si evince, a meno di due run di simulazione in cui la percentuale di messaggi inviati da tale nodo è più alta (quasi doppia) con access rate basso, la percentuale di messaggi inviati si attesta circa sull'1\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.  
+	In figura 2 e 3 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con access rate alto e con access rate basso all'interno di una DHT con massimo 128 nodi. Come si evince, a meno di due run di simulazione in cui la percentuale di messaggi inviati da tale nodo è più alta (quasi doppia) con access rate basso, la percentuale di messaggi inviati si attesta circa sull'1\% in entrambi i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.  
 	
 	\begin{figure}[H]
 		\centering
@@ -214,7 +218,7 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 3}
 	\end{figure}
 	
-	In figura 4 e 5 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 64 con access rate alto e con access rate basso all'interno di una DHT con massimo 128 nodi. Come si evince, a meno di una fase iniziale in cui la percentuale di messaggi inviati da tale nodo è più alta (circa quattro volte di più) con access rate basso, la percentuale di messaggi inviati si attesta circa sul 2\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	In figura 4 e 5 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 64 con access rate alto e con access rate basso all'interno di una DHT con massimo 128 nodi. Come si evince, a meno di una fase iniziale in cui la percentuale di messaggi inviati da tale nodo è più alta (circa quattro volte di più) con access rate basso, la percentuale di messaggi inviati si attesta circa sul 2\% in entrambi i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati neanche da tale nodo.
 	
 	\begin{figure}[H]
 		\centering
@@ -229,7 +233,7 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 5}
 	\end{figure}
 	
-	In figura 6 e 7 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 96 con access rate alto e con access rate basso all'interno di una DHT con massimo 128 nodi. Come si evince, a meno di due run di simulazione in cui con access rate alto il nodo in questione ha una percentuale di messaggi inviati più alta (alla fine circa doppia) rispetto a tutte le altre run nelle stesse condizioni, la percentuale di messaggi inviati si attesta sotto lo 0,6\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.	
+	In figura 6 e 7 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 96 con access rate alto e con access rate basso all'interno di una DHT con massimo 128 nodi. Come si evince, a meno di due run di simulazione in cui con access rate alto il nodo in questione ha una percentuale di messaggi inviati più alta (alla fine circa doppia) rispetto a tutte le altre run nelle stesse condizioni, la percentuale di messaggi inviati si attesta sotto lo 0,6\% in entrambi i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati dal nodo in questione.	
 	
 	\begin{figure}[H]
 		\centering
@@ -244,7 +248,7 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 7}
 	\end{figure}
 		
-	In figura 8 e 9 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con access rate alto e con access rate basso all'interno di una DHT con massimo 256 nodi. Come si evince, a meno di una run di simulazione in cui la percentuale di messaggi inviati da tale nodo è più alta (quasi doppia) con access rate alto, la percentuale di messaggi inviati si attesta circa sull'1\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	In figura 8 e 9 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con access rate alto e con access rate basso all'interno di una DHT con massimo 256 nodi. Come si evince, a meno di una run di simulazione in cui la percentuale di messaggi inviati da tale nodo è più alta (quasi doppia) con access rate alto, la percentuale di messaggi inviati si attesta circa sull'1\% in entrambi i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
 	
 	\begin{figure}[H]
 		\centering
@@ -259,7 +263,7 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 9}
 	\end{figure}	
 	
-	In figura 10 e 11 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 64 con access rate alto e con access rate basso all'interno di una DHT con massimo 256 nodi. Come si evince, a meno di una fase iniziale in cui la percentuale di messaggi inviati da tale nodo è più alta (quasi il doppio) con access rate basso, la percentuale di messaggi inviati si attesta sotto il 2\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	In figura 10 e 11 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 64 con access rate alto e con access rate basso all'interno di una DHT con massimo 256 nodi. Come si evince, a meno di una fase iniziale in cui la percentuale di messaggi inviati da tale nodo è più alta (quasi il doppio) con access rate basso, la percentuale di messaggi inviati si attesta sotto il 2\% in entrambi i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
 	
 	\begin{figure}[H]
 		\centering
@@ -274,7 +278,7 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 11}
 	\end{figure}	
 	
-	In figura 12 e 13 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 96 con access rate alto e con access rate basso all'interno di una DHT con massimo 256 nodi. Come si evince, a meno di due run di simulazione in cui con access rate alto il nodo in questione ha una percentuale di messaggi inviati più alta (alla fine circa doppia) rispetto a tutte le altre run nelle stesse condizioni, la percentuale di messaggi inviati si attesta sotto lo 0,9\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	In figura 12 e 13 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 96 con access rate alto e con access rate basso all'interno di una DHT con massimo 256 nodi. Come si evince, a meno di due run di simulazione in cui con access rate alto il nodo in questione ha una percentuale di messaggi inviati più alta (alla fine circa doppia) rispetto a tutte le altre run nelle stesse condizioni, la percentuale di messaggi inviati si attesta sotto lo 0,9\% in entrambi i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
 	
 	\begin{figure}[H]
 		\centering
@@ -289,7 +293,7 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 13}
 	\end{figure}	
 	
-	In figura 14 e 15 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con access rate alto e con access rate basso all'interno di una DHT con massimo 512 nodi. Come si evince, a meno di una fase iniziale in cui la percentuale di messaggi inviati da tale nodo è più alta (circa doppia) con access rate basso, la percentuale di messaggi inviati si attesta circa sull'1\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.  
+	In figura 14 e 15 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con access rate alto e con access rate basso all'interno di una DHT con massimo 512 nodi. Come si evince, a meno di una fase iniziale in cui la percentuale di messaggi inviati da tale nodo è più alta (circa doppia) con access rate basso, la percentuale di messaggi inviati si attesta circa sull'1\% in entrambi i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.  
 	
 	\begin{figure}[H]
 		\centering
@@ -304,7 +308,7 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 15}
 	\end{figure}	
 	
-	In figura 16 e 17 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 64 con access rate alto e con access rate basso all'interno di una DHT con massimo 512 nodi. Come si evince, a meno di una run di simulazione in cui la percentuale di messaggi inviati da tale nodo è più alta (circa il doppio) con access rate basso, la percentuale di messaggi inviati si attesta sotto il 2\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	In figura 16 e 17 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 64 con access rate alto e con access rate basso all'interno di una DHT con massimo 512 nodi. Come si evince, a meno di una run di simulazione in cui la percentuale di messaggi inviati da tale nodo è più alta (circa il doppio) con access rate basso, la percentuale di messaggi inviati si attesta sotto il 2\% in entrambi i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
 	
 	\begin{figure}[H]
 		\centering
@@ -319,7 +323,7 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 17}
 	\end{figure}		
 	
-	In figura 18 e 19 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 96 con access rate alto e con access rate basso all'interno di una DHT con massimo 512 nodi. Come si evince, a meno di due run di simulazione in cui con access rate alto il nodo in questione ha una percentuale di messaggi inviati più alta (alla fine circa doppia) rispetto a tutte le altre run nelle stesse condizioni, la percentuale di messaggi inviati si attesta sotto lo 0,7\% in entrambe i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
+	In figura 18 e 19 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 96 con access rate alto e con access rate basso all'interno di una DHT con massimo 512 nodi. Come si evince, a meno di due run di simulazione in cui con access rate alto il nodo in questione ha una percentuale di messaggi inviati più alta (alla fine circa doppia) rispetto a tutte le altre run nelle stesse condizioni, la percentuale di messaggi inviati si attesta sotto lo 0,7\% in entrambi i casi, segno che la variazione dell'access rate non influisce sul carico di messaggi inviati da tale nodo.
 	
 	\begin{figure}[H]
 		\centering
@@ -333,6 +337,8 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\caption{Percentuale di messaggi inviati dal nodo 96 con access rate basso all'interno di una DHT con massimo 512 nodi}
 		\label{Figura 19}
 	\end{figure}		
+	
+	A fronte di tale analisi è decisamente verosimile concludere che le politiche di access rate non influiscono in alcun modo sulla percentuale di messaggi inviati da ogni nodo se si assume fissato il numero di nodi presenti nella rete.\\\\
 	
 	In figura 20 e 21 vengono rappresentati rispettivamente la percentuale di messaggi inviati dal nodo 0 con con access rate basso all'interno di una DHT con massimo 128 nodi e la percentuale di messaggi inviati dal nodo 0 con access rate alto all'interno di una DHT con massimo 512 nodi. Come si evince, il carico di messaggi inviati dal nodo 0 nel secondo caso è sempre inferiore (circa dimezzato) rispetto al primo caso, segno che il protocollo scala molto bene, distribuendo equamente il carico di richieste tra tutti i nodi coinvolti.
 	
@@ -379,11 +385,11 @@ Nelle figure che seguono sono rappresentati i grafici delle percentuali di messa
 		\label{Figura 25}
 	\end{figure}		
 	
-	Possiamo quindi concludere, alla luce dei risultati fin qui esposti, che il protocollo DHT Symphony presenta una ottima scalabilità.
+	Possiamo quindi concludere, alla luce dei risultati finora esposti, che il protocollo DHT Symphony scala bene sia quando il numero dei nodi facenti parte della rete aumenta sensibilmente sia quanto la velocità con cui questi accedono alla rete aumenta di molto.\\\\
 	
-	\subsection{Confronto tra protocollo originale e modifica protocollare}
-	Di seguito verranno esposti i risultati del confronto tra il protocollo DHT Symhpony nella sua versione originale e nella versione modificata precedentemente esposta. Il parametro prestazionale utilizzato per tale confronto è il numero di messaggi inviati da ciascun nodo all'interno della rete virtuale.
-Nelle figure che seguono sono rappresentati nell'asse delle ascisse il tempo simulato, mentre in quello delle ordinate il numero di messaggi inviati dal nodo in questione.
+	\subsection{Confronto tra il protocollo originale ed il protocollo modificato}
+	Di seguito verranno esposti i risultati del confronto tra il protocollo DHT Symhpony nella versione originale e nella versione modificata precedentemente discussa. Il parametro prestazionale utilizzato per tale confronto è il numero di messaggi inviati da ciascun nodo all'interno della rete virtuale. I due protocolli hanno comportamenti estremamenti simili quindi qualsiasi misura normalizzata non sarebbe indicativa di alcuna differenza evidente.
+Nelle figure che seguono l'asse delle ascisse rappresenta il tempo simulato, mentre quello delle ordinate il numero di messaggi inviati da un determinato nodo.
 	
 	In figura 26 e 27 vengono rappresentati il numero di messaggi inviati dal nodo 0 con access rate basso all'interno di una DHT con massimo 128 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, in tutte le run il nodo 0 invia sempre un numero inferiore di messaggi se si utilizza il protocollo suddetto nella sua versione modificata.
 	
@@ -400,7 +406,7 @@ Nelle figure che seguono sono rappresentati nell'asse delle ascisse il tempo sim
 		\label{Figura 27}
 	\end{figure}
 	
-	In figura 28 e 29 vengono rappresentati il numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 128 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, il numero di messaggi inviati dal nodo 64 si aggira sempre intorno ai 100 (ad eccezione di alcune run) e comunque sotto ai 250 se si utilizza la versione modificata del protocollo, mentre utilizzando la versione originale avremmo un numero massimo di messaggi inviati di circa 750 con quasi tutte le run di simulazione che si attestano su un numero di messaggi tra i 150 e i 250. Possiamo quindi affermare che, anche in questo caso, la versione modificata del protocollo sembra migliore.
+	In figura 28 e 29 vengono rappresentati il numero di messaggi inviati dal nodo 64 con access rate basso all'interno di una DHT con massimo 128 nodi, utilizzando il protocollo DHT Symphony rispettivamente nella sua versione originale e modificata. Come si evince, il numero di messaggi inviati dal nodo 64 si aggira sempre intorno ai 100 (ad eccezione di alcune run) e comunque sotto ai 250 se si utilizza la versione modificata del protocollo, mentre utilizzando la versione originale avremmo un numero massimo di messaggi inviati di circa 750 con quasi tutte le run di simulazione che si attestano su un numero di messaggi tra i 150 e i 250. Possiamo quindi affermare che, anche in questo caso, la versione modificata del protocollo ha prestazioni migliori.
 	
 	\begin{figure}[H]
 		\centering
@@ -520,15 +526,12 @@ Nelle figure che seguono sono rappresentati nell'asse delle ascisse il tempo sim
 		\label{Figura 43}
 	\end{figure}				
 			
-	Alla luce di quanto detto fin'ora possiamo quindi affermare che il protocollo DHT Symphony scala molto bene, ed inoltre la modifica protocollare proposta apporta dei miglioramenti considerevoli in relazione alla misura prestazionale considerata.
+	Alla luce di tale analisi possiamo quindi affermare che la modifica protocollare proposta per il protocollo DHT Symphony comporta una diminuzione del numero medio di messaggi spediti dai nodi facenti parte della DHT analizzata.
 	
-\section{Bibliografia}
-\begin{itemize}
-\item[1.] Gurmeet Singh Manku, Mayank Bawa, and Prabhakar Raghavan. 2003. Symphony: distributed
-hashing in a small world. In Proceedings of the 4th conference on USENIX Symposium on
-Internet Technologies and Systems - Volume 4 (USITS'03), Vol. 4. USENIX Association,
-Berkeley, CA, USA, 10-10
-\item[2.] Omnet++ Network Simulation Framework - http://www.omnetpp.org/ 
-\end{itemize}
+\begin{thebibliography}{20}
+	\bibitem{ref1} Gurmeet Singh Manku, Mayank Bawa, and Prabhakar Raghavan. 2003. Symphony: distributed hashing in a small world. In Proceedings of the 4th conference on USENIX Symposium on Internet Technologies and Systems - Volume 4 (USITS'03), Vol. 4. USENIX Association, Berkeley, CA, USA, 10-10.
+	\bibitem{ref2} Omnet++ Network Simulation Framework - http://www.omnetpp.org/. Last visit 11/02/2013. 
+	\bibitem{ref3} Omnet++ TicToc Tutorial - http://www.omnetpp.org/doc/omnetpp/tictoc-tutorial/. Last visit 11/02/2013.
+\end{thebibliography}
 
 \end{document}

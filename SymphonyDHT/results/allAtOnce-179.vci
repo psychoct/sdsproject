@@ -1,0 +1,1042 @@
+file 9956339 1358880189                                         
+version 2
+run allAtOnce-179-20130122-19:42:56-3446
+attr configname allAtOnce
+attr datetime 20130122-19:42:56
+attr experiment allAtOnce
+attr inifile omnetpp.ini
+attr iterationvars "$0=512, $1=intuniform(40, 50)"
+attr iterationvars2 "$0=512, $1=intuniform(40, 50), $repetition=14"
+attr measurement "$0=512, $1=intuniform(40, 50)"
+attr network SimphonyDHTNetwork
+attr processid 3446
+attr repetition 14
+attr replication #14
+attr resultdir results
+attr runnumber 179
+attr seedset 179
+
+vector 0  SimphonyDHTNetwork.members[27]  ""  ETV
+vector 1  SimphonyDHTNetwork.members[28]  ""  ETV
+vector 2  SimphonyDHTNetwork.members[29]  ""  ETV
+vector 3  SimphonyDHTNetwork.members[18]  ""  ETV
+vector 4  SimphonyDHTNetwork.members[19]  ""  ETV
+vector 5  SimphonyDHTNetwork.members[20]  ""  ETV
+vector 6  SimphonyDHTNetwork.members[36]  ""  ETV
+vector 7  SimphonyDHTNetwork.members[37]  ""  ETV
+vector 8  SimphonyDHTNetwork.members[38]  ""  ETV
+vector 9  SimphonyDHTNetwork.members[17]  ""  ETV
+vector 10  SimphonyDHTNetwork.members[8]  ""  ETV
+vector 11  SimphonyDHTNetwork.members[9]  ""  ETV
+vector 12  SimphonyDHTNetwork.members[10]  ""  ETV
+vector 13  SimphonyDHTNetwork.members[26]  ""  ETV
+vector 14  SimphonyDHTNetwork.members[7]  ""  ETV
+vector 15  SimphonyDHTNetwork.members[0]  ""  ETV
+vector 16  SimphonyDHTNetwork.members[16]  ""  ETV
+vector 17  SimphonyDHTNetwork.members[63]  ""  ETV
+vector 18  SimphonyDHTNetwork.members[1]  ""  ETV
+vector 19  SimphonyDHTNetwork.members[62]  ""  ETV
+vector 20  SimphonyDHTNetwork.members[53]  ""  ETV
+vector 21  SimphonyDHTNetwork.members[54]  ""  ETV
+vector 22  SimphonyDHTNetwork.members[55]  ""  ETV
+vector 23  SimphonyDHTNetwork.members[64]  ""  ETV
+vector 24  SimphonyDHTNetwork.members[44]  ""  ETV
+vector 25  SimphonyDHTNetwork.members[45]  ""  ETV
+vector 26  SimphonyDHTNetwork.members[46]  ""  ETV
+vector 27  SimphonyDHTNetwork.members[43]  ""  ETV
+vector 28  SimphonyDHTNetwork.members[34]  ""  ETV
+vector 29  SimphonyDHTNetwork.members[35]  ""  ETV
+vector 30  SimphonyDHTNetwork.members[52]  ""  ETV
+vector 31  SimphonyDHTNetwork.members[33]  ""  ETV
+vector 32  SimphonyDHTNetwork.members[24]  ""  ETV
+vector 33  SimphonyDHTNetwork.members[25]  ""  ETV
+vector 34  SimphonyDHTNetwork.members[42]  ""  ETV
+vector 35  SimphonyDHTNetwork.members[23]  ""  ETV
+vector 36  SimphonyDHTNetwork.members[14]  ""  ETV
+vector 37  SimphonyDHTNetwork.members[15]  ""  ETV
+vector 38  SimphonyDHTNetwork.members[32]  ""  ETV
+vector 39  SimphonyDHTNetwork.members[13]  ""  ETV
+vector 40  SimphonyDHTNetwork.members[4]  ""  ETV
+vector 41  SimphonyDHTNetwork.members[5]  ""  ETV
+vector 42  SimphonyDHTNetwork.members[6]  ""  ETV
+vector 43  SimphonyDHTNetwork.members[22]  ""  ETV
+vector 44  SimphonyDHTNetwork.members[65]  ""  ETV
+vector 45  SimphonyDHTNetwork.members[56]  ""  ETV
+vector 46  SimphonyDHTNetwork.members[47]  ""  ETV
+vector 47  SimphonyDHTNetwork.members[3]  ""  ETV
+vector 48  SimphonyDHTNetwork.members[12]  ""  ETV
+vector 49  SimphonyDHTNetwork.members[2]  ""  ETV
+vector 50  SimphonyDHTNetwork.members[11]  ""  ETV
+vector 51  SimphonyDHTNetwork.members[61]  ""  ETV
+vector 52  SimphonyDHTNetwork.members[66]  ""  ETV
+vector 53  SimphonyDHTNetwork.members[31]  ""  ETV
+vector 54  SimphonyDHTNetwork.members[40]  ""  ETV
+vector 55  SimphonyDHTNetwork.members[41]  ""  ETV
+vector 56  SimphonyDHTNetwork.members[21]  ""  ETV
+vector 57  SimphonyDHTNetwork.members[30]  ""  ETV
+vector 58  SimphonyDHTNetwork.members[50]  ""  ETV
+vector 59  SimphonyDHTNetwork.members[51]  ""  ETV
+vector 60  SimphonyDHTNetwork.members[49]  ""  ETV
+vector 61  SimphonyDHTNetwork.members[39]  ""  ETV
+vector 62  SimphonyDHTNetwork.members[48]  ""  ETV
+vector 63  SimphonyDHTNetwork.members[67]  ""  ETV
+vector 64  SimphonyDHTNetwork.members[68]  ""  ETV
+vector 65  SimphonyDHTNetwork.members[69]  ""  ETV
+vector 66  SimphonyDHTNetwork.members[70]  ""  ETV
+vector 67  SimphonyDHTNetwork.members[71]  ""  ETV
+vector 68  SimphonyDHTNetwork.members[60]  ""  ETV
+vector 69  SimphonyDHTNetwork.members[59]  ""  ETV
+vector 70  SimphonyDHTNetwork.members[58]  ""  ETV
+vector 71  SimphonyDHTNetwork.members[57]  ""  ETV
+vector 72  SimphonyDHTNetwork.members[72]  ""  ETV
+vector 73  SimphonyDHTNetwork.members[73]  ""  ETV
+vector 74  SimphonyDHTNetwork.members[74]  ""  ETV
+vector 75  SimphonyDHTNetwork.members[75]  ""  ETV
+vector 76  SimphonyDHTNetwork.members[76]  ""  ETV
+vector 77  SimphonyDHTNetwork.members[77]  ""  ETV
+vector 78  SimphonyDHTNetwork.members[78]  ""  ETV
+vector 79  SimphonyDHTNetwork.members[79]  ""  ETV
+vector 80  SimphonyDHTNetwork.members[80]  ""  ETV
+vector 81  SimphonyDHTNetwork.members[81]  ""  ETV
+vector 82  SimphonyDHTNetwork.members[82]  ""  ETV
+vector 83  SimphonyDHTNetwork.members[83]  ""  ETV
+vector 84  SimphonyDHTNetwork.members[84]  ""  ETV
+vector 85  SimphonyDHTNetwork.members[85]  ""  ETV
+vector 86  SimphonyDHTNetwork.members[86]  ""  ETV
+vector 87  SimphonyDHTNetwork.members[87]  ""  ETV
+vector 88  SimphonyDHTNetwork.members[88]  ""  ETV
+vector 89  SimphonyDHTNetwork.members[89]  ""  ETV
+vector 90  SimphonyDHTNetwork.members[90]  ""  ETV
+vector 91  SimphonyDHTNetwork.members[91]  ""  ETV
+vector 92  SimphonyDHTNetwork.members[92]  ""  ETV
+vector 93  SimphonyDHTNetwork.members[93]  ""  ETV
+vector 94  SimphonyDHTNetwork.members[94]  ""  ETV
+vector 95  SimphonyDHTNetwork.members[95]  ""  ETV
+vector 96  SimphonyDHTNetwork.members[96]  ""  ETV
+vector 97  SimphonyDHTNetwork.members[97]  ""  ETV
+vector 98  SimphonyDHTNetwork.members[98]  ""  ETV
+vector 99  SimphonyDHTNetwork.members[99]  ""  ETV
+vector 100  SimphonyDHTNetwork.members[100]  ""  ETV
+vector 101  SimphonyDHTNetwork.members[101]  ""  ETV
+vector 102  SimphonyDHTNetwork.members[102]  ""  ETV
+vector 103  SimphonyDHTNetwork.members[103]  ""  ETV
+vector 104  SimphonyDHTNetwork.members[104]  ""  ETV
+vector 105  SimphonyDHTNetwork.members[105]  ""  ETV
+vector 106  SimphonyDHTNetwork.members[106]  ""  ETV
+vector 107  SimphonyDHTNetwork.members[107]  ""  ETV
+vector 108  SimphonyDHTNetwork.members[108]  ""  ETV
+vector 109  SimphonyDHTNetwork.members[109]  ""  ETV
+vector 110  SimphonyDHTNetwork.members[110]  ""  ETV
+vector 111  SimphonyDHTNetwork.members[111]  ""  ETV
+vector 112  SimphonyDHTNetwork.members[112]  ""  ETV
+vector 113  SimphonyDHTNetwork.members[113]  ""  ETV
+vector 114  SimphonyDHTNetwork.members[114]  ""  ETV
+vector 115  SimphonyDHTNetwork.members[115]  ""  ETV
+vector 116  SimphonyDHTNetwork.members[116]  ""  ETV
+vector 117  SimphonyDHTNetwork.members[117]  ""  ETV
+vector 118  SimphonyDHTNetwork.members[118]  ""  ETV
+vector 119  SimphonyDHTNetwork.members[119]  ""  ETV
+vector 120  SimphonyDHTNetwork.members[120]  ""  ETV
+vector 121  SimphonyDHTNetwork.members[121]  ""  ETV
+vector 122  SimphonyDHTNetwork.members[122]  ""  ETV
+vector 123  SimphonyDHTNetwork.members[123]  ""  ETV
+vector 124  SimphonyDHTNetwork.members[124]  ""  ETV
+vector 125  SimphonyDHTNetwork.members[125]  ""  ETV
+vector 126  SimphonyDHTNetwork.members[126]  ""  ETV
+vector 127  SimphonyDHTNetwork.members[127]  ""  ETV
+vector 128  SimphonyDHTNetwork.members[128]  ""  ETV
+vector 129  SimphonyDHTNetwork.members[129]  ""  ETV
+vector 130  SimphonyDHTNetwork.members[130]  ""  ETV
+vector 131  SimphonyDHTNetwork.members[131]  ""  ETV
+vector 132  SimphonyDHTNetwork.members[132]  ""  ETV
+vector 133  SimphonyDHTNetwork.members[133]  ""  ETV
+vector 134  SimphonyDHTNetwork.members[134]  ""  ETV
+vector 135  SimphonyDHTNetwork.members[135]  ""  ETV
+vector 136  SimphonyDHTNetwork.members[136]  ""  ETV
+vector 137  SimphonyDHTNetwork.members[137]  ""  ETV
+vector 138  SimphonyDHTNetwork.members[138]  ""  ETV
+vector 139  SimphonyDHTNetwork.members[139]  ""  ETV
+vector 140  SimphonyDHTNetwork.members[140]  ""  ETV
+vector 141  SimphonyDHTNetwork.members[141]  ""  ETV
+vector 142  SimphonyDHTNetwork.members[142]  ""  ETV
+vector 143  SimphonyDHTNetwork.members[143]  ""  ETV
+vector 144  SimphonyDHTNetwork.members[144]  ""  ETV
+vector 145  SimphonyDHTNetwork.members[145]  ""  ETV
+vector 146  SimphonyDHTNetwork.members[146]  ""  ETV
+vector 147  SimphonyDHTNetwork.members[147]  ""  ETV
+vector 148  SimphonyDHTNetwork.members[148]  ""  ETV
+vector 149  SimphonyDHTNetwork.members[149]  ""  ETV
+vector 150  SimphonyDHTNetwork.members[150]  ""  ETV
+vector 151  SimphonyDHTNetwork.members[151]  ""  ETV
+vector 152  SimphonyDHTNetwork.members[152]  ""  ETV
+vector 153  SimphonyDHTNetwork.members[153]  ""  ETV
+vector 154  SimphonyDHTNetwork.members[154]  ""  ETV
+vector 155  SimphonyDHTNetwork.members[155]  ""  ETV
+vector 156  SimphonyDHTNetwork.members[156]  ""  ETV
+vector 157  SimphonyDHTNetwork.members[157]  ""  ETV
+vector 158  SimphonyDHTNetwork.members[158]  ""  ETV
+vector 159  SimphonyDHTNetwork.members[159]  ""  ETV
+vector 160  SimphonyDHTNetwork.members[160]  ""  ETV
+vector 161  SimphonyDHTNetwork.members[161]  ""  ETV
+vector 162  SimphonyDHTNetwork.members[162]  ""  ETV
+vector 163  SimphonyDHTNetwork.members[163]  ""  ETV
+vector 164  SimphonyDHTNetwork.members[164]  ""  ETV
+vector 165  SimphonyDHTNetwork.members[165]  ""  ETV
+vector 166  SimphonyDHTNetwork.members[166]  ""  ETV
+vector 167  SimphonyDHTNetwork.members[167]  ""  ETV
+vector 168  SimphonyDHTNetwork.members[168]  ""  ETV
+vector 169  SimphonyDHTNetwork.members[169]  ""  ETV
+vector 170  SimphonyDHTNetwork.members[170]  ""  ETV
+vector 171  SimphonyDHTNetwork.members[171]  ""  ETV
+vector 172  SimphonyDHTNetwork.members[172]  ""  ETV
+vector 173  SimphonyDHTNetwork.members[173]  ""  ETV
+vector 174  SimphonyDHTNetwork.members[174]  ""  ETV
+vector 175  SimphonyDHTNetwork.members[175]  ""  ETV
+vector 176  SimphonyDHTNetwork.members[176]  ""  ETV
+vector 177  SimphonyDHTNetwork.members[177]  ""  ETV
+vector 178  SimphonyDHTNetwork.members[178]  ""  ETV
+vector 179  SimphonyDHTNetwork.members[179]  ""  ETV
+vector 180  SimphonyDHTNetwork.members[180]  ""  ETV
+vector 181  SimphonyDHTNetwork.members[181]  ""  ETV
+vector 182  SimphonyDHTNetwork.members[182]  ""  ETV
+vector 183  SimphonyDHTNetwork.members[183]  ""  ETV
+vector 184  SimphonyDHTNetwork.members[184]  ""  ETV
+vector 185  SimphonyDHTNetwork.members[185]  ""  ETV
+vector 186  SimphonyDHTNetwork.members[186]  ""  ETV
+vector 187  SimphonyDHTNetwork.members[187]  ""  ETV
+vector 188  SimphonyDHTNetwork.members[188]  ""  ETV
+vector 189  SimphonyDHTNetwork.members[189]  ""  ETV
+vector 190  SimphonyDHTNetwork.members[190]  ""  ETV
+vector 191  SimphonyDHTNetwork.members[191]  ""  ETV
+vector 192  SimphonyDHTNetwork.members[192]  ""  ETV
+vector 193  SimphonyDHTNetwork.members[193]  ""  ETV
+vector 194  SimphonyDHTNetwork.members[194]  ""  ETV
+vector 195  SimphonyDHTNetwork.members[195]  ""  ETV
+vector 196  SimphonyDHTNetwork.members[196]  ""  ETV
+vector 197  SimphonyDHTNetwork.members[197]  ""  ETV
+vector 198  SimphonyDHTNetwork.members[198]  ""  ETV
+vector 199  SimphonyDHTNetwork.members[199]  ""  ETV
+vector 200  SimphonyDHTNetwork.members[200]  ""  ETV
+vector 201  SimphonyDHTNetwork.members[201]  ""  ETV
+vector 202  SimphonyDHTNetwork.members[202]  ""  ETV
+vector 203  SimphonyDHTNetwork.members[203]  ""  ETV
+vector 204  SimphonyDHTNetwork.members[204]  ""  ETV
+vector 205  SimphonyDHTNetwork.members[205]  ""  ETV
+vector 206  SimphonyDHTNetwork.members[206]  ""  ETV
+vector 207  SimphonyDHTNetwork.members[207]  ""  ETV
+vector 208  SimphonyDHTNetwork.members[208]  ""  ETV
+vector 209  SimphonyDHTNetwork.members[209]  ""  ETV
+vector 210  SimphonyDHTNetwork.members[210]  ""  ETV
+vector 211  SimphonyDHTNetwork.members[211]  ""  ETV
+vector 212  SimphonyDHTNetwork.members[212]  ""  ETV
+vector 213  SimphonyDHTNetwork.members[213]  ""  ETV
+vector 214  SimphonyDHTNetwork.members[214]  ""  ETV
+vector 215  SimphonyDHTNetwork.members[215]  ""  ETV
+vector 216  SimphonyDHTNetwork.members[216]  ""  ETV
+vector 217  SimphonyDHTNetwork.members[217]  ""  ETV
+vector 218  SimphonyDHTNetwork.members[218]  ""  ETV
+vector 219  SimphonyDHTNetwork.members[219]  ""  ETV
+vector 220  SimphonyDHTNetwork.members[220]  ""  ETV
+vector 221  SimphonyDHTNetwork.members[221]  ""  ETV
+vector 222  SimphonyDHTNetwork.members[222]  ""  ETV
+vector 223  SimphonyDHTNetwork.members[223]  ""  ETV
+vector 224  SimphonyDHTNetwork.members[224]  ""  ETV
+vector 225  SimphonyDHTNetwork.members[225]  ""  ETV
+vector 226  SimphonyDHTNetwork.members[226]  ""  ETV
+vector 227  SimphonyDHTNetwork.members[227]  ""  ETV
+vector 228  SimphonyDHTNetwork.members[228]  ""  ETV
+vector 229  SimphonyDHTNetwork.members[229]  ""  ETV
+vector 230  SimphonyDHTNetwork.members[230]  ""  ETV
+vector 231  SimphonyDHTNetwork.members[231]  ""  ETV
+vector 232  SimphonyDHTNetwork.members[232]  ""  ETV
+vector 233  SimphonyDHTNetwork.members[233]  ""  ETV
+vector 234  SimphonyDHTNetwork.members[234]  ""  ETV
+vector 235  SimphonyDHTNetwork.members[235]  ""  ETV
+vector 236  SimphonyDHTNetwork.members[236]  ""  ETV
+vector 237  SimphonyDHTNetwork.members[237]  ""  ETV
+vector 238  SimphonyDHTNetwork.members[238]  ""  ETV
+vector 239  SimphonyDHTNetwork.members[239]  ""  ETV
+vector 240  SimphonyDHTNetwork.members[240]  ""  ETV
+vector 241  SimphonyDHTNetwork.members[241]  ""  ETV
+vector 242  SimphonyDHTNetwork.members[242]  ""  ETV
+vector 243  SimphonyDHTNetwork.members[243]  ""  ETV
+vector 244  SimphonyDHTNetwork.members[244]  ""  ETV
+vector 245  SimphonyDHTNetwork.members[245]  ""  ETV
+vector 246  SimphonyDHTNetwork.members[246]  ""  ETV
+vector 247  SimphonyDHTNetwork.members[247]  ""  ETV
+vector 248  SimphonyDHTNetwork.members[248]  ""  ETV
+vector 249  SimphonyDHTNetwork.members[249]  ""  ETV
+vector 250  SimphonyDHTNetwork.members[250]  ""  ETV
+vector 251  SimphonyDHTNetwork.members[251]  ""  ETV
+vector 252  SimphonyDHTNetwork.members[252]  ""  ETV
+vector 253  SimphonyDHTNetwork.members[253]  ""  ETV
+vector 254  SimphonyDHTNetwork.members[254]  ""  ETV
+vector 255  SimphonyDHTNetwork.members[255]  ""  ETV
+vector 256  SimphonyDHTNetwork.members[256]  ""  ETV
+vector 257  SimphonyDHTNetwork.members[257]  ""  ETV
+vector 258  SimphonyDHTNetwork.members[258]  ""  ETV
+vector 259  SimphonyDHTNetwork.members[259]  ""  ETV
+vector 260  SimphonyDHTNetwork.members[260]  ""  ETV
+vector 261  SimphonyDHTNetwork.members[261]  ""  ETV
+vector 262  SimphonyDHTNetwork.members[262]  ""  ETV
+vector 263  SimphonyDHTNetwork.members[263]  ""  ETV
+vector 264  SimphonyDHTNetwork.members[264]  ""  ETV
+vector 265  SimphonyDHTNetwork.members[265]  ""  ETV
+vector 266  SimphonyDHTNetwork.members[266]  ""  ETV
+vector 267  SimphonyDHTNetwork.members[267]  ""  ETV
+vector 268  SimphonyDHTNetwork.members[268]  ""  ETV
+vector 269  SimphonyDHTNetwork.members[269]  ""  ETV
+vector 270  SimphonyDHTNetwork.members[270]  ""  ETV
+vector 271  SimphonyDHTNetwork.members[271]  ""  ETV
+vector 272  SimphonyDHTNetwork.members[272]  ""  ETV
+vector 273  SimphonyDHTNetwork.members[273]  ""  ETV
+vector 274  SimphonyDHTNetwork.members[274]  ""  ETV
+vector 275  SimphonyDHTNetwork.members[275]  ""  ETV
+vector 276  SimphonyDHTNetwork.members[276]  ""  ETV
+vector 277  SimphonyDHTNetwork.members[277]  ""  ETV
+vector 278  SimphonyDHTNetwork.members[278]  ""  ETV
+vector 279  SimphonyDHTNetwork.members[279]  ""  ETV
+vector 280  SimphonyDHTNetwork.members[280]  ""  ETV
+vector 281  SimphonyDHTNetwork.members[281]  ""  ETV
+vector 282  SimphonyDHTNetwork.members[282]  ""  ETV
+vector 283  SimphonyDHTNetwork.members[283]  ""  ETV
+vector 284  SimphonyDHTNetwork.members[284]  ""  ETV
+vector 285  SimphonyDHTNetwork.members[285]  ""  ETV
+vector 286  SimphonyDHTNetwork.members[286]  ""  ETV
+vector 287  SimphonyDHTNetwork.members[287]  ""  ETV
+vector 288  SimphonyDHTNetwork.members[288]  ""  ETV
+vector 289  SimphonyDHTNetwork.members[289]  ""  ETV
+vector 290  SimphonyDHTNetwork.members[290]  ""  ETV
+vector 291  SimphonyDHTNetwork.members[291]  ""  ETV
+vector 292  SimphonyDHTNetwork.members[292]  ""  ETV
+vector 293  SimphonyDHTNetwork.members[293]  ""  ETV
+vector 294  SimphonyDHTNetwork.members[294]  ""  ETV
+vector 295  SimphonyDHTNetwork.members[295]  ""  ETV
+vector 296  SimphonyDHTNetwork.members[296]  ""  ETV
+vector 297  SimphonyDHTNetwork.members[297]  ""  ETV
+vector 298  SimphonyDHTNetwork.members[298]  ""  ETV
+vector 299  SimphonyDHTNetwork.members[299]  ""  ETV
+vector 300  SimphonyDHTNetwork.members[300]  ""  ETV
+vector 301  SimphonyDHTNetwork.members[301]  ""  ETV
+vector 302  SimphonyDHTNetwork.members[302]  ""  ETV
+vector 303  SimphonyDHTNetwork.members[303]  ""  ETV
+vector 304  SimphonyDHTNetwork.members[304]  ""  ETV
+vector 305  SimphonyDHTNetwork.members[305]  ""  ETV
+vector 306  SimphonyDHTNetwork.members[306]  ""  ETV
+vector 307  SimphonyDHTNetwork.members[307]  ""  ETV
+vector 308  SimphonyDHTNetwork.members[308]  ""  ETV
+vector 309  SimphonyDHTNetwork.members[309]  ""  ETV
+vector 310  SimphonyDHTNetwork.members[310]  ""  ETV
+vector 311  SimphonyDHTNetwork.members[311]  ""  ETV
+vector 312  SimphonyDHTNetwork.members[312]  ""  ETV
+vector 313  SimphonyDHTNetwork.members[313]  ""  ETV
+vector 314  SimphonyDHTNetwork.members[314]  ""  ETV
+vector 315  SimphonyDHTNetwork.members[315]  ""  ETV
+vector 316  SimphonyDHTNetwork.members[316]  ""  ETV
+vector 317  SimphonyDHTNetwork.members[317]  ""  ETV
+vector 318  SimphonyDHTNetwork.members[318]  ""  ETV
+vector 319  SimphonyDHTNetwork.members[319]  ""  ETV
+vector 320  SimphonyDHTNetwork.members[320]  ""  ETV
+vector 321  SimphonyDHTNetwork.members[321]  ""  ETV
+vector 322  SimphonyDHTNetwork.members[322]  ""  ETV
+vector 323  SimphonyDHTNetwork.members[323]  ""  ETV
+vector 324  SimphonyDHTNetwork.members[324]  ""  ETV
+vector 325  SimphonyDHTNetwork.members[325]  ""  ETV
+vector 326  SimphonyDHTNetwork.members[326]  ""  ETV
+vector 327  SimphonyDHTNetwork.members[327]  ""  ETV
+vector 328  SimphonyDHTNetwork.members[328]  ""  ETV
+vector 329  SimphonyDHTNetwork.members[329]  ""  ETV
+vector 330  SimphonyDHTNetwork.members[330]  ""  ETV
+vector 331  SimphonyDHTNetwork.members[331]  ""  ETV
+vector 332  SimphonyDHTNetwork.members[332]  ""  ETV
+vector 333  SimphonyDHTNetwork.members[333]  ""  ETV
+vector 334  SimphonyDHTNetwork.members[334]  ""  ETV
+vector 335  SimphonyDHTNetwork.members[335]  ""  ETV
+vector 336  SimphonyDHTNetwork.members[336]  ""  ETV
+vector 337  SimphonyDHTNetwork.members[337]  ""  ETV
+vector 338  SimphonyDHTNetwork.members[338]  ""  ETV
+vector 339  SimphonyDHTNetwork.members[339]  ""  ETV
+vector 340  SimphonyDHTNetwork.members[340]  ""  ETV
+vector 341  SimphonyDHTNetwork.members[341]  ""  ETV
+vector 342  SimphonyDHTNetwork.members[342]  ""  ETV
+vector 343  SimphonyDHTNetwork.members[343]  ""  ETV
+vector 344  SimphonyDHTNetwork.members[344]  ""  ETV
+vector 345  SimphonyDHTNetwork.members[345]  ""  ETV
+vector 346  SimphonyDHTNetwork.members[346]  ""  ETV
+vector 347  SimphonyDHTNetwork.members[347]  ""  ETV
+vector 348  SimphonyDHTNetwork.members[348]  ""  ETV
+vector 349  SimphonyDHTNetwork.members[349]  ""  ETV
+vector 350  SimphonyDHTNetwork.members[350]  ""  ETV
+vector 351  SimphonyDHTNetwork.members[351]  ""  ETV
+vector 352  SimphonyDHTNetwork.members[352]  ""  ETV
+vector 353  SimphonyDHTNetwork.members[353]  ""  ETV
+vector 354  SimphonyDHTNetwork.members[354]  ""  ETV
+vector 355  SimphonyDHTNetwork.members[355]  ""  ETV
+vector 356  SimphonyDHTNetwork.members[356]  ""  ETV
+vector 357  SimphonyDHTNetwork.members[357]  ""  ETV
+vector 358  SimphonyDHTNetwork.members[358]  ""  ETV
+vector 359  SimphonyDHTNetwork.members[359]  ""  ETV
+vector 360  SimphonyDHTNetwork.members[360]  ""  ETV
+vector 361  SimphonyDHTNetwork.members[361]  ""  ETV
+vector 362  SimphonyDHTNetwork.members[362]  ""  ETV
+vector 363  SimphonyDHTNetwork.members[363]  ""  ETV
+vector 364  SimphonyDHTNetwork.members[364]  ""  ETV
+vector 365  SimphonyDHTNetwork.members[365]  ""  ETV
+vector 366  SimphonyDHTNetwork.members[366]  ""  ETV
+vector 367  SimphonyDHTNetwork.members[367]  ""  ETV
+vector 368  SimphonyDHTNetwork.members[368]  ""  ETV
+vector 369  SimphonyDHTNetwork.members[369]  ""  ETV
+vector 370  SimphonyDHTNetwork.members[370]  ""  ETV
+vector 371  SimphonyDHTNetwork.members[371]  ""  ETV
+vector 372  SimphonyDHTNetwork.members[372]  ""  ETV
+vector 373  SimphonyDHTNetwork.members[373]  ""  ETV
+vector 374  SimphonyDHTNetwork.members[374]  ""  ETV
+vector 375  SimphonyDHTNetwork.members[375]  ""  ETV
+vector 376  SimphonyDHTNetwork.members[376]  ""  ETV
+vector 377  SimphonyDHTNetwork.members[377]  ""  ETV
+vector 378  SimphonyDHTNetwork.members[378]  ""  ETV
+vector 379  SimphonyDHTNetwork.members[379]  ""  ETV
+vector 380  SimphonyDHTNetwork.members[380]  ""  ETV
+vector 381  SimphonyDHTNetwork.members[381]  ""  ETV
+vector 382  SimphonyDHTNetwork.members[382]  ""  ETV
+vector 383  SimphonyDHTNetwork.members[383]  ""  ETV
+vector 384  SimphonyDHTNetwork.members[384]  ""  ETV
+vector 385  SimphonyDHTNetwork.members[385]  ""  ETV
+vector 386  SimphonyDHTNetwork.members[386]  ""  ETV
+vector 387  SimphonyDHTNetwork.members[387]  ""  ETV
+vector 388  SimphonyDHTNetwork.members[388]  ""  ETV
+vector 389  SimphonyDHTNetwork.members[389]  ""  ETV
+vector 390  SimphonyDHTNetwork.members[390]  ""  ETV
+vector 391  SimphonyDHTNetwork.members[391]  ""  ETV
+vector 392  SimphonyDHTNetwork.members[392]  ""  ETV
+vector 393  SimphonyDHTNetwork.members[393]  ""  ETV
+vector 394  SimphonyDHTNetwork.members[394]  ""  ETV
+vector 395  SimphonyDHTNetwork.members[395]  ""  ETV
+vector 396  SimphonyDHTNetwork.members[396]  ""  ETV
+vector 397  SimphonyDHTNetwork.members[397]  ""  ETV
+vector 398  SimphonyDHTNetwork.members[398]  ""  ETV
+vector 399  SimphonyDHTNetwork.members[399]  ""  ETV
+vector 400  SimphonyDHTNetwork.members[400]  ""  ETV
+vector 401  SimphonyDHTNetwork.members[401]  ""  ETV
+vector 402  SimphonyDHTNetwork.members[402]  ""  ETV
+vector 403  SimphonyDHTNetwork.members[403]  ""  ETV
+vector 404  SimphonyDHTNetwork.members[404]  ""  ETV
+vector 405  SimphonyDHTNetwork.members[405]  ""  ETV
+vector 406  SimphonyDHTNetwork.members[406]  ""  ETV
+vector 407  SimphonyDHTNetwork.members[407]  ""  ETV
+vector 408  SimphonyDHTNetwork.members[408]  ""  ETV
+vector 409  SimphonyDHTNetwork.members[409]  ""  ETV
+vector 410  SimphonyDHTNetwork.members[410]  ""  ETV
+vector 411  SimphonyDHTNetwork.members[411]  ""  ETV
+vector 412  SimphonyDHTNetwork.members[412]  ""  ETV
+vector 413  SimphonyDHTNetwork.members[413]  ""  ETV
+vector 414  SimphonyDHTNetwork.members[414]  ""  ETV
+vector 415  SimphonyDHTNetwork.members[415]  ""  ETV
+vector 416  SimphonyDHTNetwork.members[416]  ""  ETV
+vector 417  SimphonyDHTNetwork.members[417]  ""  ETV
+vector 418  SimphonyDHTNetwork.members[418]  ""  ETV
+vector 419  SimphonyDHTNetwork.members[419]  ""  ETV
+vector 420  SimphonyDHTNetwork.members[420]  ""  ETV
+vector 421  SimphonyDHTNetwork.members[421]  ""  ETV
+vector 422  SimphonyDHTNetwork.members[422]  ""  ETV
+vector 423  SimphonyDHTNetwork.members[423]  ""  ETV
+vector 424  SimphonyDHTNetwork.members[424]  ""  ETV
+vector 425  SimphonyDHTNetwork.members[425]  ""  ETV
+vector 426  SimphonyDHTNetwork.members[426]  ""  ETV
+vector 427  SimphonyDHTNetwork.members[427]  ""  ETV
+vector 428  SimphonyDHTNetwork.members[428]  ""  ETV
+vector 429  SimphonyDHTNetwork.members[429]  ""  ETV
+vector 430  SimphonyDHTNetwork.members[430]  ""  ETV
+vector 431  SimphonyDHTNetwork.members[431]  ""  ETV
+vector 432  SimphonyDHTNetwork.members[432]  ""  ETV
+vector 433  SimphonyDHTNetwork.members[433]  ""  ETV
+vector 434  SimphonyDHTNetwork.members[434]  ""  ETV
+vector 435  SimphonyDHTNetwork.members[435]  ""  ETV
+vector 436  SimphonyDHTNetwork.members[436]  ""  ETV
+vector 437  SimphonyDHTNetwork.members[437]  ""  ETV
+vector 438  SimphonyDHTNetwork.members[438]  ""  ETV
+vector 439  SimphonyDHTNetwork.members[439]  ""  ETV
+vector 440  SimphonyDHTNetwork.members[440]  ""  ETV
+vector 441  SimphonyDHTNetwork.members[441]  ""  ETV
+vector 442  SimphonyDHTNetwork.members[442]  ""  ETV
+vector 443  SimphonyDHTNetwork.members[443]  ""  ETV
+vector 444  SimphonyDHTNetwork.members[444]  ""  ETV
+vector 445  SimphonyDHTNetwork.members[445]  ""  ETV
+vector 446  SimphonyDHTNetwork.members[446]  ""  ETV
+vector 447  SimphonyDHTNetwork.members[447]  ""  ETV
+vector 448  SimphonyDHTNetwork.members[448]  ""  ETV
+vector 449  SimphonyDHTNetwork.members[449]  ""  ETV
+vector 450  SimphonyDHTNetwork.members[450]  ""  ETV
+vector 451  SimphonyDHTNetwork.members[451]  ""  ETV
+vector 452  SimphonyDHTNetwork.members[452]  ""  ETV
+vector 453  SimphonyDHTNetwork.members[453]  ""  ETV
+vector 454  SimphonyDHTNetwork.members[454]  ""  ETV
+vector 455  SimphonyDHTNetwork.members[455]  ""  ETV
+vector 456  SimphonyDHTNetwork.members[456]  ""  ETV
+vector 457  SimphonyDHTNetwork.members[457]  ""  ETV
+vector 458  SimphonyDHTNetwork.members[458]  ""  ETV
+vector 459  SimphonyDHTNetwork.members[459]  ""  ETV
+vector 460  SimphonyDHTNetwork.members[460]  ""  ETV
+vector 461  SimphonyDHTNetwork.members[461]  ""  ETV
+vector 462  SimphonyDHTNetwork.members[462]  ""  ETV
+vector 463  SimphonyDHTNetwork.members[463]  ""  ETV
+vector 464  SimphonyDHTNetwork.members[464]  ""  ETV
+vector 465  SimphonyDHTNetwork.members[465]  ""  ETV
+vector 466  SimphonyDHTNetwork.members[466]  ""  ETV
+vector 467  SimphonyDHTNetwork.members[467]  ""  ETV
+vector 468  SimphonyDHTNetwork.members[468]  ""  ETV
+vector 469  SimphonyDHTNetwork.members[469]  ""  ETV
+vector 470  SimphonyDHTNetwork.members[470]  ""  ETV
+vector 471  SimphonyDHTNetwork.members[471]  ""  ETV
+vector 472  SimphonyDHTNetwork.members[472]  ""  ETV
+vector 473  SimphonyDHTNetwork.members[473]  ""  ETV
+vector 474  SimphonyDHTNetwork.members[474]  ""  ETV
+vector 475  SimphonyDHTNetwork.members[475]  ""  ETV
+vector 476  SimphonyDHTNetwork.members[476]  ""  ETV
+vector 477  SimphonyDHTNetwork.members[477]  ""  ETV
+vector 478  SimphonyDHTNetwork.members[478]  ""  ETV
+vector 479  SimphonyDHTNetwork.members[479]  ""  ETV
+vector 480  SimphonyDHTNetwork.members[480]  ""  ETV
+vector 481  SimphonyDHTNetwork.members[481]  ""  ETV
+vector 482  SimphonyDHTNetwork.members[482]  ""  ETV
+vector 483  SimphonyDHTNetwork.members[483]  ""  ETV
+vector 484  SimphonyDHTNetwork.members[484]  ""  ETV
+vector 485  SimphonyDHTNetwork.members[485]  ""  ETV
+vector 486  SimphonyDHTNetwork.members[486]  ""  ETV
+vector 487  SimphonyDHTNetwork.members[487]  ""  ETV
+vector 488  SimphonyDHTNetwork.members[488]  ""  ETV
+vector 489  SimphonyDHTNetwork.members[489]  ""  ETV
+vector 490  SimphonyDHTNetwork.members[490]  ""  ETV
+vector 491  SimphonyDHTNetwork.members[491]  ""  ETV
+vector 492  SimphonyDHTNetwork.members[492]  ""  ETV
+vector 493  SimphonyDHTNetwork.members[493]  ""  ETV
+vector 494  SimphonyDHTNetwork.members[494]  ""  ETV
+vector 495  SimphonyDHTNetwork.members[495]  ""  ETV
+vector 496  SimphonyDHTNetwork.members[496]  ""  ETV
+vector 497  SimphonyDHTNetwork.members[497]  ""  ETV
+vector 498  SimphonyDHTNetwork.members[498]  ""  ETV
+vector 499  SimphonyDHTNetwork.members[499]  ""  ETV
+vector 500  SimphonyDHTNetwork.members[500]  ""  ETV
+vector 501  SimphonyDHTNetwork.members[501]  ""  ETV
+vector 502  SimphonyDHTNetwork.members[502]  ""  ETV
+vector 503  SimphonyDHTNetwork.members[503]  ""  ETV
+vector 504  SimphonyDHTNetwork.members[504]  ""  ETV
+vector 505  SimphonyDHTNetwork.members[505]  ""  ETV
+vector 506  SimphonyDHTNetwork.members[506]  ""  ETV
+vector 507  SimphonyDHTNetwork.members[507]  ""  ETV
+vector 508  SimphonyDHTNetwork.members[508]  ""  ETV
+vector 509  SimphonyDHTNetwork.members[509]  ""  ETV
+vector 510  SimphonyDHTNetwork.members[510]  ""  ETV
+vector 511  SimphonyDHTNetwork.members[511]  ""  ETV
+0	27396 21181 2 446668 6546.1 51265.4 1069 0 979 525987 343021027
+1	48577 29419 3 445351 6546.2 51250.4 1449 1 1340 978723 879768891
+2	77996 23783 6 441697 6546.4 50755.4 1193 0 1079 649361 467396545
+3	101779 42454 7 445361 6546.4 51250.7 2067 0 1913 1968332 2506384026
+4	144233 29507 8 436402 6546.4 50354.9 1470 0 1369 1013038 928062550
+5	173740 35673 9 442901 6546.4 50954.4 1736 0 1623 1416561 1536919795
+6	209413 28502 10 432803 6546.4 50067.2 1415 0 1275 912172 778743574
+7	237915 24012 11 445501 6546.4 51254 1196 0 1080 644596 462952376
+8	261927 20673 12 432485 6546.4 50058.8 1043 0 963 507624 328135764
+9	282600 35915 22 436665 6546.7 50361.8 1760 0 1602 1408820 1504065678
+10	318515 45318 27 436263 6547 50351.3 2109 0 1996 2105729 2809896547
+11	363833 53002 28 444599 6547 51151.4 2447 0 2277 2793623 4246750263
+12	416835 74659 29 446934 6547 51267.8 3395 0 3126 5336904 11144929672
+13	491494 37609 30 445406 6547 51251.9 1761 0 1639 1446644 1580411672
+14	529103 88428 42 443718 6547.3 51054.1 4005 0 3727 7445027 18468003103
+15	617531 37427 47 433957 6547.6 50170.6 1760 0 1635 1443339 1580370773
+16	654958 36916 48 446739 6547.6 51266 1741 0 1649 1430335 1567222725
+17	691874 34637 58 444444 6547.9 51148.4 1624 0 1498 1211937 1205083815
+18	726511 126280 62 446926 6548.2 51267.8 5688 0 5219 14785696 51350404574
+19	852791 20611 72 444438 6548.5 51148.4 980 0 900 445249 267964647
+20	873402 35105 77 444409 6548.8 51147.8 1656 0 1524 1274046 1301945816
+21	908507 18847 78 440361 6548.8 50661 897 0 796 358871 190781617
+22	927354 26546 79 440369 6548.8 50661 1251 0 1139 713961 543467725
+23	953900 17540 97 440363 6549.8 50661 830 3 744 311706 154888328
+24	971440 19920 122 446450 6550.8 51263.3 956 0 880 419151 244980269
+25	991360 25417 123 438828 6550.8 50455 1207 0 1108 676199 502278395
+26	1016777 30996 124 443698 6550.8 51053.8 1443 0 1351 980384 887141896
+27	1047773 52846 134 446847 6551.1 51266.9 2435 0 2275 2752021 4157208827
+28	1100619 31493 139 443456 6551.4 51048.7 1480 0 1384 1040753 969013729
+29	1132112 47276 140 444574 6551.4 51150.8 2189 0 2030 2234083 3029870777
+30	1179388 34495 142 441111 6551.4 50675.4 1605 0 1498 1214020 1219346306
+31	1213883 41839 154 432371 6551.7 50056.4 1945 0 1799 1776008 2147576178
+32	1255722 24696 159 419066 6552 49074.6 1191 0 1115 670111 502235915
+33	1280418 39590 160 418674 6552 49065.3 1859 0 1736 1622213 1883385569
+34	1320008 37853 162 415600 6552 48963.3 1775 0 1643 1465559 1607948183
+35	1357861 34305 247 439908 6555 50649 1622 0 1497 1223404 1226499754
+36	1392166 55854 252 441182 6555.3 50676.9 2576 0 2397 3107566 4985905584
+37	1448020 38010 253 445338 6555.3 51250.1 1783 0 1661 1478841 1633417175
+38	1486030 31740 255 436718 6555.3 50361.8 1494 0 1377 1040926 960010606
+39	1517770 40053 267 441146 6555.6 50676.3 1876 0 1779 1671453 1986926345
+40	1557823 127644 272 444948 6555.9 51158 5763 0 5323 15380874 54743209052
+41	1685467 147271 273 446931 6555.9 51267.8 6606 0 6154 20331935 83396760479
+42	1832738 48982 274 443713 6555.9 51053.8 2284 0 2114 2404089 3373707323
+43	1881720 30091 275 439562 6555.9 50557.4 1430 0 1335 952923 846986067
+44	1911811 113188 310 446870 6648 51267.2 5085 0 4707 11932017 37450850383
+45	2024999 12605 316 428215 6648.4 49760.4 603 0 539 163174 58804432
+46	2037604 22953 319 443974 6648.4 51058.9 1081 0 996 538689 356676255
+47	2060557 77676 421 442925 6651.7 50955 3537 0 3296 5817243 12802318661
+48	2138233 32112 426 446774 6652 51266.3 1521 0 1412 1077911 1014517179
+49	2170345 79172 435 445252 6652.3 51163.1 3603 0 3345 6019006 13423968136
+50	2249517 71899 440 445012 6652.6 51159.2 3291 0 3031 5033977 10211772971
+51	2321416 26082 576 445495 6658.7 51254 1219 0 1135 693482 524976560
+52	2347498 22558 595 436645 6750 50361.2 1072 0 967 516655 331690581
+53	2370056 34168 596 441097 6750.1 50675.1 1593 0 1474 1188063 1173459545
+54	2404224 38622 604 446780 6750.4 51266.3 1788 0 1659 1471746 1618828530
+55	2442846 39872 605 441164 6750.4 50676.6 1850 0 1719 1596786 1834861364
+56	2482718 47980 616 446421 6750.7 51263 2219 0 2071 2310690 3201747456
+57	2530698 29097 624 442036 6751 50851.9 1370 0 1254 866352 725128114
+58	2559795 20234 785 440337 6757 50661 969 0 903 441975 268191055
+59	2580029 26999 786 444996 6757 51158.9 1269 0 1181 753883 594942309
+60	2607028 18454 917 440329 6761.7 50661 889 0 822 367435 201650463
+61	2625482 26396 929 436578 6762 50359.7 1259 0 1141 726565 555266137
+62	2651878 21978 937 416576 6762.3 49049.4 1043 0 974 507965 330733051
+63	2673856 23497 1201 436165 6848 50348.9 1117 0 1028 579679 399414791
+64	2697353 21401 1633 445025 6942 51159.5 1014 0 945 478320 300356944
+65	2718754 22628 2087 436706 7050 50361.8 1077 0 991 536082 355079762
+66	2741382 19796 2575 444426 7150 51148.1 945 0 878 413395 241651443
+67	2761178 15201 2937 440354 7249 50661 721 0 645 232410 99992136
+68	2776379 22240 3103 445487 7254.5 51254 1047 0 955 504957 323595307
+69	2798619 26302 3123 446937 7255.1 51267.8 1229 0 1138 697972 529750974
+70	2824921 23626 3143 444462 7255.7 51148.4 1111 0 1014 564719 380986325
+71	2848547 13553 3163 443081 7256.3 50958.6 647 0 595 194032 77345178
+72	2862100 61236 3591 446844 7350 51266.9 2789 0 2613 3625785 6311605113
+73	2923336 20308 4155 446848 7440 51266.9 960 0 902 426052 254043946
+74	2943644 25712 4498 432804 7546 50067.2 1213 0 1100 672516 495991314
+75	2969356 21219 4887 439952 7649 50650.5 996 0 909 453696 275524694
+76	2990575 158119 5477 446930 7747 51267.8 7097 0 6593 23367863 102707681937
+77	3148694 20648 5804 445484 7841 51254 972 0 894 438597 263385941
+78	3169342 43505 6338 443604 7944 51052 2027 0 1888 1918528 2422853502
+79	3212847 39464 6712 446879 8050 51267.2 1823 0 1690 1534687 1723773927
+80	3252311 27811 7186 446451 8144 51263.3 1296 0 1189 765669 604334053
+81	3280122 76615 7861 446923 8245 51267.5 3446 0 3134 5429110 11381892726
+82	3356737 101391 8475 445254 8350 51163.1 4580 0 4223 9711713 27413055297
+83	3458128 15344 8886 421528 8443 49248 730 0 664 244433 108768741
+84	3473472 36886 9683 444504 8541 51149.6 1707 0 1582 1341089 1410189451
+85	3510358 25693 10370 446909 8648 51267.5 1198 0 1129 673836 507243934
+86	3536051 28917 10943 443703 8743 51053.8 1354 0 1245 849082 708931832
+87	3564968 37717 11363 432797 8840 50067.2 1742 0 1595 1399313 1498952221
+88	3602685 18791 11615 440166 8945 50656.5 889 0 816 361841 197037415
+89	3621476 13827 12074 438969 9045 50458.3 653 0 589 194520 76872312
+90	3635303 24787 12784 443070 9148 50958.3 1166 0 1059 618079 436730693
+91	3660090 30385 13555 445449 9246 51253.1 1410 0 1304 931097 813345373
+92	3690475 86790 14181 444597 9345 51151.4 3910 0 3619 7050044 16990044992
+93	3777265 33549 14491 444612 9447 51151.7 1543 0 1426 1107742 1058452664
+94	3810814 29556 14782 446910 9549 51267.5 1367 0 1264 857005 720142737
+95	3840370 17171 15232 441188 9649 50676.9 812 0 754 310185 157616611
+96	3857541 22799 16171 443682 9744 51053.5 1074 0 998 536745 358191869
+97	3880340 8044 16630 443080 9841 50958.6 384 0 341 65451 14861593
+98	3888384 91999 17239 446866 9945 51266.9 4124 0 3757 7729603 19331924517
+99	3980383 146915 17571 446927 10048 51267.8 6556 0 6098 19956161 81139218077
+100	4127298 53089 17750 446912 10143 51267.5 2304 0 2181 2503965 3632540897
+101	4180387 21043 18176 446449 10240 51263.3 946 0 880 414071 242184423
+102	4201430 30820 19244 440272 10345 50659.5 1367 0 1259 855157 716772577
+103	4232250 34137 20059 442038 10445 50851.9 1503 0 1394 1048177 976001893
+104	4266387 54068 20616 445029 10544 51159.5 2345 0 2155 2526623 3631299225
+105	4320455 32213 21068 436703 10650 50361.8 1424 0 1328 941655 835365289
+106	4352668 12151 21515 433039 10749 50149.9 548 0 493 134153 43680919
+107	4364819 17893 22120 434016 10850 50172.4 811 0 725 295308 143095590
+108	4382712 29830 22700 441184 10947 50676.9 1318 0 1202 791621 634944961
+109	4412542 11186 23437 440338 11047 50661 505 0 454 114793 34785903
+110	4423728 17513 24059 443680 11143 51053.5 782 0 705 275470 129364700
+111	4441241 23542 24652 444991 11243 51158.9 1053 0 977 512870 333635228
+112	4464783 22282 25019 440360 11345 50661 992 0 894 443435 264836877
+113	4487065 55391 26247 445371 11449 51251 2395 0 2223 2646238 3916121336
+114	4542456 21725 26613 411650 11547 48662.2 983 0 896 434663 258012089
+115	4564181 9954 26975 426658 11641 49651 449 0 401 90234 24165378
+116	4574135 160996 27750 446928 11744 51267.8 6879 0 6410 22031272 94151700910
+117	4735131 17524 28267 443561 11844 51051.1 781 0 708 276853 130447439
+118	4752655 46072 28691 446877 11940 51267.2 2007 0 1906 1906279 2420725599
+119	4798727 25933 29361 443722 12040 51054.1 1164 0 1082 628638 454705772
+120	4824660 23851 29951 443372 12147 51047.2 1070 0 977 522310 340363292
+121	4848511 49330 30934 441709 12245 50755.7 2148 0 1991 2155619 2875137609
+122	4897841 21388 31493 433882 12350 50168.5 956 0 863 416033 240383017
+123	4919229 21758 32559 444347 12445 51146 971 0 876 424553 247584367
+124	4940987 25088 33695 444359 12547 51146.3 1118 0 1045 582079 405185685
+125	4966075 22113 34799 440306 12648 50660.4 982 0 905 444850 268800186
+126	4988188 13990 35455 443700 12743 51053.8 629 0 571 180431 68977977
+127	5002178 36991 35959 441876 12844 50758.7 1618 0 1484 1196657 1187583699
+128	5039169 20477 36558 444398 12946 51147.5 911 0 839 381730 213730380
+129	5059646 21571 37179 436284 13047 50351.9 960 0 887 423450 250062790
+130	5081217 27340 38670 443358 13143 51046.9 1211 0 1139 685247 519396983
+131	5108557 16274 39406 434017 13241 50172.4 737 0 670 248316 111456246
+132	5124831 19685 40302 436664 13347 50361.8 882 0 806 354510 190222072
+133	5144516 18017 41709 443590 13443 51051.7 804 0 735 292663 142772185
+134	5162533 25421 42095 446878 13544 51267.2 1128 0 1062 599578 424681528
+135	5187954 21345 42886 432810 13650 50067.2 956 0 874 419643 244566787
+136	5209299 17614 43366 442341 13744 50943.3 788 0 719 283213 136173963
+137	5226913 21108 44138 443005 13843 50956.5 935 0 853 399100 226704758
+138	5248021 32332 44900 442113 13944 50853.7 1422 0 1271 901616 763810144
+139	5280353 18835 45465 442067 14050 50852.5 843 0 781 326463 169671139
+140	5299188 23468 46264 444976 14148 51158.6 1048 0 972 506941 327515839
+141	5322656 28914 46858 446846 14248 51266.9 1274 0 1221 775705 630089693
+142	5351570 17157 48087 436704 14346 50361.8 770 0 703 271865 127859273
+143	5368727 107222 49154 446872 14442 51267.2 4579 0 4249 9706349 27503923073
+144	5475949 24399 50054 446908 14543 51267.5 1084 0 1024 550742 374649720
+145	5500348 18520 50653 446419 14648 51263 822 0 765 311958 157875992
+146	5518868 11749 52085 432818 14745 50067.2 525 0 479 126364 40556212
+147	5530617 10357 52805 440022 14843 50652.6 464 0 423 98231 27745279
+148	5540974 12491 53312 444099 14949 51140.6 561 0 503 141104 47402594
+149	5553465 11047 53705 443075 15046 50958.3 496 0 446 109773 32496289
+150	5564512 11323 54364 440330 15143 50661 509 0 472 119126 37260924
+151	5575835 13140 54867 440178 15246 50656.8 587 0 541 158345 57079265
+152	5588975 45113 55524 445437 15345 51252.8 1966 0 1799 1755650 2097458184
+153	5634088 18741 55837 431298 15449 49954.7 840 0 784 331816 174424548
+154	5652829 28072 56386 446837 15544 51266.9 1241 0 1155 710667 544027043
+155	5680901 11188 57574 371349 15645 45978 499 0 469 117891 37128977
+156	5692089 24228 58087 444506 15741 51149.6 1092 0 996 542204 359579738
+157	5716317 16445 58663 445372 15847 51251 735 0 688 249843 113988473
+158	5732762 29805 59336 440116 15946 50655 1321 0 1219 806724 657101964
+159	5762567 24160 59807 445011 16042 51159.2 1071 0 994 530068 350228506
+160	5786727 9785 60916 441321 16147 50747 439 0 399 86998 22952904
+161	5796512 7395 62067 423161 16249 49362.7 334 0 299 50150 10010312
+162	5803907 16782 63733 444285 16341 51144.2 748 0 678 254620 115196674
+163	5820689 29175 64460 443715 16445 51054.1 1301 0 1210 776783 622756989
+164	5849864 56716 66169 443723 16549 51054.1 2455 0 2280 2785534 4231452608
+165	5906580 17510 67145 428410 16646 49764.9 781 0 718 282010 135636468
+166	5924090 9393 68419 426659 16743 49651 421 0 378 80152 20311016
+167	5933483 18498 69187 433042 16843 50149.9 824 0 758 309987 156234991
+168	5951981 62103 70252 446775 16950 51266.3 2676 0 2489 3326700 5525888962
+169	6014084 26909 70863 432158 17043 50051.6 1195 0 1078 644798 463856414
+170	6040993 23220 72317 443030 17144 50957.1 1032 0 948 488094 308164158
+171	6064213 21437 73190 438172 17240 50440.3 956 0 864 413781 238672589
+172	6085650 15518 73638 419695 17344 49160.9 690 0 632 219703 93223259
+173	6101168 47723 74375 446509 17442 51263.9 2064 0 1861 1939399 2412617495
+174	6148891 58702 75058 444575 17547 51150.8 2524 0 2339 2939150 4576695772
+175	6207593 76146 76117 445250 17642 51163.1 3258 0 3037 4948200 10034048064
+176	6283739 14069 77505 440373 17744 50661 624 0 564 176348 66572204
+177	6297808 19530 78129 436696 17849 50361.8 864 0 799 347873 186149139
+178	6317338 11340 78592 440353 17950 50661 505 0 467 118679 37145265
+179	6328678 31370 79684 446422 18049 51263 1374 0 1288 881558 756079880
+180	6360048 18065 80739 445262 18141 51248.3 801 0 734 295098 144482312
+181	6378113 36377 81226 441957 18250 50850.1 1584 0 1480 1173428 1158965256
+182	6414490 14370 81522 443408 18340 51048.1 639 0 587 186608 72919712
+183	6428860 16397 83269 436716 18449 50361.8 727 0 648 236102 102043104
+184	6445257 73417 83636 445337 18541 51250.1 3140 0 2908 4551750 8819295790
+185	6518674 18330 84210 443577 18650 51051.4 815 0 748 303030 150516678
+186	6537004 22699 85157 443662 18746 51053.2 1004 0 909 453481 273864471
+187	6559703 24783 85915 436128 18842 50348 1093 0 1017 554353 376249433
+188	6584486 19197 86415 436676 18947 50361.8 852 0 767 327147 167587017
+189	6603683 9934 87377 440339 19045 50661 443 0 405 89812 24282864
+190	6613617 45147 88396 443588 19150 51051.7 1950 0 1814 1772256 2146840934
+191	6658764 11564 89443 442914 19250 50954.7 514 0 471 122850 38899502
+192	6670328 16236 90060 444961 19343 51158.3 721 0 681 245188 111423510
+193	6686564 22919 90536 446880 19443 51267.2 1011 0 977 492045 320158393
+194	6709483 17386 91062 445492 19546 51254 769 0 705 271452 127741388
+195	6726869 23854 91729 445028 19645 51159.5 1053 0 988 523510 346003750
+196	6750723 20231 92443 436332 19742 50353.1 899 0 830 372020 205541994
+197	6770954 14754 93387 443589 19841 51051.7 653 0 607 197986 80063040
+198	6785708 16660 93950 446770 19944 51266.3 737 0 688 253337 116121147
+199	6802368 12975 94463 444440 20047 51148.4 575 0 516 149360 51611540
+200	6815343 9417 94886 444992 20150 51158.9 419 0 387 80286 20581124
+201	6824760 28799 95202 446779 20242 51266.3 1260 0 1197 747119 593234159
+202	6853559 9442 95722 440357 20343 50661 422 0 378 79841 20176761
+203	6863001 11530 96428 445383 20448 51251.3 512 0 471 119914 37556538
+204	6874531 21414 96954 441108 20541 50675.4 948 0 873 414662 241915184
+205	6895945 16125 97935 446424 20646 51263 714 0 681 241601 109375099
+206	6912070 20505 98372 444993 20743 51158.9 904 0 844 380975 213905953
+207	6932575 26778 98866 445030 20847 51159.5 1178 0 1089 643994 468864236
+208	6959353 16581 99473 441738 20948 50756.6 733 0 660 243488 107290104
+209	6975934 14574 99750 440358 21046 50661 647 0 592 192308 76154648
+210	6990508 122282 100815 446929 21145 51267.8 5190 0 4827 12501554 40250357840
+211	7112790 13433 101472 432455 21249 50058.2 594 0 530 157593 55646099
+212	7126223 21717 102603 432760 21349 50066.3 959 0 882 422411 248552083
+213	7147940 14879 103297 441009 21441 50673.3 659 0 611 200116 81180430
+214	7162819 11269 103996 434015 21549 50172.4 499 0 461 115252 35494056
+215	7174088 25155 105855 441148 21640 50676.3 1108 0 1036 574286 396869010
+216	7199243 9651 106839 445464 21749 51253.4 428 0 388 83683 21768681
+217	7208894 27552 107828 441371 21847 50748.2 1207 0 1126 683304 515446562
+218	7236446 5820 108356 419116 21949 49146.2 260 0 230 30083 4620395
+219	7242266 29319 108884 442332 22047 50857.3 1284 0 1167 753831 589172175
+220	7271585 5295 109778 443050 22146 50957.7 238 0 219 26391 3892563
+221	7276880 25178 111349 444994 22243 51158.9 1105 0 1065 589728 419818718
+222	7302058 20924 112722 441273 22349 50745.8 923 0 869 400755 232320767
+223	7322982 20508 113306 436715 22446 50361.8 903 0 821 372533 204669287
+224	7343490 16796 113740 446812 22549 51266.6 743 0 700 258483 120406801
+225	7360286 11258 114368 444439 22641 51148.4 499 0 451 112852 34011642
+226	7371544 33383 115101 446634 22741 51265.1 1453 0 1329 964882 853385252
+227	7404927 32735 116179 444100 22844 51140.6 1428 0 1306 930296 809684198
+228	7437662 15960 117415 445494 22943 51254 704 0 653 231256 101337614
+229	7453622 20700 118211 445384 23044 51251.3 913 0 848 389873 221997137
+230	7474322 12351 118928 443960 23143 51058.6 546 0 507 137722 46450870
+231	7486673 9846 119529 408221 23243 48560.4 436 0 406 89432 24391704
+232	7496519 15023 120531 444448 23345 51148.4 663 0 613 206025 85139637
+233	7511542 15180 121083 445339 23450 51250.1 669 0 631 210752 88729426
+234	7526722 14613 121670 434022 23545 50172.4 646 0 591 192469 76371511
+235	7541335 16777 122732 438882 23641 50456.5 739 0 681 251300 113940104
+236	7558112 20066 123504 444971 23740 51158.6 882 0 829 365425 201952349
+237	7578178 16142 124209 440364 23844 50661 712 0 650 231361 100135087
+238	7594320 24560 125020 441074 23949 50674.5 1082 0 981 530581 346523451
+239	7618880 9895 125976 443435 24041 51048.7 440 0 388 85601 22173627
+240	7628775 21847 127390 446700 24149 51265.7 963 0 895 431034 257509634
+241	7650622 42082 128428 446838 24250 51266.9 1820 0 1729 1572666 1813296536
+242	7692704 16160 129589 446839 24348 51266.9 714 0 679 238898 107621086
+243	7708864 18143 130608 446816 24442 51266.6 801 0 750 299063 149243975
+244	7727007 11423 132629 440376 24547 50661 506 0 467 118840 37143724
+245	7738430 17541 133668 446781 24640 51266.3 773 0 740 284350 139960874
+246	7755971 10373 134590 444437 24748 51148.4 460 0 426 97978 27880740
+247	7766344 13753 135096 444445 24846 51148.4 607 0 555 170000 63164336
+248	7780097 58610 135752 445253 24950 51163.1 2511 0 2344 2938237 4595428321
+249	7838707 8513 136585 385306 25050 47065.5 378 0 349 67310 15884198
+250	7847220 10256 137077 436105 25149 50347.4 455 0 416 93673 25926999
+251	7857476 38745 138079 444584 25250 51151.1 1680 0 1527 1284835 1309548761
+252	7896221 8795 138967 446604 25348 51264.8 392 0 349 68358 15873602
+253	7905016 20000 139841 446740 25447 51266 883 0 830 366664 203112160
+254	7925016 11025 140443 444408 25548 51147.8 488 0 443 107885 31823761
+255	7936041 59718 141122 446932 25647 51267.8 2557 0 2374 3031195 4797357125
+256	7995759 11438 141577 446742 25748 51266 506 0 479 120941 38760653
+257	8007197 5161 142528 443078 25846 50958.6 232 0 211 24376 3426620
+258	8012358 50392 143853 442483 25948 50946.3 2166 0 1987 2148176 2843855512
+259	8062750 25824 145062 443369 26040 51047.2 1133 0 1041 587465 407360649
+260	8088574 7410 146543 445475 26140 51253.7 330 0 298 49259 9790523
+261	8095984 11430 147264 430971 26241 49952.6 507 0 453 114993 34920321
+262	8107414 18708 148008 441181 26343 50676.9 825 0 757 313476 158510152
+263	8126122 19117 148637 446481 26442 51263.6 843 0 753 319916 161200884
+264	8145239 16512 149321 432372 26540 50056.4 729 0 674 244473 109658709
+265	8161751 4387 149837 443079 26646 50958.6 198 0 183 18361 2257741
+266	8166138 20318 150781 442037 26741 50851.9 895 0 825 369484 203248730
+267	8186456 9942 151767 441728 26850 50756.3 441 0 407 90067 24499587
+268	8196398 18704 152585 441199 26948 50744.3 826 0 760 315328 160181782
+269	8215102 10111 153390 444973 27046 51158.6 448 0 421 94173 26473027
+270	8225213 22152 153975 444974 27148 51158.6 977 0 915 445602 271598554
+271	8247365 16035 154686 436027 27250 50345.3 709 0 643 228641 98208225
+272	8263400 31874 155926 445310 27349 51249.5 1388 0 1291 892508 767772576
+273	8295274 9867 157124 428332 27448 49763.1 439 0 411 89497 24376049
+274	8305141 23626 158460 429675 27541 49940.6 1040 0 937 487265 304425857
+275	8328767 15934 159575 441877 27643 50758.7 706 0 639 225606 96216694
+276	8344701 18633 160048 446840 27745 51266.9 821 0 761 310736 157574014
+277	8363334 12287 161057 444086 27850 51140.3 545 0 505 137967 46474353
+278	8375621 12119 161766 445491 27940 51254 537 0 491 131990 43217050
+279	8387740 19473 162322 442066 28049 50852.5 858 0 784 335812 175406636
+280	8407213 9172 163554 440362 28140 50661 406 0 361 73401 17665165
+281	8416385 20844 164983 445450 28250 51253.1 921 0 850 389480 220204948
+282	8437229 14226 165649 441084 28341 50674.8 629 0 566 177791 66983487
+283	8451455 16451 166622 443639 28449 51052.9 727 0 673 245722 110597530
+284	8467906 10589 167384 441687 28546 50755.1 471 0 431 101972 29469540
+285	8478495 16229 169105 446448 28643 51263.3 718 0 659 234764 102895776
+286	8494724 4302 169687 383063 28746 46960.8 194 0 170 16560 1876328
+287	8499026 18292 170476 443640 28845 51052.9 809 0 752 302163 151380831
+288	8517318 11054 171599 440341 28950 50661 489 0 440 109264 32222342
+289	8528372 16418 173155 445027 29044 51159.5 724 0 668 240766 106790906
+290	8544790 8712 173794 446702 29144 51265.7 387 0 369 71561 17615199
+291	8553502 7103 175325 445045 29248 51159.8 317 0 299 47585 9529277
+292	8560605 21799 176079 440284 29343 50659.8 961 0 875 420383 245216393
+293	8582404 39466 177103 445418 29448 51252.2 1709 0 1595 1362375 1450799453
+294	8621870 7647 177794 441694 29544 50755.4 342 0 308 53102 10910576
+295	8629517 13832 178393 444330 29646 51145.7 613 0 560 171754 64171566
+296	8643349 4211 179815 438817 29749 50454.7 190 0 172 16256 1849316
+297	8647560 9533 180640 443094 29843 51040.3 423 0 377 80013 20155981
+298	8657093 4394 181831 440331 29949 50661 198 0 179 17645 2099729
+299	8661487 20269 182356 446913 30049 51267.5 894 0 848 379210 214661796
+300	8681756 10922 183598 444975 30149 51158.6 484 0 463 112241 34678431
+301	8692678 5292 184436 440327 30247 50661 237 0 213 25297 3597135
+302	8697970 13302 185143 442039 30348 50851.9 588 0 542 159510 57625428
+303	8711272 8827 186225 439634 30447 50558.9 393 0 359 70241 16817485
+304	8720099 8440 187064 441113 30541 50675.4 376 0 336 63344 14219212
+305	8728539 16088 188416 446703 30641 51265.7 710 0 662 235310 103955714
+306	8744627 9182 189120 440367 30745 50661 408 0 364 74646 18149666
+307	8753809 6786 189759 432816 30845 50067.2 304 0 270 41031 7392895
+308	8760595 9341 190751 446503 30943 51263.6 414 0 385 79775 20521897
+309	8769936 6479 192117 438846 31049 50455.6 289 0 260 37433 6467541
+310	8776415 5087 193259 436709 31143 50361.8 228 0 207 23762 3290762
+311	8781502 5399 194336 432132 31245 50051 242 0 221 26876 3966298
+312	8786901 6140 196266 443104 31340 51040.6 275 0 249 34285 5689107
+313	8793041 5090 197226 443105 31445 51040.6 228 0 216 24566 3544720
+314	8798131 12534 198117 443681 31547 51053.5 553 0 507 140511 47540209
+315	8810665 11771 200539 443031 31647 50957.1 522 0 477 124401 39576451
+316	8822436 9424 201540 426063 31748 49558.8 418 0 388 81044 20972242
+317	8831860 20119 202445 446698 31840 51265.7 887 0 836 368290 204654786
+318	8851979 11085 203309 444370 31942 51146.6 492 0 453 111495 33760279
+319	8863064 5386 204059 439544 32041 50557.1 242 0 222 26999 4002607
+320	8868450 7878 205975 432793 32147 50067.2 351 0 320 55919 11875187
+321	8876328 14280 207052 446783 32249 51266.3 632 0 594 186787 73865029
+322	8890608 23919 207778 446635 32340 51265.1 1052 0 973 510315 331004857
+323	8914527 6652 208856 442071 32450 50852.5 297 0 272 40702 7411274
+324	8921179 4005 209333 434014 32549 50172.4 181 0 164 14961 1644059
+325	8925184 31615 210369 444625 32641 51152 1381 0 1271 879474 745888634
+326	8956799 14030 211118 433010 32747 50072 619 0 571 177248 67647000
+327	8970829 15406 212026 443106 32847 51040.6 681 0 615 209643 85955495
+328	8986235 11603 213130 439846 32949 50647.2 515 0 465 119109 36904183
+329	8997838 9946 214128 436687 33043 50361.8 443 0 397 87938 23282618
+330	9007784 8649 214916 444332 33142 51145.7 386 0 356 68515 16283809
+331	9016433 12328 215492 443559 33246 51051.1 545 0 510 139228 47423576
+332	9028761 10123 216582 432802 33345 50067.2 448 0 399 89758 23905320
+333	9038884 4458 219173 436286 33442 50351.9 200 0 182 18139 2188653
+334	9043342 10460 219901 444442 33540 51148.4 463 0 421 97461 27348421
+335	9053802 7079 222116 440365 33646 50661 316 0 287 45517 8718779
+336	9060881 12557 223749 443591 33750 51051.7 556 0 514 143063 49068015
+337	9073438 12806 224956 441177 33846 50676.9 566 0 523 148374 51847940
+338	9086244 8183 226523 440371 33949 50661 363 0 328 59636 13037676
+339	9094427 9870 227466 444443 34047 51148.4 438 0 406 88913 24061157
+340	9104297 15107 228390 432584 34150 50061.5 667 0 601 199680 79814148
+341	9119404 7899 230604 428795 34245 49850.8 351 0 316 55728 11751456
+342	9127303 13400 231890 445486 34347 51254 593 0 549 163838 60221724
+343	9140703 13982 233368 445273 34450 51248.6 619 0 556 171663 63575885
+344	9154685 3738 234020 429592 34549 49868.5 169 0 151 12931 1305429
+345	9158423 5756 235192 438970 34643 50458.3 258 0 233 30195 4700547
+346	9164179 6500 236596 432735 34742 50065.7 291 0 267 39472 7096620
+347	9170679 7569 238020 444080 34843 51060.7 336 0 315 53409 11328921
+348	9178248 5053 239092 428737 34949 49770.9 228 0 203 23422 3185286
+349	9183301 4626 240130 445309 35045 51249.5 208 0 191 19890 2534754
+350	9187927 4478 240894 415575 35144 48962.7 202 0 178 17976 2134486
+351	9192405 6261 241717 432456 35246 50058.2 280 0 260 36500 6349470
+352	9198666 4499 242227 443683 35344 51053.5 202 0 185 18714 2304366
+353	9203165 7923 243380 444564 35443 51150.5 353 0 332 58440 12935740
+354	9211088 5611 244584 444447 35550 51148.4 251 0 224 28412 4255028
+355	9216699 7700 246534 436688 35644 50361.8 344 0 318 54926 11725350
+356	9224399 11200 248643 441368 35745 50748.2 497 0 451 112382 33850584
+357	9235599 8426 249103 442117 35844 50853.7 374 0 348 65833 15328693
+358	9244025 2751 250030 431057 35945 49953.2 126 0 114 7180 543372
+359	9246776 13222 250792 442358 36045 50943.6 584 0 532 155093 54991089
+360	9259998 11865 251471 442006 36144 50851.3 525 0 480 126020 40274132
+361	9271863 5356 253052 445490 36244 51254 241 0 215 26122 3758976
+362	9277219 23512 254080 444626 36350 51152 1039 0 960 502720 323277820
+363	9300731 8807 254523 440344 36443 50661 391 0 360 70441 16899747
+364	9309538 15180 255798 445323 36545 51249.8 670 0 617 205927 84686745
+365	9324718 6942 257852 439794 36641 50645.7 310 0 287 44607 8550921
+366	9331660 6114 259039 445500 36747 51254 273 0 257 35524 6140044
+367	9337774 8925 259746 432370 36848 50056.4 396 0 352 69866 16402754
+368	9346699 10813 260919 446814 36940 51266.6 480 0 455 108875 32976259
+369	9357512 5687 261507 438968 37046 50458.3 255 0 228 29138 4424162
+370	9363199 4078 264128 440118 37147 50655 184 0 171 15640 1771358
+371	9367277 5702 265974 446911 37244 51267.5 255 0 241 30267 4813209
+372	9372979 3436 268091 416425 37349 49048.2 156 0 145 11328 1092120
+373	9376415 4748 268916 444410 37443 51147.8 213 0 201 21363 2856261
+374	9381163 9663 269591 436694 37540 50361.8 428 0 379 81427 20608909
+375	9390826 6508 270324 432809 37647 50067.2 291 0 259 37908 6556834
+376	9397334 15678 272533 446875 37744 51267.2 694 0 642 222564 95131510
+377	9413012 3430 273120 443107 37847 51040.6 156 0 140 11040 1032012
+378	9416442 14273 274510 442356 37948 50943.6 630 0 575 180885 69330445
+379	9430715 2891 275623 426660 38042 49651 132 0 119 7991 638781
+380	9433606 4124 276114 439695 38144 50559.8 186 0 169 15902 1798894
+381	9437730 5807 278051 446637 38250 51265.1 259 0 231 29614 4519912
+382	9443537 7802 278781 446669 38350 51265.4 348 0 323 56052 12071828
+383	9451339 5264 280031 441309 38442 50746.7 236 0 215 25435 3644173
+384	9456603 4828 281471 444545 38546 51150.2 216 0 203 22023 2994749
+385	9461431 4616 282280 432259 38648 50053.4 208 0 184 19298 2366546
+386	9466047 9118 284310 444333 38742 51145.7 405 0 369 74940 18505434
+387	9475165 2144 285078 421529 38841 49248 99 0 88 4431 260837
+388	9477309 5327 286771 444441 38944 51148.4 238 0 216 25825 3724185
+389	9482636 6690 287904 441369 39050 50748.2 299 0 267 40235 7184911
+390	9489326 3540 288217 433857 39144 50167.9 160 0 145 11554 1111218
+391	9492866 4820 288911 444949 39240 51158 217 0 193 20792 2655482
+392	9497686 5774 290276 442115 39348 50853.7 259 0 241 31166 5002094
+393	9503460 2975 291745 436710 39442 50361.8 136 0 122 8381 685333
+394	9506435 3949 292760 441150 39540 50676.3 179 0 163 14671 1594065
+395	9510384 4884 293861 441275 39646 50745.8 220 0 204 22558 3081502
+396	9515268 8291 295092 446420 39746 51263 369 0 348 64197 14903711
+397	9523559 7177 296578 441729 39845 50756.3 320 0 296 47230 9294706
+398	9530736 6054 297627 444600 39943 51151.4 271 0 241 32907 5307539
+399	9536790 8638 298973 441183 40040 50676.9 384 0 348 66845 15494167
+400	9545428 4501 301594 441326 40142 50747 203 0 186 18983 2363053
+401	9549929 4928 302718 440343 40242 50661 221 0 195 21738 2831620
+402	9554857 7232 303935 443724 40348 51054.1 322 0 295 47602 9364790
+403	9562089 14727 304641 446737 40440 51266 651 0 596 192489 76240269
+404	9576816 8909 305314 445438 40541 51252.8 396 0 360 71204 17082690
+405	9585725 7136 307843 446447 40646 51263.3 317 0 291 45998 8907342
+406	9592861 4502 309275 441878 40750 50758.7 202 0 185 18944 2358950
+407	9597363 1971 310249 440998 40842 50673 91 0 85 3860 216774
+408	9599334 9076 311439 446773 40944 51266.3 403 0 368 73933 18060147
+409	9608410 3603 312588 431971 41043 50047.4 163 0 148 12034 1183088
+410	9612013 2965 313579 445026 41148 51159.5 135 0 127 8467 709557
+411	9614978 11556 314931 446743 41250 51266 512 0 474 122554 39002206
+412	9626534 9688 315913 445463 41348 51253.4 429 0 397 84826 22459196
+413	9636222 8499 317078 444624 41447 51152 377 0 340 64171 14546633
+414	9644721 5002 318317 445493 41548 51254 224 0 203 22842 3092440
+415	9649723 2778 319924 444507 41647 51149.6 127 0 118 7403 576887
+416	9652501 3656 320828 431875 41750 49960.1 166 0 148 12223 1202591
+417	9656157 4020 321816 436685 41847 50361.8 181 0 162 14823 1607037
+418	9660177 7241 323851 444089 41947 51140.3 323 0 292 47589 9287713
+419	9667418 5505 325319 434023 42047 50172.4 246 0 222 27395 4054899
+420	9672923 4533 327267 438883 42147 50456.5 204 0 187 19188 2399804
+421	9677456 3552 328298 436359 42250 50353.7 161 0 148 11898 1168024
+422	9681008 2917 329259 444411 42348 51147.8 133 0 120 8097 649199
+423	9683925 2733 331085 441056 42440 50674.2 125 0 110 6986 516038
+424	9686658 1867 332476 440259 42543 50659.2 86 0 79 3448 181956
+425	9688525 1271 333193 371025 42645 45970.5 59 0 52 1582 55154
+426	9689796 2045 334179 445324 42745 51249.8 94 0 84 3984 223350
+427	9691841 1107 334960 429594 42842 49868.5 51 0 47 1237 39065
+428	9692948 2865 335773 444412 42943 51147.8 131 0 122 8067 659333
+429	9695813 6612 336603 441875 43050 50758.7 297 0 271 40361 7308077
+430	9702425 4333 338019 446813 43144 51266.6 195 0 188 18162 2275230
+431	9706758 5503 339527 446704 43249 51265.7 247 0 224 27510 4110652
+432	9712261 1637 340124 438190 43343 50440.6 76 0 67 2655 121501
+433	9713898 1733 341266 432461 43448 50058.2 80 0 72 2938 141658
+434	9715631 2522 341908 432820 43543 50067.2 116 0 105 6155 432101
+435	9718153 4234 342671 442344 43641 50943.3 191 0 175 16748 1961570
+436	9722387 5175 344520 446550 43746 51264.2 232 0 209 24318 3385818
+437	9727562 4263 346500 443701 43844 51053.8 192 0 178 17114 2028112
+438	9731825 2065 347414 444446 43941 51148.4 95 0 84 4049 227361
+439	9733890 1067 348472 416774 44043 49050.9 49 0 44 1116 33012
+440	9734957 1723 349512 432548 44144 50060.6 80 0 74 2994 148104
+441	9736680 5678 350588 443108 44241 51040.6 254 0 232 29824 4647906
+442	9742358 2311 351090 440346 44341 50661 107 0 95 5131 325095
+443	9744669 2137 352263 440342 44441 50661 98 0 89 4411 263007
+444	9746806 1525 353430 441008 44541 50673.3 70 0 64 2232 93728
+445	9748331 5509 354080 445496 44641 51254 246 0 228 27977 4261329
+446	9753840 16011 355162 446771 44745 51266.3 708 0 667 234871 104253993
+447	9769851 5334 356197 445497 44841 51254 239 0 220 26525 3917787
+448	9775185 10844 357129 445251 44940 51163.1 482 0 441 106284 31291106
+449	9786029 907 357881 427655 45041 49746.6 42 0 38 825 20891
+450	9786936 3242 358704 443434 45145 51048.7 148 0 136 10173 925303
+451	9790178 11567 360256 446933 45240 51267.8 512 0 467 119644 37313650
+452	9801745 3646 361776 445485 45341 51254 165 0 150 12446 1248936
+453	9805391 3263 363256 434021 45447 50172.4 148 0 132 9875 869749
+454	9808654 1389 365162 441338 45547 50747.3 64 0 59 1921 75933
+455	9810043 3907 366252 440130 45641 50655.3 176 0 161 14197 1524901
+456	9813950 3803 367485 441042 45748 50673.9 172 0 157 13664 1440852
+457	9817753 2025 368137 445395 45843 51251.6 93 0 86 4038 231796
+458	9819778 1586 369228 444547 45948 51150.2 73 0 68 2496 111786
+459	9821364 3871 371350 441179 46048 50676.9 175 0 158 13946 1474910
+460	9825235 1919 372920 445286 46150 51248.9 88 0 80 3582 192360
+461	9827154 2477 373557 443371 46248 51047.2 114 0 105 6035 424125
+462	9829631 4150 375846 444503 46344 51149.6 187 0 173 16262 1880498
+463	9833781 4149 376537 446935 46440 51267.8 187 0 170 16135 1844139
+464	9837930 1152 377132 419696 46547 49160.9 53 0 47 1298 41012
+465	9839082 5317 378195 444969 46645 51158.6 238 0 221 26178 3849540
+466	9844399 2439 379938 446452 46742 51263.3 112 0 105 5932 418086
+467	9846838 1451 380862 439696 46843 50559.8 67 0 59 2036 80500
+468	9848289 6991 382483 446782 46947 51266.3 312 0 288 44987 8635137
+469	9855280 4226 383491 441162 47046 50676.6 190 0 175 16752 1959474
+470	9859506 21197 385937 446925 47150 51267.8 933 0 861 403507 232809087
+471	9880703 4196 386962 443319 47242 51045.7 189 0 173 16433 1901691
+472	9884899 2702 388136 446772 47349 51266.3 123 0 117 7158 555068
+473	9887601 5364 390789 443006 47447 50956.5 241 0 219 26533 3880293
+474	9892965 2996 393101 444509 47550 51149.6 136 0 124 8539 709173
+475	9895961 3889 394427 446507 47643 51263.9 175 0 151 13584 1387212
+476	9899850 1047 395702 427020 47750 49660.6 49 0 43 1099 31805
+477	9900897 1258 396550 441884 47844 50848.3 59 0 53 1623 57635
+478	9902155 1910 399571 445013 47946 51159.2 88 0 85 3720 209748
+479	9904065 2297 402004 433018 48047 50149.3 106 0 97 5240 341940
+480	9906362 1324 403173 446478 48141 51263.6 61 0 57 1767 66811
+481	9907686 2022 404369 442912 48240 50954.7 93 0 84 3992 223952
+482	9909708 2998 405974 436695 48343 50361.8 136 0 122 8378 683880
+483	9912706 2711 406547 436072 48442 50346.5 124 0 110 6935 511397
+484	9915417 1198 407316 443562 48549 51051.1 55 0 50 1440 48762
+485	9916615 6281 410068 445299 48649 51249.2 281 0 253 35840 6066488
+486	9922896 1816 411954 446479 48746 51263.6 84 0 78 3275 168031
+487	9924712 2861 413553 432759 48846 50066.3 131 0 121 8033 653803
+488	9927573 886 414145 429317 48945 49863.1 41 0 37 803 20211
+489	9928459 1974 415818 436712 49041 50361.8 91 0 82 3830 210986
+490	9930433 4508 419079 446843 49145 51266.9 203 0 184 18566 2252412
+491	9934941 975 421312 441060 49242 50674.2 45 0 41 965 26751
+492	9935916 1799 422493 442913 49348 50954.7 83 0 75 3194 161380
+493	9937715 1448 423270 446482 49447 51263.6 67 0 62 2100 86172
+494	9939163 1794 424902 441189 49542 50676.9 83 0 72 3100 149644
+495	9940957 859 426319 436611 49642 50360.3 40 0 36 769 19031
+496	9941816 509 427640 428738 49746 49770.9 24 0 22 288 4402
+497	9942325 1073 428739 441200 49849 50744.3 50 0 45 1174 35718
+498	9943398 3357 429650 444623 49940 51152 152 0 138 10653 986133
+499	9946755 623 431881 441196 50045 50744.3 29 0 26 416 7612
+500	9947378 813 433013 442145 50149 50854.3 38 0 34 683 15735
+501	9948191 750 434305 440334 50246 50661 35 0 31 587 12499
+502	9948941 912 436022 446876 50345 51267.2 42 0 39 843 21837
+503	9949853 821 438167 444613 50440 51151.7 38 0 34 680 15564
+504	9950674 495 439208 439697 50549 50559.8 23 0 21 264 3840
+505	9951169 489 439698 441190 50643 50676.9 23 0 21 264 3840
+506	9951658 495 441191 441879 50744 50758.7 23 0 21 264 3840
+507	9952153 555 441880 444502 50848 51149.6 26 0 23 333 5415
+508	9952708 1321 442335 446777 50943 51266.3 61 0 55 1708 62456
+509	9954029 485 443089 444081 51040 51060.7 23 0 21 264 3840
+510	9954514 745 444082 445498 51140 51254 35 0 31 586 12496
+511	9955259 1080 445257 446936 51248 51267.8 50 0 44 1175 35567
